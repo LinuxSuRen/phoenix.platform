@@ -22,7 +22,7 @@
     <!--2创建一个sql会话工厂bean，指定数据源-->
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="jdbcDataSource" /><!-- 指定数据源 -->
-        <property name="typeAliasesPackage" value="org.suren.autotest.platform.mode"></property>
+        <property name="typeAliasesPackage" value="org.suren.autotest.platform.model"></property>
         <property name="mapperLocations" value="classpath:*Mapper.xml"></property>
     </bean>
 
