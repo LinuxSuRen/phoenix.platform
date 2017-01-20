@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--命名空间应该是对应接口的包名+类名 -->
+<mapper namespace="org.suren.autotest.platform.mapping.PageInfoMapper">
+	<!--id应该是接口中的方法，结果类型如没有配置别名则应该使用全名称 -->
+	<select id="getAll" resultType="PageInfo">
+		select * from page_info
+	</select>
+	
+	<select id="getAllIds" resultType="PageInfo">
+		select id, name from page_info
+	</select>
+	
+	<insert id="insert">
+		<selectKey keyProperty="id" resultType="String" order="BEFORE">
+			SELECT UUID()
+		</selectKey>
+		
+		insert into page_info(id, content)
+		values (#{id}, #{content})
+	</insert>
+	
+	<update id="update">
+		update page_info set name = #{name}, content = #{content} where id = #{id}
+	</update>
+	
+	<select id="getTotalNum" resultType="int">
+		select count(*) from page_info
+	</select>
+	
+	<select id="getById" resultType="PageInfo">
+		select * from page_info where id = #{id}
+	</select>
+</mapper>
