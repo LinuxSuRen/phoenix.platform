@@ -1,7 +1,7 @@
 /**
  * http://surenpi.com
  */
-package org.suren.autotest.platform.mode;
+package org.suren.autotest.platform.model;
 
 import java.util.Hashtable;
 

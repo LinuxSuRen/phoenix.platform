@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--命名空间应该是对应接口的包名+类名 -->
+<mapper namespace="org.suren.autotest.platform.mapping.ProjectMapper">
+	<!--id应该是接口中的方法，结果类型如没有配置别名则应该使用全名称 -->
+	<select id="getAll" resultType="Project" resultMap="projectMap">
+		select * from project
+	</select>
+	
+	<insert id="save">
+		<selectKey keyProperty="id" resultType="String" order="BEFORE">
+			SELECT UUID()
+		</selectKey>
+		
+		insert into project (id, owner_id, name, remark, create_time) values (
+			#{id}, #{ownerId}, #{name}, #{remark}, #{createTime}
+		)
+	</insert>
+	
+	<delete id="delById">
+		delete from project where id = #{id}
+	</delete>
+	
+	<resultMap type="org.suren.autotest.platform.model.Project" id="projectMap">
+		<result property="ownerId" column="owner_id"/>
+		<result property="createTime" column="create_time"/>
+	</resultMap>
+</mapper>

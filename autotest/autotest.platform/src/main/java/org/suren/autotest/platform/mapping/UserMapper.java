@@ -5,7 +5,7 @@ package org.suren.autotest.platform.mapping;
 
 import java.util.List;
 
-import org.suren.autotest.platform.mode.User;
+import org.suren.autotest.platform.model.User;
 
 /**
  * @author suren

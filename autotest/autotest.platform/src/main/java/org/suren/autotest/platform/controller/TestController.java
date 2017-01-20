@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.suren.autotest.platform.mapping.PageInfoMapper;
 import org.suren.autotest.platform.mapping.UserMapper;
-import org.suren.autotest.platform.mode.PageInfo;
+import org.suren.autotest.platform.model.PageInfo;
 import org.suren.autotest.platform.schemas.Autotest;
 import org.suren.autotest.platform.schemas.Autotest.Pages;
 import org.suren.autotest.platform.schemas.EngineTypeDriverEnum;
