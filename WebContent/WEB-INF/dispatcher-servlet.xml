@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<beans xmlns="http://www.springframework.org/schema/beans"   
+       xmlns:aop="http://www.springframework.org/schema/aop"   
+       xmlns:context="http://www.springframework.org/schema/context"  
+       xmlns:mvc="http://www.springframework.org/schema/mvc"   
+       xmlns:tx="http://www.springframework.org/schema/tx"   
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
+       xsi:schemaLocation="http://www.springframework.org/schema/aop   
+        http://www.springframework.org/schema/aop/spring-aop-3.0.xsd   
+        http://www.springframework.org/schema/beans   
+        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd   
+        http://www.springframework.org/schema/context   
+        http://www.springframework.org/schema/context/spring-context-3.0.xsd   
+        http://www.springframework.org/schema/mvc   
+        http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd   
+        http://www.springframework.org/schema/tx   
+        http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">  
+    <mvc:annotation-driven conversion-service="conversionService" />
+    
+    <context:component-scan base-package="org.suren.autotest.platform.controller" />
+    
+	<bean id="conversionService"
+        class="org.springframework.context.support.ConversionServiceFactoryBean">
+        <property name="converters">
+            <set>
+                <bean class="org.suren.autotest.platform.controller.Suren" />
+            </set>
+        </property>
+    </bean>
+  
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">  
+        <property name="prefix" value="/WEB-INF/views/" />  
+        <property name="suffix" value=".jsp" />
+    </bean>
+    
+	<bean name="jaxb2MarshallingView" class="org.springframework.web.servlet.view.xml.MarshallingView">  
+        <constructor-arg>  
+            <bean class="org.springframework.oxm.jaxb.Jaxb2Marshaller">  
+                <property name="classesToBeBound">  
+                    <array>  
+                        <value>org.suren.autotest.platform.schemas.Autotest</value>  
+                        <value>org.suren.autotest.platform.schemas.DataSourceType</value>  
+                        <value>org.suren.autotest.platform.schemas.DataSourceTypeEnum</value>
+                        <value>org.suren.autotest.platform.schemas.EngineType</value>
+                        <value>org.suren.autotest.platform.schemas.EngineTypeDriverEnum</value>
+                        <value>org.suren.autotest.platform.schemas.FieldTypeEnum</value>
+                        <value>org.suren.autotest.platform.schemas.IncludePageType</value>
+                        <value>org.suren.autotest.platform.schemas.ObjectFactory</value>
+                        <value>org.suren.autotest.platform.schemas.PageFieldLocator</value>
+                        <value>org.suren.autotest.platform.schemas.PageFieldLocators</value>
+                        <value>org.suren.autotest.platform.schemas.PageFieldLocatorTypeEnum</value>
+                        <value>org.suren.autotest.platform.schemas.PageFieldType</value>
+                        <value>org.suren.autotest.platform.schemas.PageType</value>
+                        <value>org.suren.autotest.platform.schemas.StrategyEnum</value>
+                    </array>  
+                </property>  
+            </bean>  
+        </constructor-arg>  
+    </bean>
+  
+</beans> 
