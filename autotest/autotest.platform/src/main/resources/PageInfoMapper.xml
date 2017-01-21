@@ -28,6 +28,10 @@
 		update page_info set name = #{name}, content = #{content} where id = #{id}
 	</update>
 	
+	<delete id="delById">
+		delete from page_info where id = #{id}
+	</delete>
+	
 	<select id="getTotalNum" resultType="int">
 		select count(*) from page_info
 	</select>

@@ -20,4 +20,5 @@ public interface PageInfoMapper
 	PageInfo getById(String id);
 	List<PageInfo> getAllIds();
 	void update(PageInfo pageInfo);
+	void delById(String id);
 }
