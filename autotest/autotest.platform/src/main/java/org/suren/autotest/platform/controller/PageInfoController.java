@@ -16,10 +16,17 @@ import javax.xml.bind.Unmarshaller;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Repository;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.HttpServletBean;
 import org.suren.autotest.platform.mapping.PageInfoMapper;
 import org.suren.autotest.platform.mapping.UserMapper;
 import org.suren.autotest.platform.model.PageInfo;
@@ -300,6 +307,21 @@ public class PageInfoController
 		}
 		
 		return "redirect:/page_info/test.su";
+	}
+	
+	@RequestMapping(value = "/download.su")
+	public ResponseEntity<byte[]> download(String id)
+	{
+		PageInfo pageInfo = pageInfoMapper.getById(id);
+		
+		String content = pageInfo.getContent();
+		content = (content == null ? "" : content);
+		
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.TEXT_XML);
+		headers.setContentDispositionFormData("filename", pageInfo.getName() + ".xml");
+		
+		return new ResponseEntity<byte[]>(content.getBytes(), headers, HttpStatus.CREATED);
 	}
 	
 	private Autotest initAutotest()
