@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--命名空间应该是对应接口的包名+类名 -->
+<mapper namespace="org.suren.autotest.platform.mapping.DataSourceInfoMapper">
+	<select id="getAll" resultType="DataSourceInfo" resultMap="dataSourceInfoMap">
+		select * from data_source_info
+	</select>
+	
+	<select id="getAllIds" resultType="DataSourceInfo">
+		select id, name from data_source_info
+	</select>
+	
+	<insert id="save">
+		<selectKey keyProperty="id" resultType="String" order="BEFORE">
+			SELECT UUID()
+		</selectKey>
+		
+		insert into data_source_info(id, project_id, content)
+		values (#{id}, #{projectId}, #{content})
+	</insert>
+	
+	<update id="update">
+		update data_source_info set name = #{name}, content = #{content} where id = #{id}
+	</update>
+	
+	<select id="getTotalNum" resultType="int">
+		select count(*) from data_source_info
+	</select>
+	
+	<select id="getById" resultType="DataSourceInfo" resultMap="dataSourceInfoMap">
+		select * from data_source_info where id = #{id}
+	</select>
+	
+	<resultMap type="org.suren.autotest.platform.model.DataSourceInfo" id="dataSourceInfoMap">
+		<result property="projectId" column="project_id"/>
+	</resultMap>
+</mapper>

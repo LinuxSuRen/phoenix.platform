@@ -1,10 +1,3 @@
-drop table if exists page_info;
-create table page_info (
-	id varchar(36),
-	name varchar(100),
-	content longtext
-);
-
 drop table if exists project;
 create table project (
 	id varchar(36),
@@ -15,6 +8,30 @@ create table project (
 	primary key (id)
 );
 
+drop table if exists page_info;
+create table page_info (
+	id varchar(36),
+	project_id varchar(36),
+	name varchar(100),
+	content longtext
+);
+
+drop table if exists data_source_info;
+create table data_source_info (
+	id varchar(36),
+	project_id varchar(36),
+	name varchar(100),
+	content longtext
+);
+
+drop table if exists suite_runner_info;
+create table suite_runner_info (
+	id varchar(36),
+	project_id varchar(36),
+	name varchar(100),
+	content longtext
+);
+
 drop table if exists options;
 create table options (
 	id varchar(36),
@@ -23,7 +40,7 @@ create table options (
 	primary key (id)
 );
 
-drop table if exists project_foucs
+drop table if exists project_foucs;
 create table project_foucs (
 	id varchar(36),
 	project_id varchar(36),

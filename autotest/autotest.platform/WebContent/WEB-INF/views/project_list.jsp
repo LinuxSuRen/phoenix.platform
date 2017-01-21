@@ -70,7 +70,10 @@
 			<td>${project.ownerId }</td>
 			<td>${project.createTime }</td>
 			<td>${project.remark }</td>
-			<td><a href="del.su?id=${project.id }">删除</a></td>
+			<td>
+				<a href="edit.su?id=${project.id }">编辑</a>
+				<a href="del.su?id=${project.id }">删除</a>
+			</td>
 		</tr>
 		</c:forEach>
 	</tbody>

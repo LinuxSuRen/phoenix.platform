@@ -3,19 +3,16 @@
  */
 package org.suren.autotest.platform.model;
 
-import org.suren.autotest.platform.schemas.Autotest;
-
 /**
  * @author suren
- * @date 2017年1月18日 下午8:13:17
+ * @date 2017年1月21日 上午11:02:46
  */
-public class PageInfo
+public class SuiteRunnerInfo
 {
 	private String id;
 	private String projectId;
 	private String name;
 	private String content;
-	private Autotest autotest;
 	/**
 	 * @return the id
 	 */
@@ -71,19 +68,5 @@ public class PageInfo
 	public void setContent(String content)
 	{
 		this.content = content;
-	}
-	/**
-	 * @return the autotest
-	 */
-	public Autotest getAutotest()
-	{
-		return autotest;
-	}
-	/**
-	 * @param autotest the autotest to set
-	 */
-	public void setAutotest(Autotest autotest)
-	{
-		this.autotest = autotest;
 	}
 }

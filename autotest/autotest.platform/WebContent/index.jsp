@@ -1,3 +1,8 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ page isELIgnored="false"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%String basePath=request.getContextPath(); %>
 <!DOCTYPE html>
 <html lang="zh-cn">
   <head>
@@ -17,7 +22,7 @@
     <![endif]-->
   </head>
   <body>
-    <h1>你好，世界！</h1>
+    <a href="project/list.su">查看项目列表</a>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="http://cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>

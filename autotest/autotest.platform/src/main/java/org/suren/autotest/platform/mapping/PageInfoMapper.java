@@ -13,13 +13,11 @@ import org.suren.autotest.platform.model.PageInfo;
  */
 public interface PageInfoMapper
 {
-	void insert(PageInfo pageInfo);
-	
+	List<PageInfo> getAll();
+	List<PageInfo> getAllByProjectId(String projectId);
+	void save(PageInfo pageInfo);
 	int getTotalNum();
-	
 	PageInfo getById(String id);
-	
 	List<PageInfo> getAllIds();
-	
 	void update(PageInfo pageInfo);
 }
