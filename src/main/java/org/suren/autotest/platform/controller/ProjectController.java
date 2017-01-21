@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.suren.autotest.platform.mapping.ProjectMapper;
 import org.suren.autotest.platform.model.Project;
 
@@ -36,19 +35,23 @@ public class ProjectController
 	}
 	
 	@RequestMapping("/edit")
-	public String edit(Model model, Project project)
+	public String edit(Model model, String id)
 	{
-		if(project != null && StringUtils.isNotBlank(project.getName()))
+		Project proForModel = projectMapper.getById(id);
+		model.addAttribute("project", proForModel);
+		
+		return "project_edit";
+	}
+	
+	@RequestMapping("/save")
+	public String save(Model model, Project project)
+	{
+		if(StringUtils.isBlank(project.getId()))
 		{
-			if(StringUtils.isNotBlank(project.getId()))
-			{
-			}
-			else
-			{
-				projectMapper.save(project);
-				
-				return "redirect:/project/list.su";
-			}
+			projectMapper.save(project);
+		}
+		else
+		{
 		}
 		
 		return "project_edit";

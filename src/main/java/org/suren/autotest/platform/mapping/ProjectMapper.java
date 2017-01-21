@@ -13,6 +13,7 @@ import org.suren.autotest.platform.model.Project;
  */
 public interface ProjectMapper
 {
+	Project getById(String id);
 	List<Project> getAll();
 	void save(Project project);
 	void delById(String id);

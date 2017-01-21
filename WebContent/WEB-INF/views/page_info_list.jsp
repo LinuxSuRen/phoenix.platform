@@ -9,7 +9,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>项目编辑</title>
+<title>页面集列表</title>
 <link href="<%=basePath %>/static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
@@ -26,13 +26,12 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="list.su">项目列表</a>
+        <a class="navbar-brand" href="<%=basePath %>/project/list.su">项目列表</a>
     </div>
     <div class="collapse navbar-collapse" id="example-navbar-collapse">
         <ul class="nav navbar-nav">
-            <li><a href="<%=basePath%>/page_info/list.su?projectId=${project.id}">查看页面集列表</a></li>
-            <li><a href="#">查看数据源列表</a></li>
-            <li><a href="#">查看运行套件列表</a></li>
+            <li><a href="add.su?projectId=${projectId }">新增</a></li>
+            <li><a href="#">SVN</a></li>
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                     Java <b class="caret"></b>
@@ -52,20 +51,32 @@
     </div>
 </nav>
 
-<form class="form-horizontal" action="save.su" role="form" method="post">
-	<input type="hidden" name="id" value="${project.id }" />
-	<div class="form-group">
-		<label class="col-sm-2 control-label">项目名称</label>
-		<div class="col-sm-3">
-	    	<input name="name" value="${project.name }" class="form-control" type="text">
-		</div>
-		<label class="col-sm-2 control-label">备注</label>
-		<div class="col-sm-3">
-	    	<input name="remark" value="${project.remark }" class="form-control" type="text">
-		</div>
-	</div>
-	
-	<button type="submit" class="btn btn-default">保存</button>
-</form>
+<table class="table">
+	<thead>
+		<tr>
+			<th>序号</th>
+			<th>名称</th>
+			<th>拥有者</th>
+			<th>创建时间</th>
+			<th>备注</th>
+			<th>操作</th>
+		</tr>
+	</thead>
+	<tbody>
+		<c:forEach items="${pageInfoList }" var="pageInfo" varStatus="status">
+		<tr>
+			<td>${status.index }</td>
+			<td>${pageInfo.name }</td>
+			<td>${pageInfo.name }</td>
+			<td>${pageInfo.name }</td>
+			<td>${pageInfo.name }</td>
+			<td>
+				<a href="test.su?id=${pageInfo.id }">编辑</a>
+				<a href="del.su?id=${pageInfo.id }">删除</a>
+			</td>
+		</tr>
+		</c:forEach>
+	</tbody>
+</table>
 
 </body>

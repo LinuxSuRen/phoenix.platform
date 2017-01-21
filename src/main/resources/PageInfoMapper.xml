@@ -3,21 +3,25 @@
 <!--命名空间应该是对应接口的包名+类名 -->
 <mapper namespace="org.suren.autotest.platform.mapping.PageInfoMapper">
 	<!--id应该是接口中的方法，结果类型如没有配置别名则应该使用全名称 -->
-	<select id="getAll" resultType="PageInfo">
+	<select id="getAll" resultType="PageInfo" resultMap="pageInfoMap">
 		select * from page_info
+	</select>
+	
+	<select id="getAllByProjectId" resultType="PageInfo" resultMap="pageInfoMap">
+		select id, name from page_info where project_id = #{projectId}
 	</select>
 	
 	<select id="getAllIds" resultType="PageInfo">
 		select id, name from page_info
 	</select>
 	
-	<insert id="insert">
+	<insert id="save">
 		<selectKey keyProperty="id" resultType="String" order="BEFORE">
 			SELECT UUID()
 		</selectKey>
 		
-		insert into page_info(id, content)
-		values (#{id}, #{content})
+		insert into page_info(id, project_id, name, content)
+		values (#{id}, #{projectId}, #{name}, #{content})
 	</insert>
 	
 	<update id="update">
@@ -28,7 +32,11 @@
 		select count(*) from page_info
 	</select>
 	
-	<select id="getById" resultType="PageInfo">
+	<select id="getById" resultType="PageInfo" resultMap="pageInfoMap">
 		select * from page_info where id = #{id}
 	</select>
+	
+	<resultMap type="org.suren.autotest.platform.model.PageInfo" id="pageInfoMap">
+		<result property="projectId" column="project_id"/>
+	</resultMap>
 </mapper>

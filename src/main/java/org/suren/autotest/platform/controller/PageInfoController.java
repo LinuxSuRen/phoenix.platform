@@ -11,8 +11,10 @@ import java.util.List;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
+import javax.xml.bind.UnmarshalException;
 import javax.xml.bind.Unmarshaller;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,48 +28,83 @@ import org.suren.autotest.platform.schemas.Autotest.Pages;
 import org.suren.autotest.platform.schemas.EngineTypeDriverEnum;
 import org.suren.autotest.platform.schemas.FieldTypeEnum;
 import org.suren.autotest.platform.schemas.PageFieldLocatorTypeEnum;
+import org.suren.autotest.platform.schemas.PageFieldType;
 import org.suren.autotest.platform.schemas.PageType;
 import org.suren.autotest.platform.schemas.StrategyEnum;
 
 /**
+ * 项目集
  * @author suren
  * @date 2017年1月17日 下午8:40:45
  */
 @Controller
-public class TestController
+@RequestMapping("page_info")
+public class PageInfoController
 {
 	@Autowired
 	private UserMapper userMapper;
 	@Autowired
 	private PageInfoMapper pageInfoMapper;
+
+	@RequestMapping("add.su")
+	public String pageInfoAdd(Model model, String projectId)
+	{
+		PageInfo pageInfo = new PageInfo();
+		pageInfo.setProjectId(projectId);
+		pageInfo.setAutotest(initAutotest());
+		
+		model.addAttribute("pageInfo", pageInfo);
+		model.addAttribute("fieldType", FieldTypeEnum.values());
+		model.addAttribute("strategyType", StrategyEnum.values());
+		model.addAttribute("locatorType", PageFieldLocatorTypeEnum.values());
+		model.addAttribute("engineType", EngineTypeDriverEnum.values());
+		
+		return "/page_info/test";
+	}
+	
+	@RequestMapping("list.su")
+	public String list(Model model, String projectId)
+	{
+		List<PageInfo> pageInfoList = pageInfoMapper.getAllByProjectId(projectId);
+		model.addAttribute("pageInfoList", pageInfoList);
+		model.addAttribute("projectId", projectId);
+		
+		return "page_info_list";
+	}
 	
 	@RequestMapping("test.su")
 	public void test(Model model, @RequestParam(defaultValue = "qwe") String id)
 	{
 		PageInfo pageInfo = pageInfoMapper.getById(id);
-		model.addAttribute("page", pageInfo);
+		model.addAttribute("pageInfo", pageInfo);
 		
 		try
 		{
 			JAXBContext context = JAXBContext.newInstance(Autotest.class);
 			Unmarshaller unmarshaller = context.createUnmarshaller();
-	        
+
+			Autotest autotest;
 			String content = pageInfo.getContent();
 			if(content == null)
 			{
-				content = "";
+				autotest = initAutotest();
 			}
-			
-			ByteArrayInputStream input = new ByteArrayInputStream(content.getBytes());
-			Autotest autotest = (Autotest) unmarshaller.unmarshal(input);
-
-			Pages pages = autotest.getPages();
-			for(PageType pageT : pages.getPage())
+			else
 			{
-//				JAXBUtils.transform(pageT.getContent());
+				ByteArrayInputStream input = new ByteArrayInputStream(content.getBytes());
+				
+				try
+				{
+					autotest = (Autotest) unmarshaller.unmarshal(input);
+				}
+				catch(UnmarshalException e)
+				{
+					autotest = initAutotest();
+					e.printStackTrace();
+				}
 			}
 
-			model.addAttribute("autotest", autotest);
+			pageInfo.setAutotest(autotest);
 			model.addAttribute("fieldType", FieldTypeEnum.values());
 			model.addAttribute("strategyType", StrategyEnum.values());
 			model.addAttribute("locatorType", PageFieldLocatorTypeEnum.values());
@@ -137,7 +174,7 @@ public class TestController
 	}
 	
 	@RequestMapping("addPage.su")
-	public String addPage(Model model, @RequestParam(defaultValue = "qwe") String id)
+	public String addPage(Model model, String id)
 	{
 		PageInfo pageInfo = pageInfoMapper.getById(id);
 		
@@ -147,13 +184,17 @@ public class TestController
 			Unmarshaller unmarshaller = context.createUnmarshaller();
 	        
 			String content = pageInfo.getContent();
-			if(content == null)
+			Autotest autotest;
+			if(content != null)
 			{
-				content = "";
+				ByteArrayInputStream input = new ByteArrayInputStream(content.getBytes());
+				autotest = (Autotest) unmarshaller.unmarshal(input);
+			}
+			else
+			{
+				autotest = initAutotest();
 			}
 			
-			ByteArrayInputStream input = new ByteArrayInputStream(content.getBytes());
-			Autotest autotest = (Autotest) unmarshaller.unmarshal(input);
 			
 			PageType pageType = new PageType();
 			pageType.setClazz("PageStuff");
@@ -170,32 +211,41 @@ public class TestController
 			e.printStackTrace();
 		}
 		
-		return "test";
+		return "page_info/test";
 	}
 	
 	@RequestMapping(value = "updatePage.su")
-	public String updatePage(Autotest autotest, Model model, @RequestParam(defaultValue = "qwe") String id)
+	public String updatePage(Model model, PageInfo pageInfo)
 	{
 		JAXBContext context;
 		try
 		{
+			Autotest autotest = pageInfo.getAutotest();
+			
 			context = JAXBContext.newInstance(Autotest.class);
 			Marshaller marshaller = context.createMarshaller();
 			
 			ByteArrayOutputStream out = new ByteArrayOutputStream();
 			marshaller.marshal(autotest, out);
-			
-			PageInfo pageInfo = pageInfoMapper.getById(id);
-			pageInfo.setContent(new String(out.toByteArray()));
-			
-			pageInfoMapper.update(pageInfo);
+
+			if(StringUtils.isNotBlank(pageInfo.getId()))
+			{
+				pageInfo.setContent(out.toString());
+				
+				pageInfoMapper.update(pageInfo);
+			}
+			else
+			{
+				pageInfo.setContent(out.toString());
+				pageInfoMapper.save(pageInfo);
+			}
 		}
 		catch (JAXBException e)
 		{
 			e.printStackTrace();
 		}
 		
-		return "redirect:/test.su";
+		return "redirect:/page_info/list.su";
 	}
 	
 	@RequestMapping("delPage.su")
@@ -240,6 +290,23 @@ public class TestController
 		{
 		}
 		
-		return "redirect:/test.su";
+		return "redirect:/page_info/test.su";
+	}
+	
+	private Autotest initAutotest()
+	{
+		Autotest autotest = new Autotest();
+		Autotest.Pages pages = new Autotest.Pages();
+		autotest.setPages(pages);
+		
+		PageType pageType = new PageType();
+		pageType.setClazz(String.valueOf(System.currentTimeMillis()));
+		pages.getPage().add(pageType);
+		
+		PageFieldType pageFieldType = new PageFieldType();
+		pageFieldType.setName(String.valueOf(System.currentTimeMillis()));
+		pageType.getField().add(pageFieldType);
+
+		return autotest;
 	}
 }
