@@ -28,7 +28,7 @@
 						class="icon-bar"></span> <span class="icon-bar"></span> <span
 						class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="test.su">页面集</a>
+				<a class="navbar-brand" href="test.su?id=${pageInfo.id }">页面集</a>
 			</div>
 
 			<!-- Collect the nav links, forms, and other content for toggling -->

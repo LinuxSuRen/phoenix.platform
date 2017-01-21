@@ -72,6 +72,15 @@ public class PageInfoController
 		return "page_info_list";
 	}
 	
+	@RequestMapping("/del")
+	public String del(Model model, String id)
+	{
+		PageInfo pageInfo = pageInfoMapper.getById(id);
+		pageInfoMapper.delById(id);
+		
+		return "redirect:/page_info/list.su?projectId=" + pageInfo.getProjectId();
+	}
+	
 	@RequestMapping("test.su")
 	public void test(Model model, @RequestParam(defaultValue = "qwe") String id)
 	{
@@ -249,7 +258,7 @@ public class PageInfoController
 	}
 	
 	@RequestMapping("delPage.su")
-	public String delPage(@RequestParam(defaultValue = "qwe") String id, String pageName)
+	public String delPage(String id, String pageName)
 	{
 		PageInfo pageInfo = pageInfoMapper.getById(id);
 
