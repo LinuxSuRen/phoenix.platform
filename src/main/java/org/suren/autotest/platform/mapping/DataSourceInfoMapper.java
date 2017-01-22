@@ -14,4 +14,12 @@ import org.suren.autotest.platform.model.DataSourceInfo;
 public interface DataSourceInfoMapper
 {
 	List<DataSourceInfo> getAll();
+	List<DataSourceInfo> getAllByProjectId(String projectId);
+	List<DataSourceInfo> getAllIds();
+	
+	void save(DataSourceInfo dataSourceInfo);
+	
+	void update(DataSourceInfo dataSourceInfo);
+	
+	DataSourceInfo getById(String id);
 }

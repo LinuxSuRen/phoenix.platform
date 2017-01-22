@@ -3,6 +3,9 @@
  */
 package org.suren.autotest.platform.model;
 
+import org.suren.autotest.platform.schemas.datasource.DataSources;
+
+
 /**
  * @author suren
  * @date 2017年1月21日 上午11:01:50
@@ -13,6 +16,7 @@ public class DataSourceInfo
 	private String projectId;
 	private String name;
 	private String content;
+	private DataSources dataSources;
 	/**
 	 * @return the id
 	 */
@@ -68,5 +72,19 @@ public class DataSourceInfo
 	public void setContent(String content)
 	{
 		this.content = content;
+	}
+	/**
+	 * @return the dataSources
+	 */
+	public DataSources getDataSources()
+	{
+		return dataSources;
+	}
+	/**
+	 * @param dataSources the dataSources to set
+	 */
+	public void setDataSources(DataSources dataSources)
+	{
+		this.dataSources = dataSources;
 	}
 }

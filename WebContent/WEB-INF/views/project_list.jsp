@@ -50,7 +50,7 @@
 	<tbody>
 		<c:forEach items="${projects }" var="project" varStatus="status">
 		<tr>
-			<td>${status.index }</td>
+			<td>${status.index+1 }</td>
 			<td>${project.name }</td>
 			<td>${project.ownerId }</td>
 			<td>${project.createTime }</td>

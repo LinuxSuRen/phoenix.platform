@@ -10,13 +10,17 @@
 		select id, name from data_source_info
 	</select>
 	
+	<select id="getAllByProjectId" resultType="DataSourceInfo">
+		select id, name from data_source_info where project_id = #{projectId}
+	</select>
+	
 	<insert id="save">
 		<selectKey keyProperty="id" resultType="String" order="BEFORE">
 			SELECT UUID()
 		</selectKey>
 		
-		insert into data_source_info(id, project_id, content)
-		values (#{id}, #{projectId}, #{content})
+		insert into data_source_info(id, project_id, name, content)
+		values (#{id}, #{projectId}, #{name}, #{content})
 	</insert>
 	
 	<update id="update">
