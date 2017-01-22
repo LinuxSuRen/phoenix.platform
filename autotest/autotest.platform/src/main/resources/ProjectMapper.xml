@@ -25,6 +25,10 @@
 		)
 	</insert>
 	
+	<update id="update">
+		update project set name = #{name}, remark = #{remark} where id = #{id}
+	</update>
+	
 	<delete id="delById">
 		delete from project where id = #{id}
 	</delete>

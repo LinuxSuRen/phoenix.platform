@@ -3,7 +3,7 @@
  */
 package org.suren.autotest.platform.model;
 
-import org.suren.autotest.platform.schemas.Autotest;
+import org.suren.autotest.platform.schemas.autotest.Autotest;
 
 /**
  * @author suren

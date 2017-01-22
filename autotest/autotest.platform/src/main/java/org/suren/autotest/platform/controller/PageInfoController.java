@@ -5,6 +5,9 @@ package org.suren.autotest.platform.controller;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.Date;
 import java.util.List;
 
@@ -21,23 +24,21 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Repository;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.HttpServletBean;
+import org.springframework.web.multipart.MultipartFile;
 import org.suren.autotest.platform.mapping.PageInfoMapper;
 import org.suren.autotest.platform.mapping.UserMapper;
 import org.suren.autotest.platform.model.PageInfo;
-import org.suren.autotest.platform.schemas.Autotest;
-import org.suren.autotest.platform.schemas.Autotest.Pages;
-import org.suren.autotest.platform.schemas.EngineTypeDriverEnum;
-import org.suren.autotest.platform.schemas.FieldTypeEnum;
-import org.suren.autotest.platform.schemas.PageFieldLocatorTypeEnum;
-import org.suren.autotest.platform.schemas.PageFieldType;
-import org.suren.autotest.platform.schemas.PageType;
-import org.suren.autotest.platform.schemas.StrategyEnum;
+import org.suren.autotest.platform.schemas.autotest.Autotest;
+import org.suren.autotest.platform.schemas.autotest.Autotest.Pages;
+import org.suren.autotest.platform.schemas.autotest.EngineTypeDriverEnum;
+import org.suren.autotest.platform.schemas.autotest.FieldTypeEnum;
+import org.suren.autotest.platform.schemas.autotest.PageFieldLocatorTypeEnum;
+import org.suren.autotest.platform.schemas.autotest.PageFieldType;
+import org.suren.autotest.platform.schemas.autotest.PageType;
+import org.suren.autotest.platform.schemas.autotest.StrategyEnum;
 
 /**
  * 项目集
@@ -66,6 +67,39 @@ public class PageInfoController
 		model.addAttribute("locatorType", PageFieldLocatorTypeEnum.values());
 		model.addAttribute("engineType", EngineTypeDriverEnum.values());
 		
+		return "/page_info/test";
+	}
+	
+	@RequestMapping("import.su")
+	public String autotestImport(Model model, MultipartFile file, String projectId)
+	{
+		String originalFileName = file.getOriginalFilename();
+
+		PageInfo pageInfo = new PageInfo();
+		pageInfo.setProjectId(projectId);
+		pageInfo.setName(originalFileName);
+		
+		model.addAttribute("pageInfo", pageInfo);
+		initEnums(model);
+		
+		try
+		{
+			JAXBContext context = JAXBContext.newInstance(Autotest.class);
+			Unmarshaller unmarshaller = context.createUnmarshaller();
+
+			Autotest autotest = (Autotest) unmarshaller.unmarshal(file.getInputStream());
+			
+			pageInfo.setAutotest(autotest);
+		}
+		catch (JAXBException e)
+		{
+			e.printStackTrace();
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+
 		return "/page_info/test";
 	}
 	
@@ -244,15 +278,13 @@ public class PageInfoController
 			ByteArrayOutputStream out = new ByteArrayOutputStream();
 			marshaller.marshal(autotest, out);
 
+			pageInfo.setContent(out.toString());
 			if(StringUtils.isNotBlank(pageInfo.getId()))
 			{
-				pageInfo.setContent(out.toString());
-				
 				pageInfoMapper.update(pageInfo);
 			}
 			else
 			{
-				pageInfo.setContent(out.toString());
 				pageInfoMapper.save(pageInfo);
 			}
 		}
@@ -316,10 +348,20 @@ public class PageInfoController
 		
 		String content = pageInfo.getContent();
 		content = (content == null ? "" : content);
+
+		String fileName = pageInfo.getName();
+		try
+		{
+			fileName = URLEncoder.encode(fileName, "utf-8");
+		}
+		catch (UnsupportedEncodingException e)
+		{
+			e.printStackTrace();
+		}
 		
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.TEXT_XML);
-		headers.setContentDispositionFormData("filename", pageInfo.getName() + ".xml");
+		headers.setContentDispositionFormData("filename", fileName + ".xml");
 		
 		return new ResponseEntity<byte[]>(content.getBytes(), headers, HttpStatus.CREATED);
 	}
@@ -339,5 +381,13 @@ public class PageInfoController
 		pageType.getField().add(pageFieldType);
 
 		return autotest;
+	}
+	
+	private void initEnums(Model model)
+	{
+		model.addAttribute("fieldType", FieldTypeEnum.values());
+		model.addAttribute("strategyType", StrategyEnum.values());
+		model.addAttribute("locatorType", PageFieldLocatorTypeEnum.values());
+		model.addAttribute("engineType", EngineTypeDriverEnum.values());
 	}
 }

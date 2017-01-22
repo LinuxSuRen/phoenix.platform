@@ -34,29 +34,8 @@
         <property name="suffix" value=".jsp" />
     </bean>
     
-	<bean name="jaxb2MarshallingView" class="org.springframework.web.servlet.view.xml.MarshallingView">  
-        <constructor-arg>  
-            <bean class="org.springframework.oxm.jaxb.Jaxb2Marshaller">  
-                <property name="classesToBeBound">  
-                    <array>  
-                        <value>org.suren.autotest.platform.schemas.Autotest</value>  
-                        <value>org.suren.autotest.platform.schemas.DataSourceType</value>  
-                        <value>org.suren.autotest.platform.schemas.DataSourceTypeEnum</value>
-                        <value>org.suren.autotest.platform.schemas.EngineType</value>
-                        <value>org.suren.autotest.platform.schemas.EngineTypeDriverEnum</value>
-                        <value>org.suren.autotest.platform.schemas.FieldTypeEnum</value>
-                        <value>org.suren.autotest.platform.schemas.IncludePageType</value>
-                        <value>org.suren.autotest.platform.schemas.ObjectFactory</value>
-                        <value>org.suren.autotest.platform.schemas.PageFieldLocator</value>
-                        <value>org.suren.autotest.platform.schemas.PageFieldLocators</value>
-                        <value>org.suren.autotest.platform.schemas.PageFieldLocatorTypeEnum</value>
-                        <value>org.suren.autotest.platform.schemas.PageFieldType</value>
-                        <value>org.suren.autotest.platform.schemas.PageType</value>
-                        <value>org.suren.autotest.platform.schemas.StrategyEnum</value>
-                    </array>  
-                </property>  
-            </bean>  
-        </constructor-arg>  
-    </bean>
-  
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="maxUploadSize" value="104857600"></property>      
+        <property name="defaultEncoding" value="utf-8"></property>  
+	</bean>
 </beans> 

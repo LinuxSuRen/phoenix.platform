@@ -16,5 +16,6 @@ public interface ProjectMapper
 	Project getById(String id);
 	List<Project> getAll();
 	void save(Project project);
+	void update(Project project);
 	void delById(String id);
 }

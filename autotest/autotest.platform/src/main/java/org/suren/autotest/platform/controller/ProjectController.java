@@ -52,6 +52,7 @@ public class ProjectController
 		}
 		else
 		{
+			projectMapper.update(project);
 		}
 		
 		return "project_edit";
