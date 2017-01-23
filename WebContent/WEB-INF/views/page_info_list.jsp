@@ -36,6 +36,7 @@
 			</li>
         </ul>
 		<ul class="nav navbar-nav navbar-right">
+			<li><a href="<%=basePath%>/project/edit.su?id=${projectId}">当前项目</a></li>
 			<li><a href="<%=basePath%>/project/list.su">项目列表</a></li>
 		</ul>
     </div>
@@ -83,7 +84,7 @@
 				</h4>
 			</div>
 			<div class="modal-body">
-				<input name="file" type="file" />
+				<input name="file" type="file" accept="text/xml" />
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>

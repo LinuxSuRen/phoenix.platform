@@ -17,7 +17,6 @@ import javax.xml.bind.Marshaller;
 import javax.xml.bind.UnmarshalException;
 import javax.xml.bind.Unmarshaller;
 
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -33,12 +32,14 @@ import org.suren.autotest.platform.mapping.UserMapper;
 import org.suren.autotest.platform.model.PageInfo;
 import org.suren.autotest.platform.schemas.autotest.Autotest;
 import org.suren.autotest.platform.schemas.autotest.Autotest.Pages;
+import org.suren.autotest.platform.schemas.autotest.DataSourceTypeEnum;
 import org.suren.autotest.platform.schemas.autotest.EngineTypeDriverEnum;
 import org.suren.autotest.platform.schemas.autotest.FieldTypeEnum;
 import org.suren.autotest.platform.schemas.autotest.PageFieldLocatorTypeEnum;
 import org.suren.autotest.platform.schemas.autotest.PageFieldType;
 import org.suren.autotest.platform.schemas.autotest.PageType;
 import org.suren.autotest.platform.schemas.autotest.StrategyEnum;
+import org.suren.autotest.web.framework.util.StringUtils;
 
 /**
  * 项目集
@@ -155,10 +156,7 @@ public class PageInfoController
 			}
 
 			pageInfo.setAutotest(autotest);
-			model.addAttribute("fieldType", FieldTypeEnum.values());
-			model.addAttribute("strategyType", StrategyEnum.values());
-			model.addAttribute("locatorType", PageFieldLocatorTypeEnum.values());
-			model.addAttribute("engineType", EngineTypeDriverEnum.values());
+			initEnums(model);
 		}
 		catch (JAXBException e)
 		{
@@ -389,5 +387,6 @@ public class PageInfoController
 		model.addAttribute("strategyType", StrategyEnum.values());
 		model.addAttribute("locatorType", PageFieldLocatorTypeEnum.values());
 		model.addAttribute("engineType", EngineTypeDriverEnum.values());
+		model.addAttribute("dataSourceType", DataSourceTypeEnum.values());
 	}
 }

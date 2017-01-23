@@ -16,9 +16,7 @@ import org.springframework.core.convert.converter.ConverterFactory;
 public class Suren implements ConverterFactory<String, Enum>
 {
 
-	@Override
-	public <T extends Enum> Converter<String, T> getConverter(
-			Class<T> targetType)
+	public <T extends Enum> Converter<String, T> getConverter(Class<T> targetType)
 	{
 		return new StringToEnum(targetType);
 	}
@@ -51,4 +49,6 @@ public class Suren implements ConverterFactory<String, Enum>
         }  
     }
 
+
+	
 }

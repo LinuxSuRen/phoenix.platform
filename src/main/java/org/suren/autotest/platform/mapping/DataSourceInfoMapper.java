@@ -15,11 +15,14 @@ public interface DataSourceInfoMapper
 {
 	List<DataSourceInfo> getAll();
 	List<DataSourceInfo> getAllByProjectId(String projectId);
+	List<DataSourceInfo> getAllWithContentByProjectId(String projectId);
 	List<DataSourceInfo> getAllIds();
+	
+	DataSourceInfo getById(String id);
 	
 	void save(DataSourceInfo dataSourceInfo);
 	
 	void update(DataSourceInfo dataSourceInfo);
 	
-	DataSourceInfo getById(String id);
+	void delById(String id);
 }

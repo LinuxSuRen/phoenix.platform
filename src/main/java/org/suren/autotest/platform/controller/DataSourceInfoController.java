@@ -26,7 +26,6 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -37,6 +36,7 @@ import org.suren.autotest.platform.model.DataSourceInfo;
 import org.suren.autotest.platform.schemas.datasource.DataSourceFieldTypeEnum;
 import org.suren.autotest.platform.schemas.datasource.DataSources;
 import org.suren.autotest.platform.schemas.datasource.DataTypeEnum;
+import org.suren.autotest.web.framework.util.StringUtils;
 
 /**
  * @author suren
@@ -157,9 +157,10 @@ public class DataSourceInfoController
 	}
 
 	@RequestMapping("del.su")
-	public String dataSourceInfoDel()
+	public String dataSourceInfoDel(String id)
 	{
-		return "data_source_info_list";
+		dataSourceInfoMapper.delById(id);
+		return "redirect:/data_source_info/list.su";
 	}
 	
 	/**

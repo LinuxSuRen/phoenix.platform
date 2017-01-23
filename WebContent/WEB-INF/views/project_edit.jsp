@@ -32,8 +32,11 @@
         <ul class="nav navbar-nav">
             <li><a href="<%=basePath%>/page_info/list.su?projectId=${project.id}">查看页面集列表</a></li>
             <li><a href="<%=basePath%>/data_source_info/list.su?projectId=${project.id}">查看数据源列表</a></li>
-            <li><a href="#">查看运行套件列表</a></li>
+            <li><a href="<%=basePath%>/suite_runner_info/list.su?projectId=${project.id}">查看运行套件列表</a></li>
         </ul>
+		<ul class="nav navbar-nav navbar-right">
+			<li><a href="deploy.su?id=${project.id }">部署</a></li>
+		</ul>
     </div>
     </div>
 </nav>

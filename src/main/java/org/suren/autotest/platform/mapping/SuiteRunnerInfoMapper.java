@@ -14,4 +14,13 @@ import org.suren.autotest.platform.model.SuiteRunnerInfo;
 public interface SuiteRunnerInfoMapper
 {
 	List<SuiteRunnerInfo> getAll();
+	List<SuiteRunnerInfo> getAllByProjectId(String projectId);
+	List<SuiteRunnerInfo> getAllWithContentByProjectId(String projectId);
+	
+	SuiteRunnerInfo getById(String id);
+	
+	void save(SuiteRunnerInfo suiteRunnerInfo);
+	void update(SuiteRunnerInfo suiteRunnerInfo);
+	
+	void delById(String id);
 }

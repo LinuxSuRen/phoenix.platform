@@ -10,6 +10,10 @@
 		select id, name from data_source_info
 	</select>
 	
+	<select id="getAllWithContentByProjectId" resultType="DataSourceInfo" resultMap="dataSourceInfoMap">
+		select * from data_source_info where project_id = #{projectId}
+	</select>
+	
 	<select id="getAllByProjectId" resultType="DataSourceInfo">
 		select id, name from data_source_info where project_id = #{projectId}
 	</select>
@@ -34,6 +38,10 @@
 	<select id="getById" resultType="DataSourceInfo" resultMap="dataSourceInfoMap">
 		select * from data_source_info where id = #{id}
 	</select>
+	
+	<delete id="delById">
+		delete from data_source_info where id = #{id}
+	</delete>
 	
 	<resultMap type="org.suren.autotest.platform.model.DataSourceInfo" id="dataSourceInfoMap">
 		<result property="projectId" column="project_id"/>

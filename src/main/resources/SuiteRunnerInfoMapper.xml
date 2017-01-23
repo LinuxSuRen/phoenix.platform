@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--命名空间应该是对应接口的包名+类名 -->
+<mapper namespace="org.suren.autotest.platform.mapping.SuiteRunnerInfoMapper">
+	<select id="getAll" resultType="SuiteRunnerInfo" resultMap="SuiteRunnerInfoMap">
+		select * from suite_runner_info
+	</select>
+	
+	<select id="getAllIds" resultType="SuiteRunnerInfo">
+		select id, name from suite_runner_info
+	</select>
+	
+	<select id="getAllByProjectId" resultType="SuiteRunnerInfo">
+		select id, name from suite_runner_info where project_id = #{projectId}
+	</select>
+	
+	<select id="getAllWithContentByProjectId" resultType="SuiteRunnerInfo" resultMap="SuiteRunnerInfoMap">
+		select * from suite_runner_info where project_id = #{projectId}
+	</select>
+	
+	<insert id="save">
+		<selectKey keyProperty="id" resultType="String" order="BEFORE">
+			SELECT UUID()
+		</selectKey>
+		
+		insert into suite_runner_info(id, project_id, name, content)
+		values (#{id}, #{projectId}, #{name}, #{content})
+	</insert>
+	
+	<update id="update">
+		update suite_runner_info set name = #{name}, content = #{content} where id = #{id}
+	</update>
+	
+	<select id="getTotalNum" resultType="int">
+		select count(*) from suite_runner_info
+	</select>
+	
+	<select id="getById" resultType="SuiteRunnerInfo" resultMap="SuiteRunnerInfoMap">
+		select * from suite_runner_info where id = #{id}
+	</select>
+	
+	<delete id="delById">
+		delete from suite_runner_info where id = #{id}
+	</delete>
+	
+	<resultMap type="org.suren.autotest.platform.model.SuiteRunnerInfo" id="SuiteRunnerInfoMap">
+		<result property="projectId" column="project_id"/>
+	</resultMap>
+</mapper>
