@@ -9,7 +9,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>数据源列表</title>
+<title>测试套件列表</title>
 <link href="<%=basePath %>/static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
@@ -26,13 +26,13 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="<%=basePath %>/data_source_info_info/list.su?projectId=${projectId }">数据源列表</a>
+        <a class="navbar-brand" href="<%=basePath %>/suite_runner_info/list.su?projectId=${projectId }">测试套件列表</a>
     </div>
     <div class="collapse navbar-collapse" id="example-navbar-collapse">
         <ul class="nav navbar-nav">
             <li><a href="add.su?projectId=${projectId }">新增</a></li>
 			<li>
-				<a data-toggle="modal" data-target="#dataSourceUploadDialogId" href="#">导入</a>
+				<a data-toggle="modal" data-target="#suiteRunnerUploadDialogId" href="#">导入</a>
 			</li>
         </ul>
 		<ul class="nav navbar-nav navbar-right">
@@ -55,23 +55,24 @@
 		</tr>
 	</thead>
 	<tbody>
-		<c:forEach items="${dataSourceInfoList }" var="dataSourceInfo" varStatus="status">
+		<c:forEach items="${suiteRunnerInfoList }" var="item" varStatus="status">
 		<tr>
 			<td>${status.index+1 }</td>
-			<td>${dataSourceInfo.name }</td>
-			<td>${dataSourceInfo.name }</td>
-			<td>${dataSourceInfo.name }</td>
-			<td>${dataSourceInfo.name }</td>
+			<td>${item.name }</td>
+			<td>${item.name }</td>
+			<td>${item.name }</td>
+			<td>${item.name }</td>
 			<td>
-				<a href="edit.su?id=${dataSourceInfo.id }">编辑</a>
-				<a href="del.su?id=${dataSourceInfo.id }">删除</a>
+				<a href="run.su?id=${item.id }">运行</a>
+				<a href="edit.su?id=${item.id }">编辑</a>
+				<a href="del.su?id=${item.id }">删除</a>
 			</td>
 		</tr>
 		</c:forEach>
 	</tbody>
 </table>
 	
-<div class="modal fade" id="dataSourceUploadDialogId" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="suiteRunnerUploadDialogId" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<form action="import.su?projectId=${projectId }" method="post" enctype="multipart/form-data">
@@ -80,7 +81,7 @@
 					&times;
 				</button>
 				<h4 class="modal-title">
-					数据源信息导入
+					测试套件信息导入
 				</h4>
 			</div>
 			<div class="modal-body">

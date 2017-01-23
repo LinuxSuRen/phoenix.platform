@@ -62,7 +62,7 @@
 	
 	<ul class="nav nav-tabs" id="engine_tabs">
 		<li class="active">
-			<a href="#engine" data-toggle="tab">Engine</a>
+			<a href="#engine" data-toggle="tab">基本信息</a>
 		</li>
 		<c:forEach items="${pageInfo.autotest.pages.page}" varStatus="i" var="item" >
 		<li>
@@ -115,9 +115,33 @@
 					</div>
 					<label class="col-sm-2 control-label">远程地址</label>
 					<div class="col-sm-3">
-				    	<input name="autotest.engine.remote" value="${pageInfo.autotest.engine.remote }" class="form-control" id="focusedInput" type="text">
+				    	<input name="autotest.engine.remote" value="${pageInfo.autotest.engine.remote }" class="form-control"
+				    		type="url">
 					</div>
 				</div>
+				
+				<c:forEach items="${pageInfo.autotest.dataSources.dataSource }" var="dataSource" varStatus="dsi">
+				<div class="form-group">
+					<label class="col-sm-2 control-label">数据源名称</label>
+					<div class="col-sm-2">
+				    	<input name="autotest.dataSources.dataSource[${dsi.index }].name" value="${dataSource.name }" class="form-control"
+				    		type="text">
+					</div>
+					<label class="col-sm-1 control-label">类型</label>
+					<div class="col-sm-2">
+						<select name="autotest.dataSources.dataSource[${dsi.index }].type" class="form-control">
+							<c:forEach items="${dataSourceType }" var="type">
+							<option value="${type.value() }" <c:if test="${dataSource.type.value()==type.value() }">selected="true"</c:if>>${type }</option>
+							</c:forEach>
+						</select>
+					</div>
+					<label class="col-sm-1 control-label">文件名</label>
+					<div class="col-sm-2">
+				    	<input name="autotest.dataSources.dataSource[${dsi.index }].resource" class="form-control"
+				    		type="text" value="${dataSource.resource }">
+					</div>
+				</div>
+				</c:forEach>
 			</form>
 		</div>
 		
@@ -131,8 +155,12 @@
 						class="form-control" type="text" required />
 				</div>
 				<label class="col-sm-1 control-label">URL</label>
-				<div class="col-sm-6">
+				<div class="col-sm-3">
 					<input name="autotest.pages.page[${i.index }].url" value="${page.url }" class="form-control" type="text" />
+				</div>
+				<label class="col-sm-1 control-label">数据源</label>
+				<div class="col-sm-2">
+					<input name="autotest.pages.page[${i.index }].dataSource" value="${page.dataSource }" class="form-control" type="text" />
 				</div>
 				<div class="col-sm-1">
 					<a href="delPage.su?pageName=${page.clazz }" class="form-control">删除</a>

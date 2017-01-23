@@ -28,7 +28,7 @@
 						class="icon-bar"></span> <span class="icon-bar"></span> <span
 						class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="test.su?id=${dataSourceInfo.id }">页面集</a>
+				<a class="navbar-brand" href="edit.su?id=${dataSourceInfo.id }">数据源</a>
 			</div>
 
 			<!-- Collect the nav links, forms, and other content for toggling -->
@@ -36,13 +36,14 @@
 				id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav">
 					<li><a onclick="fortest()"><span style="cursor:pointer;">保存</span></a></li>
-					<li><a href="addPage.su?id=${dataSourceInfo.id}">新增页面</a></li>
 					<li class="dropdown"><a href="#" class="dropdown-toggle"
 						data-toggle="dropdown">列表 <span class="caret"></span></a>
 						<ul class="dropdown-menu" role="menu">
 							<li><a href="<%=basePath %>/project/list.su">项目列表</a></li>
 							<li class="divider"></li>
 							<li><a href="<%=basePath %>/page_info/list.su?projectId=${dataSourceInfo.projectId}">页面集列表</a></li>
+							<li><a href="<%=basePath %>/data_source_info/list.su?projectId=${dataSourceInfo.projectId}">数据源列表</a></li>
+							<li><a href="<%=basePath %>/suite_runner_info/list.su?projectId=${dataSourceInfo.projectId}">测试套件列表</a></li>
 						</ul></li>
 				</ul>
 				<form class="navbar-form navbar-left" role="search">
