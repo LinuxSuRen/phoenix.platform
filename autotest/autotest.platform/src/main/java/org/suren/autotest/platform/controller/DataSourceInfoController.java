@@ -127,6 +127,10 @@ public class DataSourceInfoController
 	public String dataSourceInfoImport(Model model, MultipartFile file, String projectId)
 	{
 		String originalFileName = file.getOriginalFilename();
+		if(originalFileName.endsWith(".xml"))
+		{
+			originalFileName = originalFileName.substring(0, originalFileName.length() - ".xml".length());
+		}
 
 		DataSourceInfo dataSourceInfo = new DataSourceInfo();
 		dataSourceInfo.setProjectId(projectId);

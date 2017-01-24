@@ -75,6 +75,10 @@ public class PageInfoController
 	public String autotestImport(Model model, MultipartFile file, String projectId)
 	{
 		String originalFileName = file.getOriginalFilename();
+		if(originalFileName.endsWith(".xml"))
+		{
+			originalFileName = originalFileName.substring(0, originalFileName.length() - ".xml".length());
+		}
 
 		PageInfo pageInfo = new PageInfo();
 		pageInfo.setProjectId(projectId);

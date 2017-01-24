@@ -3,18 +3,35 @@
  */
 package org.suren.autotest.platform.controller;
 
+import java.beans.IntrospectionException;
+import java.beans.PropertyDescriptor;
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.List;
 
+import javax.annotation.Resource;
 import javax.servlet.ServletContext;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.io.FileUtils;
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.support.AbstractBeanDefinition;
+import org.springframework.beans.factory.support.BeanDefinitionBuilder;
+import org.springframework.beans.factory.support.BeanDefinitionRegistry;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.suren.autotest.platform.AutoTestClassloader;
 import org.suren.autotest.platform.mapping.DataSourceInfoMapper;
 import org.suren.autotest.platform.mapping.PageInfoMapper;
 import org.suren.autotest.platform.mapping.ProjectMapper;
@@ -23,7 +40,11 @@ import org.suren.autotest.platform.model.DataSourceInfo;
 import org.suren.autotest.platform.model.PageInfo;
 import org.suren.autotest.platform.model.Project;
 import org.suren.autotest.platform.model.SuiteRunnerInfo;
+import org.suren.autotest.web.framework.code.Generator;
+import org.suren.autotest.web.framework.jdt.JDTUtils;
 import org.suren.autotest.web.framework.util.StringUtils;
+
+import ch.qos.logback.core.Context;
 
 /**
  * @author suren
@@ -31,7 +52,7 @@ import org.suren.autotest.web.framework.util.StringUtils;
  */
 @Controller
 @RequestMapping("/project")
-public class ProjectController
+public class ProjectController implements ApplicationContextAware
 {
 	@Autowired
 	private ProjectMapper projectMapper;
@@ -45,6 +66,9 @@ public class ProjectController
 	
 	@Autowired
 	private ServletContext servletContext;
+	
+	@Resource(name = "xml_to_java")
+	private Generator codeGenerator;
 	
 	@RequestMapping("/list")
 	public String list(Model model)
@@ -94,6 +118,8 @@ public class ProjectController
 		String projectId = id;
 		File rootDir = new File(servletContext.getRealPath("/deploy"));
 		rootDir.mkdirs();
+		File srcOutputDir = new File(rootDir, "src");
+		JDTUtils jdtUtils = new JDTUtils(srcOutputDir);
 
 		//元素定位文件部署
 		List<PageInfo> pageInfoList = pageInfoMapper.getAllWithContentByProjectId(projectId);
@@ -107,11 +133,74 @@ public class ProjectController
 				try
 				{
 					FileUtils.writeStringToFile(autotestFile, content);
+					
+					//生成Java源码
+					codeGenerator.generate(autotestFile.toString(), srcOutputDir.toString());
 				}
 				catch (IOException e)
 				{
 					e.printStackTrace();
 				}
+			}
+			
+			//编译Java源码
+			jdtUtils.compileAllFile();
+			try
+			{
+				AutoTestClassloader cla = new AutoTestClassloader(new URL[]{srcOutputDir.toURI().toURL()},
+						Thread.currentThread().getContextClassLoader());
+				
+				Thread.currentThread().setContextClassLoader(cla);
+				
+				File tmpRoot = new File("D:/Program Files (x86)/Gboat-Toolkit-Suit/workspace_surenpi/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/autotest.platform/deploy/src/com/glodon/fujian/page");
+				for(File a : tmpRoot.listFiles())
+				{
+					String name = a.getName();
+					if(name.endsWith(".java"))
+					{
+						continue;
+					}
+					
+					Class<?> target = cla.loadClass("com.glodon.fujian.page." + name.replace(".class", ""));
+					
+					BeanDefinitionRegistry reg = (BeanDefinitionRegistry) ((ConfigurableApplicationContext)applicationContext.getParent()).getBeanFactory();
+					
+					BeanDefinitionBuilder beanDef = BeanDefinitionBuilder.genericBeanDefinition(target);
+					
+					AbstractBeanDefinition bean = beanDef.getBeanDefinition();
+					reg.registerBeanDefinition(target.getName(), bean);
+					
+					Object targetObj = applicationContext.getBean(target.getName());
+					for(Field field : target.getDeclaredFields())
+					{
+						try
+						{
+//							Method method = new PropertyDescriptor(field.getName(), field.getType()).getWriteMethod();
+							
+							Object fieldObj = applicationContext.getBean(field.getType());
+							
+//							method.invoke(targetObj, fieldObj);
+							field.setAccessible(true);
+							field.set(targetObj, fieldObj);;
+						}
+						catch (IllegalAccessException | IllegalArgumentException e)
+						{
+							e.printStackTrace();
+						}
+						catch(NoSuchBeanDefinitionException e)
+						{
+						}
+						
+						if(field.getAnnotation(Autowired.class) != null)
+						{
+						}
+					}
+				}
+			}
+			catch (MalformedURLException | ClassNotFoundException e)
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		}
 		
@@ -156,5 +245,14 @@ public class ProjectController
 		}
 		
 		return "redirect:/project/list.su";
+	}
+
+	ApplicationContext applicationContext;
+	
+	@Override
+	public void setApplicationContext(ApplicationContext applicationContext)
+			throws BeansException
+	{
+		this.applicationContext = applicationContext;
 	}
 }
