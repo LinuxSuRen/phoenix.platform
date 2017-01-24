@@ -81,6 +81,10 @@
 					<div class="col-sm-3">
 				    	<input name="name" value="${dataSourceInfo.name }" class="form-control" type="input" required />
 					</div>
+					<label class="col-sm-2 control-label">包名称</label>
+					<div class="col-sm-3">
+				    	<input name="dataSources.pagePackage" value="${dataSourceInfo.dataSources.pagePackage }" class="form-control" type="input" required />
+					</div>
 				</div>
 			</form>
 		</div>

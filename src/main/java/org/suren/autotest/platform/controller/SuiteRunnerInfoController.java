@@ -144,6 +144,10 @@ public class SuiteRunnerInfoController
 			String projectId)
 	{
 		String originalFileName = file.getOriginalFilename();
+		if(originalFileName.endsWith(".xml"))
+		{
+			originalFileName = originalFileName.substring(0, originalFileName.length() - ".xml".length());
+		}
 		
 		SuiteRunnerInfo suiteRunnerInfo = new SuiteRunnerInfo();
 		suiteRunnerInfo.setProjectId(projectId);
@@ -185,13 +189,14 @@ public class SuiteRunnerInfoController
 	{
 		SuiteRunnerInfo suiteRunnerInfo = suiteRunnerInfoMapper.getById(id);
 		final File runnerFile = new File(servletContext.getRealPath("/deploy"), suiteRunnerInfo.getName() + ".xml");
-		
+
+		System.out.println(Thread.currentThread().getName());;
+		SuiteRunner.runFromFile(runnerFile);
 		new Thread(){
 
 			@Override
 			public void run()
 			{
-				SuiteRunner.runFromFile(runnerFile);
 			}
 		}.start();
 		
