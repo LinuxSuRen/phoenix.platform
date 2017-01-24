@@ -259,12 +259,12 @@
 								</div>
 							</div>
 							</c:forEach>
-			            </div>
-			        </div>
+			            </div><!-- panel body end -->
+			        </div><!-- collapse end -->
 			    </div>
-			    </form>
-			</div>
+			</div><!-- tab-pane end -->
 			</c:forEach>
+		    </form>
 		</div>
 		</c:forEach>
 	</div>
@@ -273,7 +273,6 @@
 	function fortest(){
 		var content = "1=1";
 		$('form').each(function(){
-			var ser = $(this).serialize();
 			var bv = $(this).data('bootstrapValidator');
 			bv.validate();
 			if(!bv.isValid()){
@@ -281,6 +280,7 @@
 				return false;
 			}
 			
+			var ser = $(this).serialize();
 			if(ser != ""){
 				content += ("&" + ser);
 			}
