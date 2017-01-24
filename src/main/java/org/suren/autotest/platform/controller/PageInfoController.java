@@ -128,7 +128,7 @@ public class PageInfoController
 	}
 	
 	@RequestMapping("test.su")
-	public void test(Model model, @RequestParam(defaultValue = "qwe") String id)
+	public void test(Model model, String id)
 	{
 		PageInfo pageInfo = pageInfoMapper.getById(id);
 		model.addAttribute("pageInfo", pageInfo);
