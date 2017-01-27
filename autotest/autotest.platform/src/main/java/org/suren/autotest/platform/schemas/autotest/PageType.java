@@ -98,6 +98,14 @@ public class PageType {
     }
 
     /**
+	 * @param field the field to set
+	 */
+	public void setField(List<PageFieldType> field)
+	{
+		this.field = field;
+	}
+
+	/**
      * Gets the value of the id property.
      * 
      * @return

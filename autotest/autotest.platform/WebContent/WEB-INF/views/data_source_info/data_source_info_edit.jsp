@@ -44,7 +44,8 @@
 							<li><a href="<%=basePath %>/page_info/list.su?projectId=${dataSourceInfo.projectId}">页面集列表</a></li>
 							<li><a href="<%=basePath %>/data_source_info/list.su?projectId=${dataSourceInfo.projectId}">数据源列表</a></li>
 							<li><a href="<%=basePath %>/suite_runner_info/list.su?projectId=${dataSourceInfo.projectId}">测试套件列表</a></li>
-						</ul></li>
+						</ul>
+					</li>
 				</ul>
 				<form class="navbar-form navbar-left" role="search">
 					<div class="form-group">

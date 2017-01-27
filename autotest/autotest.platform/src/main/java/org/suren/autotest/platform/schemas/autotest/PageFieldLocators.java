@@ -73,4 +73,12 @@ public class PageFieldLocators {
         return this.locator;
     }
 
+	/**
+	 * @param locator the locator to set
+	 */
+	public void setLocator(List<PageFieldLocator> locator)
+	{
+		this.locator = locator;
+	}
+
 }

@@ -188,19 +188,11 @@ public class SuiteRunnerInfoController
 	public String suiteRunnerToRun(Model model, String id)
 	{
 		SuiteRunnerInfo suiteRunnerInfo = suiteRunnerInfoMapper.getById(id);
-		final File runnerFile = new File(servletContext.getRealPath("/deploy"), suiteRunnerInfo.getName() + ".xml");
+		File runnerFile = new File(servletContext.getRealPath("/deploy"), suiteRunnerInfo.getName() + ".xml");
 
-		System.out.println(Thread.currentThread().getName());;
 		SuiteRunner.runFromFile(runnerFile);
-		new Thread(){
-
-			@Override
-			public void run()
-			{
-			}
-		}.start();
 		
-		return "suite_runner_info/list";
+		return "redirect:/suite_runner_info/list.su?projectId=" + suiteRunnerInfo.getProjectId();
 	}
 	
 	public static void main(String[] args)

@@ -132,6 +132,14 @@ public class Autotest {
     }
 
     /**
+	 * @param includePage the includePage to set
+	 */
+	public void setIncludePage(List<IncludePageType> includePage)
+	{
+		this.includePage = includePage;
+	}
+
+	/**
      * Gets the value of the pages property.
      * 
      * @return
@@ -237,6 +245,14 @@ public class Autotest {
             return this.dataSource;
         }
 
+		/**
+		 * @param dataSource the dataSource to set
+		 */
+		public void setDataSource(List<DataSourceType> dataSource)
+		{
+			this.dataSource = dataSource;
+		}
+
     }
 
 
@@ -301,6 +317,14 @@ public class Autotest {
         }
 
         /**
+		 * @param page the page to set
+		 */
+		public void setPage(List<PageType> page)
+		{
+			this.page = page;
+		}
+
+		/**
          * Gets the value of the pagePackage property.
          * 
          * @return
