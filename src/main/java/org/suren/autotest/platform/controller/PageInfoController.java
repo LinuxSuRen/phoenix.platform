@@ -5,18 +5,24 @@ package org.suren.autotest.platform.controller;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.annotation.Resource;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.UnmarshalException;
 import javax.xml.bind.Unmarshaller;
 
+import org.dom4j.DocumentException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -26,12 +32,19 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.suren.autotest.platform.mapping.DataSourceInfoMapper;
 import org.suren.autotest.platform.mapping.PageInfoMapper;
+import org.suren.autotest.platform.mapping.SuiteRunnerInfoMapper;
 import org.suren.autotest.platform.mapping.UserMapper;
+import org.suren.autotest.platform.model.DataSourceInfo;
 import org.suren.autotest.platform.model.PageInfo;
+import org.suren.autotest.platform.model.SuiteRunnerInfo;
 import org.suren.autotest.platform.schemas.autotest.Autotest;
+import org.suren.autotest.platform.schemas.autotest.Autotest.DataSources;
 import org.suren.autotest.platform.schemas.autotest.Autotest.Pages;
+import org.suren.autotest.platform.schemas.autotest.DataSourceType;
 import org.suren.autotest.platform.schemas.autotest.DataSourceTypeEnum;
 import org.suren.autotest.platform.schemas.autotest.EngineTypeDriverEnum;
 import org.suren.autotest.platform.schemas.autotest.FieldTypeEnum;
@@ -39,7 +52,11 @@ import org.suren.autotest.platform.schemas.autotest.PageFieldLocatorTypeEnum;
 import org.suren.autotest.platform.schemas.autotest.PageFieldType;
 import org.suren.autotest.platform.schemas.autotest.PageType;
 import org.suren.autotest.platform.schemas.autotest.StrategyEnum;
+import org.suren.autotest.web.framework.code.Generator;
+import org.suren.autotest.web.framework.core.Callback;
+import org.suren.autotest.web.framework.util.PathUtil;
 import org.suren.autotest.web.framework.util.StringUtils;
+import org.xml.sax.SAXException;
 
 /**
  * 项目集
@@ -54,6 +71,15 @@ public class PageInfoController
 	private UserMapper userMapper;
 	@Autowired
 	private PageInfoMapper pageInfoMapper;
+	@Autowired
+	private DataSourceInfoMapper dataSourceInfoMapper;
+	@Autowired
+	private SuiteRunnerInfoMapper suiteRunnerInfoMapper;
+	
+	@Resource(name = "xml_to_datasource")
+	private Generator dataSourceGenerator;
+	@Resource(name = "xml_to_suite_runner")
+	private Generator suiteRunnerGenerator;
 
 	@RequestMapping("add.su")
 	public String pageInfoAdd(Model model, String projectId)
@@ -266,15 +292,87 @@ public class PageInfoController
 		return "page_info/test";
 	}
 	
-	@RequestMapping(value = "updatePage.su")
-	public String updatePage(Model model, PageInfo pageInfo)
+	@RequestMapping("addField")
+	public String addField(Model model, String id, String pageName)
 	{
-		JAXBContext context;
+		PageInfo pageInfo = pageInfoMapper.getById(id);
+		initEnums(model);
+		model.addAttribute("pageInfo", pageInfo);
+		
+		try
+		{
+			JAXBContext context = JAXBContext.newInstance(Autotest.class);
+			ByteArrayInputStream input = new ByteArrayInputStream(pageInfo.getContent().getBytes());
+			
+			Autotest autotest = (Autotest) context.createUnmarshaller().unmarshal(input);
+			
+			pageInfo.setAutotest(autotest);
+			
+			for(PageType page : autotest.getPages().getPage())
+			{
+				if(page.getClazz().equals(pageName))
+				{
+					PageFieldType field = new PageFieldType();
+					field.setName(System.currentTimeMillis() + "_field");
+					page.getField().add(field );
+					break;
+				}
+			}
+		}
+		catch (JAXBException e)
+		{
+			e.printStackTrace();
+		}
+		
+		return "page_info/test";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "updatePage.su")
+	public PageInfo updatePage(Model model, PageInfo pageInfo)
+	{
 		try
 		{
 			Autotest autotest = pageInfo.getAutotest();
 			
-			context = JAXBContext.newInstance(Autotest.class);
+			List<DataSourceType> dataSourceList;
+			if(autotest.getDataSources() == null)
+			{
+				dataSourceList = new ArrayList<DataSourceType>();
+				
+				DataSources dataSources = new DataSources();
+				autotest.setDataSources(dataSources);
+				dataSources.setDataSource(dataSourceList);
+			}
+			else
+			{
+				dataSourceList = autotest.getDataSources().getDataSource();
+			}
+			for(PageType pageType : autotest.getPages().getPage())
+			{
+				boolean notFound = true;
+				String dataSourceName = pageType.getDataSource();
+				for(DataSourceType dataSourceType : dataSourceList)
+				{
+					if(dataSourceName.equals(dataSourceType.getName()))
+					{
+						notFound = false;
+						break;
+					}
+				}
+				
+				if(notFound)
+				{
+					DataSourceType dataSourceType = new DataSourceType();
+					dataSourceType.setName(dataSourceName);
+					dataSourceType.setType(DataSourceTypeEnum.XML_DATA_SOURCE);
+					dataSourceType.setResource(dataSourceName + ".xml");
+					
+					dataSourceList.add(dataSourceType);
+				}
+			}
+			
+			JAXBContext context = JAXBContext.newInstance(Autotest.class);
 			Marshaller marshaller = context.createMarshaller();
 			
 			ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -289,13 +387,15 @@ public class PageInfoController
 			{
 				pageInfoMapper.save(pageInfo);
 			}
+			
+			pageInfo.setContent(null);
 		}
 		catch (JAXBException e)
 		{
 			e.printStackTrace();
 		}
 		
-		return "redirect:/page_info/list.su";
+		return pageInfo;
 	}
 	
 	@RequestMapping("delPage.su")
@@ -366,6 +466,127 @@ public class PageInfoController
 		headers.setContentDispositionFormData("filename", fileName + ".xml");
 		
 		return new ResponseEntity<byte[]>(content.getBytes(), headers, HttpStatus.CREATED);
+	}
+	
+	/**
+	 * 根据给定id的页面集生成数据源，然后跳转到数据源页面（当前项目）
+	 * @param id 页面集id
+	 * @return
+	 */
+	@RequestMapping("/generateDataSource")
+	public String generateDataSource(String id)
+	{
+		final PageInfo pageInfo = pageInfoMapper.getById(id);
+		if(pageInfo != null && StringUtils.isNotBlank(pageInfo.getContent()))
+		{
+			ByteArrayInputStream input = new ByteArrayInputStream(pageInfo.getContent().getBytes());
+			final String projectId = pageInfo.getProjectId();
+			
+			File outputDir = PathUtil.getRootDir();
+			try
+			{
+				dataSourceGenerator.generate(input, outputDir.toString(), new Callback<File>()
+				{
+					
+					@Override
+					public void callback(File data)
+					{
+						String name = data.getName();
+						
+						DataSourceInfo dataSourceInfo = new DataSourceInfo();
+						dataSourceInfo.setName(name.replace(".xml", ""));
+						dataSourceInfo.setProjectId(projectId);
+						
+						try(InputStream input = new FileInputStream(data))
+						{
+							StringBuffer contentBuf = new StringBuffer();
+							
+							byte[] buf = new byte[1024];
+							int len = -1;
+							
+							while((len = input.read(buf)) != -1)
+							{
+								contentBuf.append(new String(buf, 0, len));
+							}
+							
+							dataSourceInfo.setContent(contentBuf.toString());
+						}
+						catch (IOException e)
+						{
+							e.printStackTrace();
+						}
+						
+						dataSourceInfoMapper.save(dataSourceInfo);
+					}
+				});
+			}
+			catch (DocumentException | SAXException e)
+			{
+				e.printStackTrace();
+			}
+			
+			return "redirect:/data_source_info/list.su?projectId=" + projectId;
+		}
+		else
+		{
+			return "redirect:/project/list.su";
+		}
+	}
+
+	@RequestMapping("/generateSuiteRunner")
+	public String generateSuiteRunner(String id)
+	{
+		PageInfo pageInfo = pageInfoMapper.getById(id);
+		if(pageInfo != null && StringUtils.isNotBlank(pageInfo.getContent()))
+		{
+			final String projectId = pageInfo.getProjectId();
+			ByteArrayInputStream input = new ByteArrayInputStream(pageInfo.getContent().getBytes());
+
+			File outputDir = PathUtil.getRootDir();
+			try
+			{
+				suiteRunnerGenerator.generate(input, outputDir.toString(), new Callback<File>()
+				{
+
+					@Override
+					public void callback(File data)
+					{
+						SuiteRunnerInfo suiteRunnerInfo = new SuiteRunnerInfo();
+						suiteRunnerInfo.setProjectId(projectId);
+						suiteRunnerInfo.setName(data.getName().replace(".xml", ""));
+						
+						StringBuffer contentBuf = new StringBuffer();
+						try(InputStream input = new FileInputStream(data))
+						{
+							byte[] buf = new byte[1024];
+							int len = -1;
+							
+							while((len = input.read(buf)) != -1)
+							{
+								contentBuf.append(new String(buf, 0, len));
+							}
+						}
+						catch (IOException e)
+						{
+							e.printStackTrace();
+						}
+						suiteRunnerInfo.setContent(contentBuf.toString());
+						
+						suiteRunnerInfoMapper.save(suiteRunnerInfo);
+					}
+				});
+			}
+			catch (DocumentException | SAXException e)
+			{
+				e.printStackTrace();
+			}
+			
+			return "redirect:/suite_runner_info/list.su?projectId=" + projectId;
+		}
+		else
+		{
+			return "redirect:/project/list.su";
+		}
 	}
 	
 	private Autotest initAutotest()

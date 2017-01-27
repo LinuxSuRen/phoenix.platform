@@ -3,13 +3,9 @@
  */
 package org.suren.autotest.platform.controller;
 
-import java.beans.IntrospectionException;
-import java.beans.PropertyDescriptor;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
@@ -43,8 +39,6 @@ import org.suren.autotest.platform.model.SuiteRunnerInfo;
 import org.suren.autotest.web.framework.code.Generator;
 import org.suren.autotest.web.framework.jdt.JDTUtils;
 import org.suren.autotest.web.framework.util.StringUtils;
-
-import ch.qos.logback.core.Context;
 
 /**
  * @author suren
@@ -144,7 +138,7 @@ public class ProjectController implements ApplicationContextAware
 			}
 			
 			//编译Java源码
-			jdtUtils.compileAllFile();
+			List<File> result = jdtUtils.compileAllFile();
 			try
 			{
 				AutoTestClassloader cla = new AutoTestClassloader(new URL[]{srcOutputDir.toURI().toURL()},
@@ -152,16 +146,14 @@ public class ProjectController implements ApplicationContextAware
 				
 				Thread.currentThread().setContextClassLoader(cla);
 				
-				File tmpRoot = new File("D:/Program Files (x86)/Gboat-Toolkit-Suit/workspace_surenpi/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/autotest.platform/deploy/src/com/glodon/fujian/page");
-				for(File a : tmpRoot.listFiles())
+				String rootPath = srcOutputDir.getAbsolutePath();
+				for(File javaSrcFile : result)
 				{
-					String name = a.getName();
-					if(name.endsWith(".java"))
-					{
-						continue;
-					}
+					String absPath = javaSrcFile.getAbsolutePath();
+					String clsName = absPath.replace(rootPath, "").replace("/", "\\").replace("\\", ".").replace(".java", "");
+					clsName = clsName.substring(1);
 					
-					Class<?> target = cla.loadClass("com.glodon.fujian.page." + name.replace(".class", ""));
+					Class<?> target = cla.loadClass(clsName);
 					
 					BeanDefinitionRegistry reg = (BeanDefinitionRegistry) ((ConfigurableApplicationContext)applicationContext.getParent()).getBeanFactory();
 					

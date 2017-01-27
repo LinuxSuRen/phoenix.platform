@@ -26,11 +26,17 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="list.su">项目列表</a>
+        <a class="navbar-brand" href="list.su">刷新</a>
     </div>
     <div class="collapse navbar-collapse" id="example-navbar-collapse">
         <ul class="nav navbar-nav">
             <li><a href="edit.su">新增</a></li>
+			<form class="navbar-form navbar-left" role="search">
+				<div class="form-group">
+					<input type="text" class="form-control" placeholder="项目名称">
+				</div>
+				<button type="submit" class="btn btn-default">搜索</button>
+			</form>
         </ul>
     </div>
     </div>

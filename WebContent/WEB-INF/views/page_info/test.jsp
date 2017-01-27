@@ -28,7 +28,7 @@
 						class="icon-bar"></span> <span class="icon-bar"></span> <span
 						class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="test.su?id=${pageInfo.id }">页面集</a>
+				<a class="navbar-brand" href="test.su?id=${pageInfo.id }">刷新</a>
 			</div>
 
 			<!-- Collect the nav links, forms, and other content for toggling -->
@@ -43,16 +43,20 @@
 							<li><a href="<%=basePath %>/project/list.su">项目列表</a></li>
 							<li class="divider"></li>
 							<li><a href="<%=basePath %>/page_info/list.su?projectId=${pageInfo.projectId}">页面集列表</a></li>
-						</ul></li>
+							<li><a href="<%=basePath %>/data_source_info/list.su?projectId=${pageInfo.projectId}">数据源列表</a></li>
+							<li><a href="<%=basePath %>/suite_runner_info/list.su?projectId=${pageInfo.projectId}">测试套件列表</a></li>
+						</ul>
+					</li>
 				</ul>
-				<form class="navbar-form navbar-left" role="search">
-					<div class="form-group">
-						<input type="text" class="form-control" placeholder="搜索">
-					</div>
-					<button type="submit" class="btn btn-default">Submit</button>
-				</form>
 				<ul class="nav navbar-nav navbar-right">
 					<li><a href="download.su?id=${pageInfo.id }">下载</a></li>
+					<li class="dropdown"><a href="#" class="dropdown-toggle"
+						data-toggle="dropdown">生成 <span class="caret"></span></a>
+						<ul class="dropdown-menu" role="menu">
+							<li><a href="<%=basePath %>/page_info/generateDataSource.su?id=${pageInfo.id}">数据源</a></li>
+							<li><a href="<%=basePath %>/page_info/generateSuiteRunner.su?id=${pageInfo.id}">测试套件</a></li>
+						</ul>
+					</li>
 				</ul>
 			</div>
 			<!-- /.navbar-collapse -->
@@ -111,7 +115,7 @@
 					<label class="col-sm-2 control-label">包名</label>
 					<div class="col-sm-3">
 				    	<input name="autotest.pages.pagePackage" value="${pageInfo.autotest.pages.pagePackage }" class="form-control"
-				    		type="text">
+				    		type="text" required>
 					</div>
 					<label class="col-sm-2 control-label">远程地址</label>
 					<div class="col-sm-3">
@@ -150,7 +154,7 @@
 			<form class="form-horizontal" role="form" method="post">
 			<div class="form-group">
 				<label class="col-sm-1 control-label">类名</label>
-				<div class="col-sm-2">
+				<div class="col-sm-1">
 					<input name="autotest.pages.page[${i.index }].clazz" value="${page.clazz }"
 						class="form-control" type="text" required />
 				</div>
@@ -159,11 +163,14 @@
 					<input name="autotest.pages.page[${i.index }].url" value="${page.url }" class="form-control" type="text" />
 				</div>
 				<label class="col-sm-1 control-label">数据源</label>
-				<div class="col-sm-2">
+				<div class="col-sm-1">
 					<input name="autotest.pages.page[${i.index }].dataSource" value="${page.dataSource }" class="form-control" type="text" />
 				</div>
-				<div class="col-sm-1">
+				<div class="col-sm-3">
 					<a href="delPage.su?pageName=${page.clazz }" class="form-control">删除</a>
+					<c:if test="${pageInfo.id!='' }">
+					<a href="addField.su?id=${pageInfo.id }&pageName=${page.clazz }" class="form-control">添加属性</a>
+					</c:if>
 				</div>
 			</div>
 	
@@ -287,8 +294,10 @@
 		});
 		
 		if(content != ""){
-			$.post('updatePage.su', content, function(){
-				location.reload();
+			$.post('updatePage.su', content, function(data){
+				if(data.id){
+					window.location = 'test.su?id=' + data.id;
+				}
 			});
 		}
 	}

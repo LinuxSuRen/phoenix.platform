@@ -35,11 +35,15 @@
             <li><a href="<%=basePath%>/suite_runner_info/list.su?projectId=${project.id}">查看运行套件列表</a></li>
         </ul>
 		<ul class="nav navbar-nav navbar-right">
-			<li><a href="deploy.su?id=${project.id }">部署</a></li>
+			<li><a href="#" onclick="deploy()">部署</a></li>
 		</ul>
     </div>
     </div>
 </nav>
+
+<div class="alert alert-success alert-dismissable hide fade" id="deployTipId">
+<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>部署成功!
+</div>
 
 <form class="form-horizontal" action="save.su" role="form" method="post">
 	<input type="hidden" name="id" value="${project.id }" />
@@ -56,5 +60,16 @@
 	
 	<button type="submit" class="btn btn-default">保存</button>
 </form>
+
+<script type="text/javascript">
+function deploy(){
+	$.post('deploy.su?id=${project.id }', function(){
+		$('#deployTipId').removeClass('hide fade');
+		window.setTimeout(function(){
+			$('#deployTipId').addClass('hide fade');
+		}, 1000);
+	});
+}
+</script>
 
 </body>

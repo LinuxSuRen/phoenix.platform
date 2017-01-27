@@ -64,6 +64,7 @@
 			<td>${item.name }</td>
 			<td>
 				<a href="run.su?id=${item.id }">运行</a>
+				<a href="#" onclick="debugRun('${item.id }')">调试</a>
 				<a href="edit.su?id=${item.id }">编辑</a>
 				<a href="del.su?id=${item.id }">删除</a>
 			</td>
@@ -95,5 +96,13 @@
 		</div><!-- /.modal-content -->
 	</div><!-- /.modal -->
 </div>
+
+<script type="text/javascript">
+function debugRun(id){
+	$.post('<%=basePath %>/project/deploy.su?id=${projectId }', function(){
+		$.post('run.su?id=' + id);
+	});
+}
+</script>
 
 </body>

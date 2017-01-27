@@ -52,7 +52,7 @@ public class DataSourceInfoController
 	@RequestMapping("list.su")
 	public String dataSourceInfoList(Model model, String projectId)
 	{
-		List<DataSourceInfo> dataSourceInfoList = dataSourceInfoMapper.getAll();
+		List<DataSourceInfo> dataSourceInfoList = dataSourceInfoMapper.getAllByProjectId(projectId);
 		model.addAttribute("dataSourceInfoList", dataSourceInfoList);
 		model.addAttribute("projectId", projectId);
 		
@@ -163,8 +163,10 @@ public class DataSourceInfoController
 	@RequestMapping("del.su")
 	public String dataSourceInfoDel(String id)
 	{
+		DataSourceInfo dataSourceInfo = dataSourceInfoMapper.getById(id);
+		
 		dataSourceInfoMapper.delById(id);
-		return "redirect:/data_source_info/list.su";
+		return "redirect:/data_source_info/list.su?projectId=" + dataSourceInfo.getProjectId();
 	}
 	
 	/**
