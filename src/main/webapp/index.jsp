@@ -29,4 +29,9 @@
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="bootstrap/js/bootstrap.min.js"></script>
   </body>
+  <script type="text/javascript">
+  	setTimeout(function(){
+  		window.location = 'project/list.su'
+  	}, 500);
+  </script>
 </html>
