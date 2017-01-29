@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/security
+	http://www.springframework.org/schema/security/spring-security.xsd">
+
+	<!-- 
+	<debug />
+	 -->
+	<http security="none" pattern="/user_info/login.su" />
+	<http security="none" pattern="/static/**" />
+	<http use-expressions="false" auto-config="true">
+		<intercept-url pattern="/**" access="ROLE_USER" />
+
+		<!-- 同一时间内允许同一账号保持4个在线,error-if-maximum-exceeded="true"表示第第四个以后的登不进去 -->
+		<session-management>
+			<concurrency-control max-sessions="4"
+				error-if-maximum-exceeded="true" />
+		</session-management>
+		<csrf disabled="true" />
+		<form-login login-page="/user_info/login.su" login-processing-url="/user_info/login_process.su"
+			username-parameter="username" password-parameter="password"/>
+		<logout logout-success-url="/logout.jsp" logout-url="logout"
+			invalidate-session="true" delete-cookies="JSESSIONID" />
+	</http>
+
+	<authentication-manager alias="authenticationManager">
+		<authentication-provider user-service-ref="userService">
+			<password-encoder hash="plaintext" />
+		</authentication-provider>
+	</authentication-manager>
+
+	<beans:bean id="userService" class="org.suren.autotest.platform.security.AutoTestUserDetailsService" />
+
+	<beans:bean id="authSuccessHandler"
+		class="org.suren.autotest.platform.security.AutoTestAuthSuccessHandler">
+	</beans:bean>
+</beans:beans>

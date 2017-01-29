@@ -37,7 +37,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.suren.autotest.platform.mapping.DataSourceInfoMapper;
 import org.suren.autotest.platform.mapping.PageInfoMapper;
 import org.suren.autotest.platform.mapping.SuiteRunnerInfoMapper;
-import org.suren.autotest.platform.mapping.UserMapper;
+import org.suren.autotest.platform.mapping.UserInfoMapper;
 import org.suren.autotest.platform.model.DataSourceInfo;
 import org.suren.autotest.platform.model.PageInfo;
 import org.suren.autotest.platform.model.SuiteRunnerInfo;
@@ -68,7 +68,7 @@ import org.xml.sax.SAXException;
 public class PageInfoController
 {
 	@Autowired
-	private UserMapper userMapper;
+	private UserInfoMapper userMapper;
 	@Autowired
 	private PageInfoMapper pageInfoMapper;
 	@Autowired

@@ -10,6 +10,13 @@
 	<name>Autotest Platform</name>
 	<url>http://surenpi.com</url>
 	
+	<description>自动化测试平台</description>
+	
+	<properties>
+		<spring.version>4.1.9.RELEASE</spring.version>
+		<spring.security.version>4.1.0.RELEASE</spring.security.version>
+	</properties>
+	
 	<build>
 		<finalName>phoenix</finalName>
 	</build>
@@ -28,7 +35,6 @@
 			</exclusions>
 		</dependency>
 		
-		
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
@@ -39,29 +45,41 @@
 		<!-- spring -->
 		<dependency>
 			<groupId>org.springframework</groupId>
-			<artifactId>spring-core</artifactId>
-			<version>4.1.9.RELEASE</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
 			<artifactId>spring-context</artifactId>
-			<version>4.1.9.RELEASE</version>
+			<version>${spring.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-webmvc</artifactId>
-			<version>4.1.9.RELEASE</version>
+			<version>${spring.version}</version>
 		</dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-jdbc</artifactId>
-			<version>4.1.9.RELEASE</version>
+			<version>${spring.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-oxm</artifactId>
-			<version>4.1.9.RELEASE</version>
+			<version>${spring.version}</version>
         </dependency>
+        <dependency>
+        	<groupId>org.springframework.security</groupId>
+        	<artifactId>spring-security-web</artifactId>
+        	<version>${spring.security.version}</version>
+        </dependency>
+        <dependency>
+        	<groupId>org.springframework.security</groupId>
+        	<artifactId>spring-security-config</artifactId>
+        	<version>${spring.security.version}</version>
+        </dependency>
+        <!-- 
+        <dependency>
+        	<groupId>org.springframework.security</groupId>
+        	<artifactId>spring-security-tablibs</artifactId>
+        	<version>${spring.security.version}</version>
+        </dependency>
+         -->
         
         <dependency>
         	<groupId>javax.servlet</groupId>
@@ -124,5 +142,4 @@
 		    <version>1.3.1</version>
 		</dependency>
 	</dependencies>
-	<description>自动化测试平台</description>
 </project>

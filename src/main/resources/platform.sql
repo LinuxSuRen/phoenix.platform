@@ -4,6 +4,8 @@ drop table if exists project_foucs;
 drop table if exists data_source_info;
 drop table if exists page_info;
 drop table if exists project;
+drop table if exists user_role_info;
+drop table if exists role_info;
 drop table if exists user_info;
 
 create table user_info (
@@ -14,6 +16,23 @@ create table user_info (
 	email varchar(100),
 	regist_time timestamp,
 	primary key (id)
+);
+
+create table role_info (
+	id varchar(36) not null,
+	name varchar(100) not null,
+	primary key (id)
+);
+
+create table user_role_info (
+	id varchar(36) not null,
+	user_id varchar(36) not null,
+	role_id varchar(36) not null,
+	primary key(id),
+	constraint user_role_info_2_user foreign key (user_id)
+	references user_info (id) on delete restrict,
+	constraint user_role_info_2_role foreign key (role_id)
+	references role_info (id) on delete restrict
 );
 
 create table project (
