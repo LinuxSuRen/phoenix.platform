@@ -27,6 +27,7 @@
             <span class="icon-bar"></span>
         </button>
         <a class="navbar-brand" href="list.su">刷新</a>
+        <a class="navbar-brand" href="<%=basePath %>/user_info/logout.su">退出</a>
     </div>
     <div class="collapse navbar-collapse" id="example-navbar-collapse">
         <ul class="nav navbar-nav">

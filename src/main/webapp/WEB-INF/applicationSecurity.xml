@@ -23,7 +23,7 @@
 		<csrf disabled="true" />
 		<form-login login-page="/user_info/login.su" login-processing-url="/user_info/login_process.su"
 			username-parameter="username" password-parameter="password"/>
-		<logout logout-success-url="/logout.jsp" logout-url="logout"
+		<logout logout-url="/user_info/logout.su" logout-success-url="/user_info/login.su"
 			invalidate-session="true" delete-cookies="JSESSIONID" />
 	</http>
 
