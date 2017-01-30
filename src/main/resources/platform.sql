@@ -11,16 +11,16 @@ drop table if exists user_info;
 create table user_info (
 	id varchar(36) not null,
 	nick_name varchar(100) not null,
-	login_name varchar(100) not null,
+	login_name varchar(100) not null unique,
 	password varchar(100) not null,
-	email varchar(100),
+	email varchar(100) unique,
 	regist_time timestamp,
 	primary key (id)
 );
 
 create table role_info (
 	id varchar(36) not null,
-	name varchar(100) not null,
+	name varchar(100) not null unique,
 	primary key (id)
 );
 
@@ -38,7 +38,7 @@ create table user_role_info (
 create table project (
 	id varchar(36) not null,
 	owner_id varchar(36),
-	name varchar(100),
+	name varchar(100) unique,
 	remark longtext,
 	create_time timestamp,
 	primary key (id),
@@ -49,7 +49,7 @@ create table project (
 create table page_info (
 	id varchar(36) not null,
 	project_id varchar(36) not null,
-	name varchar(100),
+	name varchar(100) unique,
 	content longtext,
 	primary key (id),
 	constraint page_info_2_project foreign key (project_id)
@@ -59,7 +59,7 @@ create table page_info (
 create table data_source_info (
 	id varchar(36) not null,
 	project_id varchar(36) not null,
-	name varchar(100),
+	name varchar(100) unique,
 	content longtext,
 	primary key(id),
 	constraint data_source_info_2_project foreign key (project_id)
@@ -69,7 +69,7 @@ create table data_source_info (
 create table suite_runner_info (
 	id varchar(36) not null,
 	project_id varchar(36) not null,
-	name varchar(100),
+	name varchar(100) unique,
 	content longtext,
 	primary key(id),
 	constraint suite_runner_info_2_project foreign key (project_id)

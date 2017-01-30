@@ -101,11 +101,11 @@ html,body {
 
 <body>
 <div class="box">
-		<div class="login-box">
-			<div class="login-title text-center">
-				<h1><small>登录</small></h1>
-			</div>
-			<div class="login-content ">
+	<div class="login-box">
+		<div class="login-title text-center">
+			<h1><small>登录</small></h1>
+		</div>
+		<div class="login-content ">
 			<div class="form">
 			<form action="<%=basePath %>/user_info/login_process.su" method="post">
 				<div class="form-group">
@@ -135,7 +135,7 @@ html,body {
 						</p>
 					</div>
 					<div class="col-xs-6 link">
-						<p class="text-center remove-margin"><small>还没注册?</small> <a href="javascript:void(0)" ><small>注册</small></a>
+						<p class="text-center remove-margin"><small>还没注册?</small> <a href="<%=basePath %>/user_info/regist.su" ><small>注册</small></a>
 						</p>
 					</div>
 				</div>

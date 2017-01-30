@@ -16,18 +16,15 @@
 
 package org.suren.autotest.platform.controller;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.suren.autotest.platform.mapping.UserInfoMapper;
+import org.suren.autotest.platform.model.UserInfo;
 
 /**
+ * 用户登录、注销、注册
  * @author suren
  * @date 2017年1月29日 下午1:45:38
  */
@@ -36,27 +33,51 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class UserInfoController
 {
 	@Autowired
-	private AuthenticationManager authenticationManager;
+	private UserInfoMapper userInfoMapper;
 	
+	/**
+	 * 跳转到登录页面
+	 * @return
+	 */
 	@RequestMapping("login")
 	public String login()
 	{
 		return "/user_info/login";
 	}
 	
-	@RequestMapping("login_process")
-	public String loginProcess(String username, String password,
-			HttpServletRequest request)
+	/**
+	 * 跳转到注册页面
+	 * @return
+	 */
+	@RequestMapping("regist")
+	public String regist()
 	{
-		Authentication authRequest = new UsernamePasswordAuthenticationToken(username, password);
+		return "/user_info/regist";
+	}
 	
-		Authentication authentication = authenticationManager.authenticate(authRequest);
-		SecurityContext context = SecurityContextHolder.getContext();
-		context.setAuthentication(authentication);
-		
-		request.getSession().setAttribute("SPRING_SECURITY_CONTEXT", context);
-		
-		return "/project/list.su";
+	/**
+	 * 用户注册
+	 * @param userInfo
+	 * @return
+	 */
+	@RequestMapping("registProcess")
+	public String registProcess(UserInfo userInfo,
+			Model model)
+	{
+		UserInfo existsUserInfo = userInfoMapper.getByNameOrMail(
+				userInfo.getLoginName(), userInfo.getEmail());
+		if(existsUserInfo == null)
+		{
+			userInfoMapper.save(userInfo);
+			
+			return "redirect:/user_info/login.su";
+		}
+		else
+		{
+			model.addAttribute("userInfo", existsUserInfo);
+			
+			return "redirect:/user_info/regist.su";
+		}
 	}
 	
 	@RequestMapping("logout")

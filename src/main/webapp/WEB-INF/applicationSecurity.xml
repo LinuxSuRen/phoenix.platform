@@ -11,6 +11,8 @@
 	<debug />
 	 -->
 	<http security="none" pattern="/user_info/login.su" />
+	<http security="none" pattern="/user_info/regist.su" />
+	<http security="none" pattern="/user_info/registProcess.su" />
 	<http security="none" pattern="/static/**" />
 	<http use-expressions="false" auto-config="true">
 		<intercept-url pattern="/**" access="ROLE_USER" />

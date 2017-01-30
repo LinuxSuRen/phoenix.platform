@@ -2,10 +2,22 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.suren.autotest.platform.mapping.UserInfoMapper">
 	<select id="getAll" resultType="UserInfo">
-		select * from users
+		select * from user_info
 	</select>
 	
 	<select id="getByName" resultType="UserInfo">
 		select * from user_info where login_name = #{loginName}
 	</select>
+	
+	<select id="getByNameOrMail" resultType="UserInfo">
+		select * from user_info where login_name = #{0} or email = #{1}
+	</select>
+	
+	<insert id="save">
+		<selectKey keyProperty="id" resultType="String" order="BEFORE">
+			SELECT UUID()
+		</selectKey>
+		insert into user_info (id, nick_name, login_name, password, email, regist_time)
+		values (#{id}, #{nickName}, #{loginName}, #{password}, #{email}, #{registTime}) 
+	</insert>
 </mapper>

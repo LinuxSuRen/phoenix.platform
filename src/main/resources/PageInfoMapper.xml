@@ -23,7 +23,6 @@
 		<selectKey keyProperty="id" resultType="String" order="BEFORE">
 			SELECT UUID()
 		</selectKey>
-		
 		insert into page_info(id, project_id, name, content)
 		values (#{id}, #{projectId}, #{name}, #{content})
 	</insert>
