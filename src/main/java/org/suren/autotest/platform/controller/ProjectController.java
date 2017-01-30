@@ -24,6 +24,7 @@ import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,6 +37,7 @@ import org.suren.autotest.platform.model.DataSourceInfo;
 import org.suren.autotest.platform.model.PageInfo;
 import org.suren.autotest.platform.model.Project;
 import org.suren.autotest.platform.model.SuiteRunnerInfo;
+import org.suren.autotest.platform.security.UserDetail;
 import org.suren.autotest.web.framework.code.Generator;
 import org.suren.autotest.web.framework.jdt.JDTUtils;
 import org.suren.autotest.web.framework.util.StringUtils;
@@ -78,6 +80,15 @@ public class ProjectController implements ApplicationContextAware
 	public String edit(Model model, String id)
 	{
 		Project proForModel = projectMapper.getById(id);
+		if(proForModel == null)
+		{
+			UserDetail userDetail = (UserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			String ownerId = userDetail.getId();
+			
+			proForModel = new Project();
+			proForModel.setOwnerId(ownerId);
+		}
+		
 		model.addAttribute("project", proForModel);
 		
 		return "project_edit";
@@ -239,7 +250,7 @@ public class ProjectController implements ApplicationContextAware
 		return "redirect:/project/list.su";
 	}
 
-	ApplicationContext applicationContext;
+	private ApplicationContext applicationContext;
 	
 	@Override
 	public void setApplicationContext(ApplicationContext applicationContext)

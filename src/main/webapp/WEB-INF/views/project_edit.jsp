@@ -46,6 +46,7 @@
 </div>
 
 <form class="form-horizontal" action="save.su" role="form" method="post">
+	<input type="hidden" name="ownerId" value="${project.ownerId }" />
 	<input type="hidden" name="id" value="${project.id }" />
 	<div class="form-group">
 		<label class="col-sm-2 control-label">项目名称</label>

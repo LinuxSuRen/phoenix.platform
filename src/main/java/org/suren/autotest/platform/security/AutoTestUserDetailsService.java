@@ -19,14 +19,9 @@ package org.suren.autotest.platform.security;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.http.auth.UsernamePasswordCredentials;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -65,6 +60,7 @@ public class AutoTestUserDetailsService implements UserDetailsService
 		
 		UserDetail userDetail = new UserDetail(username, password, enabled, accountNonExpired,
 				credentialsNonExpired, accountNonLocked, authorities);
+		userDetail.setId(userInfo.getId());
 		
 		return userDetail;
 	}

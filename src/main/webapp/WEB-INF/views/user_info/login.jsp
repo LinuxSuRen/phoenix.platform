@@ -9,10 +9,8 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1.0" />
-<title>项目列表</title>
+<title>登录</title>
 <link href="<%=basePath %>/static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body>
 <script src="<%=basePath %>/static/jquery/jquery.min.js"></script>
 <script src="<%=basePath %>/static/bootstrap/js/bootstrap.min.js"></script>
 
@@ -99,7 +97,6 @@ html,body {
 	font-size: 16px !important;
 }
 </style>
-
 </head>
 
 <body>
