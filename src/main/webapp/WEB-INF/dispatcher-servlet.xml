@@ -24,7 +24,7 @@
         class="org.springframework.context.support.ConversionServiceFactoryBean">
         <property name="converters">
             <set>
-                <bean class="org.suren.autotest.platform.controller.Suren" />
+                <bean class="org.suren.autotest.platform.converter.EnumConverterFactory" />
             </set>
         </property>
     </bean>
