@@ -347,7 +347,21 @@ public class PageInfoController
 			else
 			{
 				dataSourceList = autotest.getDataSources().getDataSource();
+				for(int i = 0; i < dataSourceList.size();)
+				{
+					DataSourceType dataSourceType = dataSourceList.get(i);
+					
+					if(StringUtils.isBlank(dataSourceType.getName()))
+					{
+						dataSourceList.remove(i);
+					}
+					else
+					{
+						 i++;
+					}
+				}
 			}
+			
 			for(PageType pageType : autotest.getPages().getPage())
 			{
 				boolean notFound = true;
@@ -361,7 +375,7 @@ public class PageInfoController
 					}
 				}
 				
-				if(notFound)
+				if(notFound && StringUtils.isNotBlank(dataSourceName))
 				{
 					DataSourceType dataSourceType = new DataSourceType();
 					dataSourceType.setName(dataSourceName);
