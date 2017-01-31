@@ -15,8 +15,15 @@
 		<param-value>/WEB-INF/application*.xml</param-value>
 	</context-param>
 	
-	<!-- 
-	 -->
+	<filter>
+		<filter-name>autoTestFilter</filter-name>
+		<filter-class>org.suren.autotest.platform.filter.AutoTestFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>autoTestFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
 	<filter>
 		<filter-name>springSecurityFilterChain</filter-name>
 		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>

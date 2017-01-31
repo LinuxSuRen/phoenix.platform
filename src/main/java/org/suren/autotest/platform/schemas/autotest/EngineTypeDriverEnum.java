@@ -34,50 +34,18 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "engineTypeDriverEnum")
 @XmlEnum
 public enum EngineTypeDriverEnum {
-
-
-    /**
-     * 
-     * 						IEä¯ÀÀÆ÷¡£
-     * 					
-     * 
-     */
+	@XmlEnumValue("chrome")
+	CHROME("chrome"),
+	
     @XmlEnumValue("ie")
     IE("ie"),
 
-    /**
-     * 
-     * 						¹È¸è£¨Chrome£©ä¯ÀÀÆ÷¡£
-     * 					
-     * 
-     */
-    @XmlEnumValue("chrome")
-    CHROME("chrome"),
-
-    /**
-     * 
-     * 						»ðºü£¨Firefox£©ä¯ÀÀÆ÷¡£
-     * 					
-     * 
-     */
     @XmlEnumValue("firefox")
     FIREFOX("firefox"),
 
-    /**
-     * 
-     * 						Å·Åó£¨Opera£©ä¯ÀÀÆ÷¡£
-     * 					
-     * 
-     */
     @XmlEnumValue("opera")
     OPERA("opera"),
 
-    /**
-     * 
-     * 						Safariä¯ÀÀÆ÷¡£
-     * 					
-     * 
-     */
     @XmlEnumValue("safari")
     SAFARI("safari");
     private final String value;
