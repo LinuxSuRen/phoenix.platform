@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.suren.autotest.platform.mapping.SuiteRunnerLogMapper">
+	<insert id="save">
+		<selectKey keyProperty="id" resultType="String" order="BEFORE">
+			SELECT UUID()
+		</selectKey>
+		insert into suite_runner_log(id, suite_runner_info_id, trigger_user_id,
+			message, begin_time, end_time
+		) values (#{id}, #{suiteRunnerInfoId}, #{triggerUserId}, #{message},
+			#{beginTime}, #{endTime}
+		)
+	</insert>
+	
+	<delete id="delBySuiteRunnerId">
+		delete from suite_runner_log where suite_runner_info_id = #{suiteRunnerInfoId}
+	</delete>
+	
+	<delete id="delByTriggerUserId">
+		delete from suite_runner_log where trigger_user_id = #{triggerUserId}
+	</delete>
+</mapper>
