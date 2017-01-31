@@ -1,4 +1,5 @@
 drop table if exists options;
+drop table if exists suite_runner_log;
 drop table if exists suite_runner_info;
 drop table if exists project_foucs;
 drop table if exists data_source_info;
@@ -74,6 +75,17 @@ create table suite_runner_info (
 	primary key(id),
 	constraint suite_runner_info_2_project foreign key (project_id)
 	references project (id) on delete restrict
+);
+
+create table suite_runner_log (
+	id varchar(36) not null,
+	suite_runner_info_id varchar(36) not null,
+	message varchar(300),
+	begin_time timestamp not null,
+	end_time timestamp not null,
+	primary key(id),
+	constraint suite_runner_log_2_info foreign key (suite_runner_info_id)
+	references suite_runner_info (id) on delete restrict
 );
 
 create table options (
