@@ -11,10 +11,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>项目列表</title>
 <link href="<%=basePath %>/static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body>
 <script src="<%=basePath %>/static/jquery/jquery.min.js"></script>
 <script src="<%=basePath %>/static/bootstrap/js/bootstrap.min.js"></script>
+</head>
+<body>
 
 <nav class="navbar navbar-default" role="navigation">
     <div class="container-fluid">
