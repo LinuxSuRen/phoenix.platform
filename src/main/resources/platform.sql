@@ -36,6 +36,16 @@ create table user_role_info (
 	references role_info (id) on delete restrict
 );
 
+create table group_info (
+	id varchar(36) not null,
+	owner_id varchar(36) not null,
+	name varchar(100) not null,
+	remark varchar(300),
+	primary key(id),
+	constraint group_info_2_user_info foreign key (owner_id)
+	references user_info (id) on delete restrict
+);
+
 create table project (
 	id varchar(36) not null,
 	owner_id varchar(36),
@@ -44,6 +54,18 @@ create table project (
 	create_time timestamp,
 	primary key (id),
 	constraint project_2_user_info foreign key (owner_id)
+	references user_info (id) on delete restrict
+);
+
+create table project_foucs (
+	id varchar(36) not null,
+	project_id varchar(36) not null,
+	user_id varchar(36) not null,
+	focus_time timestamp not null,
+	primary key(id),
+	constraint project_foucs_2_project foreign key (project_id)
+	references project (id) on delete restrict,
+	constraint project_foucs_2_user_info foreign key (user_id)
 	references user_info (id) on delete restrict
 );
 
@@ -80,24 +102,20 @@ create table suite_runner_info (
 create table suite_runner_log (
 	id varchar(36) not null,
 	suite_runner_info_id varchar(36) not null,
-	message varchar(300),
+	trigger_user_id varchar(36) not null,
+	message longtext,
 	begin_time timestamp not null,
 	end_time timestamp not null,
 	primary key(id),
 	constraint suite_runner_log_2_info foreign key (suite_runner_info_id)
-	references suite_runner_info (id) on delete restrict
+	references suite_runner_info (id) on delete restrict,
+	constraint suite_runner_log_2_user_info foreign key (trigger_user_id)
+	references user_info (id) on delete restrict
 );
 
 create table options (
 	id varchar(36) not null,
-	opt_key varchar(100),
+	opt_key varchar(100) not null unique,
 	opt_value varchar(300),
 	primary key (id)
-);
-
-create table project_foucs (
-	id varchar(36),
-	project_id varchar(36),
-	user_id varchar(36),
-	primary key(id)
 );
