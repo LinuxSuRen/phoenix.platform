@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<taglib version="2.0" xmlns="http://java.sun.com/xml/ns/j2ee"
+	xmlns:xml="http://www.w3.org/XML/1998/namespace" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-jsptaglibrary_2_0.xsd ">
+	<description>desc</description>
+	<display-name>dd</display-name>
+	<tlib-version>0.0</tlib-version>
+	<short-name>su</short-name>
+	<uri>http://surenpi.com/suren</uri>
+	
+	<tag>
+		<description>descript tag</description>
+		<name>link</name>
+		<tag-class>org.suren.autotest.platform.servlet.LinkTag</tag-class>
+		<body-content>JSP</body-content>
+		<attribute>
+			<name>href</name>
+			<required>true</required>
+		</attribute>
+	</tag>
+	
+	<tag>
+		<description>12</description>
+		<name>script</name>
+		<tag-class>org.suren.autotest.platform.servlet.ScriptTag</tag-class>
+		<attribute>
+			<name>src</name>
+			<required>true</required>
+		</attribute>
+	</tag>
+</taglib>

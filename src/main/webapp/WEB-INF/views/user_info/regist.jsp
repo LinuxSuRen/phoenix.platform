@@ -10,9 +10,9 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1.0" />
 <title>注册</title>
-<link href="<%=basePath %>/static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-<script src="<%=basePath %>/static/jquery/jquery.min.js"></script>
-<script src="<%=basePath %>/static/bootstrap/js/bootstrap.min.js"></script>
+<su:link href="/static/bootstrap/css/bootstrap.min.css"></su:link>
+<su:script src="/static/jquery/jquery.min.js"></su:script>
+<su:script src="/static/bootstrap/js/bootstrap.min.js"></su:script>
 </head>
 
 <body>
