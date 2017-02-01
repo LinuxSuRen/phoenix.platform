@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ page isELIgnored="false"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%String basePath=request.getContextPath(); %>
+<%@ taglib uri="/META-INF/suren.tld" prefix="su" %>
 <!DOCTYPE html>
 <html lang="zh-cn">
 <head>
@@ -10,9 +10,9 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>项目列表</title>
-<link href="<%=basePath %>/static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-<script src="<%=basePath %>/static/jquery/jquery.min.js"></script>
-<script src="<%=basePath %>/static/bootstrap/js/bootstrap.min.js"></script>
+<su:link href="/static/bootstrap/css/bootstrap.min.css"></su:link>
+<su:script src="/static/jquery/jquery.min.js"></su:script>
+<su:script src="/static/bootstrap/js/bootstrap.min.js"></su:script>
 </head>
 <body>
 
@@ -27,7 +27,7 @@
             <span class="icon-bar"></span>
         </button>
         <a class="navbar-brand" href="list.su">刷新</a>
-        <a class="navbar-brand" href="<%=basePath %>/user_info/logout.su">退出</a>
+        <su:anchor cssClass="navbar-brand" href="/user_info/logout.su" innerHtml="退出"></su:anchor>
     </div>
     <div class="collapse navbar-collapse" id="example-navbar-collapse">
         <ul class="nav navbar-nav">

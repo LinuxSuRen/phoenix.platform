@@ -17,6 +17,10 @@
 			<name>href</name>
 			<required>true</required>
 		</attribute>
+		<attribute>
+			<name>rel</name>
+			<required>false</required>
+		</attribute>
 	</tag>
 	
 	<tag>
@@ -26,6 +30,108 @@
 		<attribute>
 			<name>src</name>
 			<required>true</required>
+		</attribute>
+		<attribute>
+			<name>type</name>
+			<required>false</required>
+		</attribute>
+	</tag>
+	
+	<tag>
+		<description></description>
+		<name>anchor</name>
+		<tag-class>org.suren.autotest.platform.servlet.AnchorTag</tag-class>
+		<body-content>JSP</body-content>
+		<attribute>
+			<name>href</name>
+			<required>true</required>
+		</attribute>
+		<attribute>
+			<name>cssClass</name>
+			<required>false</required>
+		</attribute>
+		<attribute>
+			<name>innerHtml</name>
+			<required>false</required>
+		</attribute>
+		
+		<attribute>
+			<description>HTML Standard Attribute</description>
+			<name>lang</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description>HTML Standard Attribute</description>
+			<name>title</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description>HTML Standard Attribute</description>
+			<name>dir</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description>HTML Event Attribute</description>
+			<name>onclick</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description>HTML Event Attribute</description>
+			<name>ondblclick</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description>HTML Event Attribute</description>
+			<name>onmousedown</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description>HTML Event Attribute</description>
+			<name>onmouseup</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description>HTML Event Attribute</description>
+			<name>onmouseover</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description>HTML Event Attribute</description>
+			<name>onmousemove</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description>HTML Event Attribute</description>
+			<name>onmouseout</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description>HTML Event Attribute</description>
+			<name>onkeypress</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description>HTML Event Attribute</description>
+			<name>onkeyup</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description>HTML Event Attribute</description>
+			<name>onkeydown</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
 		</attribute>
 	</tag>
 </taglib>

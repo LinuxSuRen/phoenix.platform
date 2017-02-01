@@ -16,77 +16,31 @@
 
 package org.suren.autotest.platform.servlet;
 
-import java.io.IOException;
-
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspException;
-import javax.servlet.jsp.JspWriter;
-import javax.servlet.jsp.PageContext;
-import javax.servlet.jsp.tagext.Tag;
-import javax.servlet.jsp.tagext.TagSupport;
+
+import org.springframework.web.servlet.tags.form.TagWriter;
+import org.suren.autotest.web.framework.util.StringUtils;
 
 /**
  * @author suren
  * @date 2017年1月31日 上午11:19:07
  */
-public class ScriptTag extends TagSupport
+public class ScriptTag extends AbstractContextHtmlElementTag
 {
 	/**  */
 	private static final long	serialVersionUID	= 1L;
 	
 	private String src;
-
-	private HttpServletRequest	request;
-	private JspWriter	out;
-	
-	private StringBuffer buf = new StringBuffer();
-	
-	@Override
-	public void setPageContext(PageContext pageContext)
-	{
-		out = pageContext.getOut();
-		request = (HttpServletRequest) pageContext.getRequest();
-		super.setPageContext(pageContext);
-	}
+	private String type;
 
 	@Override
-	public void setParent(Tag t)
+	protected int writeTagContent(TagWriter tagWriter) throws JspException
 	{
-		super.setParent(t);
-	}
-
-	@Override
-	public int doStartTag() throws JspException
-	{
-		String basePath = request.getContextPath();
-		
-		buf.append("<script src=\"");
-		buf.append(basePath);
-		buf.append(src);
-		buf.append("\"");
-		buf.append("></script>");
-		return super.doStartTag();
-	}
-
-	@Override
-	public int doEndTag() throws JspException
-	{
-		try
-		{
-			out.write(buf.toString());
-		}
-		catch (IOException e)
-		{
-			e.printStackTrace();
-		}
-		
-		return super.doEndTag();
-	}
-
-	@Override
-	public void release()
-	{
-		super.release();
+		tagWriter.startTag("script");
+		tagWriter.writeAttribute("src", getContextUrl(src));
+		tagWriter.writeAttribute("type", StringUtils.isBlank(type) ? "text/javascript" : type);
+		tagWriter.endTag(true);
+		return 0;
 	}
 
 	/**
@@ -103,6 +57,16 @@ public class ScriptTag extends TagSupport
 	public void setSrc(String src)
 	{
 		this.src = src;
+	}
+
+	public String getType()
+	{
+		return type;
+	}
+
+	public void setType(String type)
+	{
+		this.type = type;
 	}
 
 }

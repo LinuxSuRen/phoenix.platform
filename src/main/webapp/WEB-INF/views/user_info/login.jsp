@@ -3,6 +3,7 @@
 <%@ page isELIgnored="false"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="/META-INF/suren.tld" prefix="su" %>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%String basePath=request.getContextPath(); %>
 <!DOCTYPE html>
 <html lang="zh-cn">
@@ -113,7 +114,8 @@ html,body {
 					<div class="col-xs-12  ">
 						<div class="input-group">
 							<span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
-							<input type="text" id="username" name="username" class="form-control" placeholder="用户名">
+							<input type="text" id="username" name="username" class="form-control"
+								placeholder="用户名" required="required"/>
 						</div>
 					</div>
 				</div>
@@ -121,7 +123,8 @@ html,body {
 					<div class="col-xs-12  ">
 						<div class="input-group">
 							<span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
-							<input type="text" id="password" name="password" class="form-control" placeholder="密码">
+							<input type="text" id="password" name="password" class="form-control"
+								placeholder="密码" required="required" />
 						</div>
 					</div>
 				</div>
@@ -136,7 +139,8 @@ html,body {
 						</p>
 					</div>
 					<div class="col-xs-6 link">
-						<p class="text-center remove-margin"><small>还没注册?</small> <a href="<%=basePath %>/user_info/regist.su" ><small>注册</small></a>
+						<p class="text-center remove-margin"><small>还没注册?</small>
+						<su:anchor href="/user_info/regist.su" innerHtml="<small>注册</small>"></su:anchor>
 						</p>
 					</div>
 				</div>
@@ -147,5 +151,11 @@ html,body {
 </div>
 
 </body>
+
+<script type="text/javascript">
+$(function(){
+    $('form').bootstrapValidator();
+});
+</script>
 
 </html>

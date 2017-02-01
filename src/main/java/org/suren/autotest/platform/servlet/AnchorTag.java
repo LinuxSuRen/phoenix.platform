@@ -18,30 +18,36 @@ package org.suren.autotest.platform.servlet;
 
 import javax.servlet.jsp.JspException;
 
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.servlet.tags.form.TagWriter;
-import org.suren.autotest.web.framework.util.StringUtils;
 
 /**
  * @author suren
- * @date 2017年1月31日 上午10:34:05
+ * @date 2017年2月1日 下午7:07:01
  */
-public class LinkTag extends AbstractContextHtmlElementTag
+public class AnchorTag extends AbstractContextHtmlElementTag
 {
 
 	/**  */
 	private static final long	serialVersionUID	= 1L;
 	
 	private String href;
-	private String rel;
+	private String innerHtml;
 
 	@Override
 	protected int writeTagContent(TagWriter tagWriter) throws JspException
 	{
-		tagWriter.startTag("link");
+		tagWriter.startTag("a");
 		tagWriter.writeAttribute("href", getContextUrl(href));
-		tagWriter.writeAttribute("rel", StringUtils.isBlank(rel) ? "stylesheet" : rel);
+		writeOptionalAttributes(tagWriter);
+		tagWriter.appendValue(innerHtml);
 		tagWriter.endTag(true);
-		return 0;
+		return EVAL_PAGE;
+	}
+	
+	@Override
+	protected String resolveCssClass() throws JspException {
+		return ObjectUtils.getDisplayString(evaluate("cssClass", getCssClass()));
 	}
 
 	public String getHref()
@@ -54,20 +60,14 @@ public class LinkTag extends AbstractContextHtmlElementTag
 		this.href = href;
 	}
 
-	/**
-	 * @return the rel
-	 */
-	public String getRel()
+	public String getInnerHtml()
 	{
-		return rel;
+		return innerHtml;
 	}
 
-	/**
-	 * @param rel the rel to set
-	 */
-	public void setRel(String rel)
+	public void setInnerHtml(String innerHtml)
 	{
-		this.rel = rel;
+		this.innerHtml = innerHtml;
 	}
 
 }
