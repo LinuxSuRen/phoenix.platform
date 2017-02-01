@@ -34,6 +34,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.suren.autotest.platform.mapping.SuiteRunnerInfoMapper;
 import org.suren.autotest.platform.mapping.SuiteRunnerLogMapper;
@@ -191,8 +192,9 @@ public class SuiteRunnerInfoController
 		return "redirect:/suite_runner_info/list.su?projectId=" + suiteRunnerInfo.getProjectId();
 	}
 	
+	@ResponseBody
 	@RequestMapping("run.su")
-	public String suiteRunnerToRun(Model model, String id)
+	public SuiteRunnerLog suiteRunnerToRun(Model model, String id)
 	{
 		Date beginTime = new Date();
 		
@@ -224,7 +226,7 @@ public class SuiteRunnerInfoController
 			suiteRunnerLogMapper.save(suiteRunnerLog);
 		}
 		
-		return "redirect:/suite_runner_info/list.su?projectId=" + suiteRunnerInfo.getProjectId();
+		return suiteRunnerLog;
 	}
 	
 	public static void main(String[] args)

@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ page isELIgnored="false"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="/META-INF/suren.tld" prefix="su" %>
 <%String basePath=request.getContextPath(); %>
 <!DOCTYPE html>
 <html lang="zh-cn">
@@ -10,11 +11,11 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>测试套件列表</title>
-<link href="<%=basePath %>/static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<su:link href="/static/bootstrap/css/bootstrap.min.css"></su:link>
+<su:script src="/static/jquery/jquery.min.js"></su:script>
+<su:script src="/static/bootstrap/js/bootstrap.min.js"></su:script>
 </head>
 <body>
-<script src="<%=basePath %>/static/jquery/jquery.min.js"></script>
-<script src="<%=basePath %>/static/bootstrap/js/bootstrap.min.js"></script>
 
 <nav class="navbar navbar-default" role="navigation">
     <div class="container-fluid">
@@ -96,11 +97,40 @@
 		</div><!-- /.modal-content -->
 	</div><!-- /.modal -->
 </div>
+	
+<div class="modal fade" id="runInfoDialogId" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+					&times;
+				</button>
+				<h4 class="modal-title">
+					信息
+				</h4>
+			</div>
+			<div class="modal-body">
+				<div id="messageBody"></div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal -->
+</div>
 
 <script type="text/javascript">
 function debugRun(id){
 	$.post('<%=basePath %>/project/deploy.su?id=${projectId }', function(){
-		$.post('run.su?id=' + id);
+		$.post('run.su?id=' + id, function(data){
+			if(data.message && data.message != ''){
+				$('#messageBody').html(data.message);
+			}else{
+				$('#messageBody').html("成功！");
+			}
+			
+			$('#runInfoDialogId').modal();
+		});
 	});
 }
 </script>
