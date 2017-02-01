@@ -20,6 +20,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.ServletContext;
@@ -29,18 +30,22 @@ import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 import org.suren.autotest.platform.mapping.SuiteRunnerInfoMapper;
+import org.suren.autotest.platform.mapping.SuiteRunnerLogMapper;
 import org.suren.autotest.platform.model.SuiteRunnerInfo;
+import org.suren.autotest.platform.model.SuiteRunnerLog;
 import org.suren.autotest.platform.schemas.suite.ActionEnum;
 import org.suren.autotest.platform.schemas.suite.ActionType;
 import org.suren.autotest.platform.schemas.suite.ErrorLinesEnum;
 import org.suren.autotest.platform.schemas.suite.LackLinesEnum;
 import org.suren.autotest.platform.schemas.suite.Suite;
 import org.suren.autotest.platform.schemas.suite.SuitePageType;
+import org.suren.autotest.platform.security.UserDetail;
 import org.suren.autotest.web.framework.core.suite.SuiteRunner;
 import org.suren.autotest.web.framework.util.StringUtils;
 
@@ -54,6 +59,8 @@ public class SuiteRunnerInfoController
 {
 	@Autowired
 	private SuiteRunnerInfoMapper suiteRunnerInfoMapper;
+	@Autowired
+	private SuiteRunnerLogMapper suiteRunnerLogMapper;
 
 	@Autowired
 	private ServletContext servletContext;
@@ -187,10 +194,35 @@ public class SuiteRunnerInfoController
 	@RequestMapping("run.su")
 	public String suiteRunnerToRun(Model model, String id)
 	{
+		Date beginTime = new Date();
+		
+		SuiteRunnerLog suiteRunnerLog = new SuiteRunnerLog();
+		suiteRunnerLog.setBeginTime(beginTime);
+		suiteRunnerLog.setSuiteRunnerInfoId(id);
+		
+		//用户信息
+		UserDetail userDetail = (UserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		String ownerId = userDetail.getId();
+		suiteRunnerLog.setTriggerUserId(ownerId);
+		
 		SuiteRunnerInfo suiteRunnerInfo = suiteRunnerInfoMapper.getById(id);
-		File runnerFile = new File(servletContext.getRealPath("/deploy"), suiteRunnerInfo.getName() + ".xml");
+		File runnerFile = new File(servletContext.getRealPath("/deploy"),
+				suiteRunnerInfo.getName() + ".xml");
 
-		SuiteRunner.runFromFile(runnerFile);
+		try
+		{
+			SuiteRunner.runFromFile(runnerFile);
+		}
+		catch(Exception e)
+		{
+			suiteRunnerLog.setMessage(e.getMessage());
+		}
+		finally
+		{
+			suiteRunnerLog.setEndTime(new Date());
+			
+			suiteRunnerLogMapper.save(suiteRunnerLog);
+		}
 		
 		return "redirect:/suite_runner_info/list.su?projectId=" + suiteRunnerInfo.getProjectId();
 	}
