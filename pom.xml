@@ -12,6 +12,23 @@
 	
 	<description>自动化测试平台</description>
 	
+	<licenses>
+		<license>
+			<name>The Apache Software License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+	
+	<developers>
+		<developer>
+			<id>suren</id>
+			<name>SuRen</name>
+			<email>zxjlwt@126.com</email>
+			<url>http://surenpi.com</url>
+		</developer>
+	</developers>
+	
 	<properties>
 		<spring.version>4.1.9.RELEASE</spring.version>
 		<spring.security.version>4.1.0.RELEASE</spring.security.version>
@@ -19,6 +36,15 @@
 	
 	<build>
 		<finalName>phoenix</finalName>
+		<plugins>
+	      <plugin>
+	        <artifactId>maven-compiler-plugin</artifactId>
+	        <configuration>
+	          <source>1.7</source>
+	          <target>1.7</target>
+	        </configuration>
+	      </plugin>
+	    </plugins>
 	</build>
 
 	<dependencies>
