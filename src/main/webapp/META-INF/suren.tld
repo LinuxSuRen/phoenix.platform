@@ -45,6 +45,7 @@
 		<attribute>
 			<name>href</name>
 			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
 		</attribute>
 		<attribute>
 			<name>cssClass</name>
