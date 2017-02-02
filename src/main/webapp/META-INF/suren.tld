@@ -135,4 +135,14 @@
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>
 	</tag>
+	
+	<tag>
+		<description>sd</description>
+		<tag-class>org.suren.autotest.platform.servlet.DialogTag</tag-class>
+		<name>dialog</name>
+		<attribute>
+			<name>dialogId</name>
+			<required>true</required>
+		</attribute>
+	</tag>
 </taglib>
