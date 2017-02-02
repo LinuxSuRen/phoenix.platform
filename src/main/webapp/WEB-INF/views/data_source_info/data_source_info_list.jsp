@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ page isELIgnored="false"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="/META-INF/suren.tld" prefix="su" %>
 <%String basePath=request.getContextPath(); %>
 <!DOCTYPE html>
 <html lang="zh-cn">
@@ -10,11 +11,11 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>数据源列表</title>
-<link href="<%=basePath %>/static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<su:link href="/static/bootstrap/css/bootstrap.min.css"></su:link>
+<su:script src="/static/jquery/jquery.min.js"></su:script>
+<su:script src="/static/bootstrap/js/bootstrap.min.js"></su:script>
 </head>
 <body>
-<script src="<%=basePath %>/static/jquery/jquery.min.js"></script>
-<script src="<%=basePath %>/static/bootstrap/js/bootstrap.min.js"></script>
 
 <nav class="navbar navbar-default" role="navigation">
     <div class="container-fluid">
@@ -64,7 +65,7 @@
 			<td>${dataSourceInfo.name }</td>
 			<td>
 				<a href="edit.su?id=${dataSourceInfo.id }">编辑</a>
-				<a href="del.su?id=${dataSourceInfo.id }">删除</a>
+				<a href="#" data-href="del.su?id=${dataSourceInfo.id }" data-toggle="modal" data-target="#delDialogId">删除</a>
 			</td>
 		</tr>
 		</c:forEach>
@@ -94,5 +95,33 @@
 		</div><!-- /.modal-content -->
 	</div><!-- /.modal -->
 </div>
+	
+<div class="modal fade" id="delDialogId" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+					&times;
+				</button>
+				<h4 class="modal-title">
+					确认
+				</h4>
+			</div>
+			<div class="modal-body">
+				<div class="alert alert-warning">确认删除？</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+				<a class="btn btn-danger btn-ok">确认</a>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal -->
+</div>
+
+<script type="text/javascript">
+$('#delDialogId').on('show.bs.modal', function(e) {
+	$(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
+});
+</script>
 
 </body>
