@@ -65,7 +65,7 @@
 			<td>${pageInfo.name }</td>
 			<td>
 				<a href="test.su?id=${pageInfo.id }">编辑</a>
-				<a href="del.su?id=${pageInfo.id }">删除</a>
+				<a href="#" data-href="del.su?id=${pageInfo.id }" data-toggle="modal" data-target="#pageInfoDelDialogId">删除</a>
 			</td>
 		</tr>
 		</c:forEach>
@@ -95,5 +95,7 @@
 		</div><!-- /.modal-content -->
 	</div><!-- /.modal -->
 </div>
+
+<su:dialog dialogId="pageInfoDelDialogId"></su:dialog>
 
 </body>

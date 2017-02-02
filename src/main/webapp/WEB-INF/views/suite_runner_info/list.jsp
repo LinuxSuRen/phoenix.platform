@@ -67,7 +67,7 @@
 				<a href="run.su?id=${item.id }">运行</a>
 				<a href="#" onclick="debugRun('${item.id }')">调试</a>
 				<a href="edit.su?id=${item.id }">编辑</a>
-				<a href="del.su?id=${item.id }">删除</a>
+				<a href="#" data-href="del.su?id=${item.id }" data-toggle="modal" data-target="#suiteRunnerInfoDelDialogId">删除</a>
 			</td>
 		</tr>
 		</c:forEach>
@@ -118,6 +118,8 @@
 		</div><!-- /.modal-content -->
 	</div><!-- /.modal -->
 </div>
+
+<su:dialog dialogId="suiteRunnerInfoDelDialogId"></su:dialog>
 
 <script type="text/javascript">
 function debugRun(id){
