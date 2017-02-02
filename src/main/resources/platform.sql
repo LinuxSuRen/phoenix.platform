@@ -82,7 +82,7 @@ create table page_info (
 create table data_source_info (
 	id varchar(36) not null,
 	project_id varchar(36) not null,
-	name varchar(100) unique,
+	name varchar(100),
 	content longtext,
 	primary key(id),
 	constraint data_source_info_2_project foreign key (project_id)
