@@ -16,6 +16,9 @@
 <su:script src="/static/jquery/jquery.min.js"></su:script>
 <su:script src="/static/bootstrap/js/bootstrap.min.js"></su:script>
 
+<su:link href="/static/bootstrapValidator/css/bootstrapValidator.css"></su:link>
+<su:script src="/static/bootstrapValidator/js/bootstrapValidator.js"></su:script>
+
 <style type="text/css">
 html,body {
 	height: 100%;
