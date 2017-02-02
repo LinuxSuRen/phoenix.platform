@@ -64,11 +64,13 @@
 			<td>${project.remark }</td>
 			<td>
 				<a href="edit.su?id=${project.id }">编辑</a>
-				<a href="del.su?id=${project.id }">删除</a>
+				<a href="#" data-href="del.su?id=${project.id }" data-toggle="modal" data-target="#projectDelDialogId">删除</a>
 			</td>
 		</tr>
 		</c:forEach>
 	</tbody>
 </table>
+
+<su:dialog dialogId="projectDelDialogId"></su:dialog>
 
 </body>
