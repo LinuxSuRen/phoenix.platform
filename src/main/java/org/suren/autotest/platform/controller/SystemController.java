@@ -29,8 +29,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.suren.autotest.platform.model.SystemConf;
 import org.suren.autotest.web.framework.log.Image4SearchLog;
 import org.suren.autotest.web.framework.log.LoggerConstants;
+import org.suren.autotest.web.framework.util.EncryptorUtil;
 
 /**
  * @author suren
@@ -48,13 +50,17 @@ public class SystemController
 	{
 		File file = image4SearchLog.getOutputFile();
 		
-		model.addAttribute("file", file.getAbsolutePath());
+		SystemConf sysConf = new SystemConf();
+		sysConf.setGifPath(file.getAbsolutePath());
+		sysConf.setSecurtyKey(EncryptorUtil.getSecretKey());
+		
+		model.addAttribute("sysConf", sysConf);
 		
 		return "sys/sys_edit";
 	}
 	
 	@RequestMapping("save")
-	public String edit(Model model, String file)
+	public String edit(Model model, SystemConf sysConf)
 	{
 		URL url = this.getClass().getClassLoader().getResource(LoggerConstants.IMG_LOG_CONF_FILE_NAME);
 		if(url != null)
@@ -65,7 +71,26 @@ public class SystemController
 				Properties pro = new Properties();
 				pro.load(input);
 				
-				pro.setProperty(LoggerConstants.IMG_LOG_DIR, file);
+				pro.setProperty(LoggerConstants.IMG_LOG_DIR, sysConf.getGifPath());
+				
+				pro.store(out, "");
+			}
+			catch (IOException e)
+			{
+				e.printStackTrace();
+			}
+		}
+		
+		url = this.getClass().getClassLoader().getResource(EncryptorUtil.ENCRYPT_FILE);
+		if(url != null)
+		{
+			try(InputStream input = url.openStream();
+					OutputStream out = new FileOutputStream(URLDecoder.decode(url.getFile(), "utf-8")))
+			{
+				Properties pro = new Properties();
+				pro.load(input);
+				
+				pro.setProperty(EncryptorUtil.ENCRYPT_KEY, sysConf.getSecurtyKey());
 				
 				pro.store(out, "");
 			}

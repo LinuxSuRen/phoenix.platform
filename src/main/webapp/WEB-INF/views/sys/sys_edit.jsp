@@ -21,11 +21,15 @@
 	<div class="form-group">
 		<label class="col-sm-2 control-label">Gif图片路径</label>
 		<div class="col-sm-3">
-	    	<input name="file" value="${file }" class="form-control" type="input" />
+	    	<input name="gifPath" value="${sysConf.gifPath }" class="form-control" type="input" />
+		</div>
+		<label class="col-sm-2 control-label">密钥</label>
+		<div class="col-sm-3">
+	    	<input name="securtyKey" value="${sysConf.securtyKey }" class="form-control" type="password" />
 		</div>
 	</div>
 	
-	<button type="submit" class="btn btn-default">保存</button>
+	<button type="submit" class="btn btn-primary">保存</button>
 </form>
 
 </body>
