@@ -67,6 +67,7 @@
 				<a href="run.su?id=${item.id }">运行</a>
 				<a href="#" onclick="debugRun('${item.id }')">调试</a>
 				<a href="edit.su?id=${item.id }">编辑</a>
+				<a href="<%=basePath %>/suite_runner_log/list.su?runnerId=${item.id }">日志</a>
 				<a href="#" data-href="del.su?id=${item.id }" data-toggle="modal" data-target="#suiteRunnerInfoDelDialogId">删除</a>
 			</td>
 		</tr>

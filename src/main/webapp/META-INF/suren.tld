@@ -137,7 +137,7 @@
 	</tag>
 	
 	<tag>
-		<description>sd</description>
+		<description>1</description>
 		<tag-class>org.suren.autotest.platform.servlet.DialogTag</tag-class>
 		<name>dialog</name>
 		<attribute>

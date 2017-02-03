@@ -16,9 +16,12 @@
 
 package org.suren.autotest.platform.mapping;
 
+import java.util.List;
+
 import org.suren.autotest.platform.model.SuiteRunnerLog;
 
 /**
+ * 运行日志服务接口
  * @author suren
  * @date 2017年1月31日 下午7:40:36
  */
@@ -29,4 +32,6 @@ public interface SuiteRunnerLogMapper
 	void delBySuiteRunnerId(String suiteRunnerInfoId);
 	
 	void delByTriggerUserId(String triggerUserId);
+	
+	List<SuiteRunnerLog> findByRunnerId(String runnerId);
 }
