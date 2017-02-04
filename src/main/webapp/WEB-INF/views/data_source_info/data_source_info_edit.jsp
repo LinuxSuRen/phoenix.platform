@@ -128,12 +128,17 @@
 								</div>
 								<label class="col-sm-1 control-label">类型</label>
 								<div class="col-sm-2">
-									<select name="dataSources.dataSource[${i.index }].page[0].field[${j.index }].type" class="form-control">
+									<select name="dataSources.dataSource[${i.index }].page[0].field[${j.index }].type"
+										class="form-control" onchange="dataTypeChange(this);">
 										<c:forEach items="${dataType }" var="type">
 										<option value="${type.value() }" <c:if test="${field.type.value()==type.value() }">selected="true"</c:if>>${type }</option>
 										</c:forEach>
 									</select>
 								</div>
+								<button type="button" class="btn btn-warning col-sm-1" onclick="dataEncrypt(this)">加密</button>
+							</div>
+							
+							<div class="form-group">
 								<label class="col-sm-1 control-label">字段</label>
 								<div class="col-sm-2">
 									<select name="dataSources.dataSource[${i.index }].page[0].field[${j.index }].field" class="form-control">
@@ -142,9 +147,6 @@
 										</c:forEach>
 									</select>
 								</div>
-							</div>
-							
-							<div class="form-group">
 								<label class="col-sm-1 control-label">回调接口</label>
 								<div class="col-sm-2">
 									<input name="dataSources.dataSource[${i.index }].page[0].field[${j.index }].callback" value="${field.callback }" class="form-control" type="text" />
@@ -197,8 +199,38 @@
 		}
 	}
 	
+	function dataTypeChange(obj){
+		var name = $(obj).attr('name');
+		name = name.substring(0, name.length - 4) + 'data';
+		var encryptBut = $(obj).parent().parent().find('button');
+
+		var dataType = 'input';
+		if($(obj).val() == 'encrypt'){
+			dataType = 'password';
+			
+			encryptBut.show();
+		}else{
+			encryptBut.hide();
+		}
+		
+		$('[name=\"' + name + '\"]').attr('type', dataType);
+	}
+	
+	function dataEncrypt(obj){
+		var pass = $(obj).parent().find('[type="password"]');
+		console.log(pass);
+		var plainText = pass.val();
+		console.log(plainText);
+		$.post('<%=basePath%>/data/encrypt.su?plainText=' + plainText, function(data){
+			console.log(data);
+			pass.val(data);
+		});
+	}
+	
     $(document).ready(function() {
         $('form').bootstrapValidator();
+        
+        $('select').trigger('change');
     });
 	</script>
 </body>
