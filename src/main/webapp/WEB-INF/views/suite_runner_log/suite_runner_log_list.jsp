@@ -35,6 +35,7 @@
 			<td>${log.endTime }</td>
 			<td>
 				<a href="edit.su?id=${log.id }">编辑</a>
+				<a href="detail.su?id=${log.id }" data-toggle="modal" data-target="#logDetailId">详情</a>
 				<a href="#" data-href="del.su?id=${log.id }" data-toggle="modal" data-target="#logDelDialogId">删除</a>
 			</td>
 		</tr>
@@ -43,5 +44,20 @@
 </table>
 
 <su:dialog dialogId="logDelDialogId"></su:dialog>
+
+<div class="modal fade" id="logDetailId" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+$(function(){
+	$("#logDetailId").on("hidden.bs.modal", function(){
+		$(this).removeData("bs.modal");
+	})
+});
+</script>
 
 </body>

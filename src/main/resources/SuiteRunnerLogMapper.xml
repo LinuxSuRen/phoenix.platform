@@ -26,6 +26,10 @@
 		where suite_runner_info_id = #{suiteRunnerInfoId}
 	</select>
 	
+	<select id="findById" resultMap="SuiteRunnerLogMap">
+		select * from suite_runner_log where id = #{id}
+	</select>
+	
 	<resultMap type="org.suren.autotest.platform.model.SuiteRunnerLog" id="SuiteRunnerLogMap">
 		<result property="suiteRunnerInfoId" column="suite_runner_info_id"/>
 		<result property="triggerUserId" column="trigger_user_id"/>

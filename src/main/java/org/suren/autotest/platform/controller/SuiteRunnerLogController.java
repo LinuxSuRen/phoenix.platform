@@ -46,4 +46,14 @@ public class SuiteRunnerLogController
 		
 		return "suite_runner_log/suite_runner_log_list";
 	}
+	
+	@RequestMapping("detail")
+	public String detail(String id, Model model)
+	{
+		SuiteRunnerLog log = suiteRunnerLogMapper.findById(id);
+		
+		model.addAttribute("log", log);
+		
+		return "suite_runner_log/suite_runner_log_detail";
+	}
 }

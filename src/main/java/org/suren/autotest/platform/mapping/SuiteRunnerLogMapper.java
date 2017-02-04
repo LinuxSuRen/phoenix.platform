@@ -34,4 +34,6 @@ public interface SuiteRunnerLogMapper
 	void delByTriggerUserId(String triggerUserId);
 	
 	List<SuiteRunnerLog> findByRunnerId(String runnerId);
+	
+	SuiteRunnerLog findById(String id);
 }
