@@ -49,7 +49,7 @@
 		<tr>
 			<th>序号</th>
 			<th>名称</th>
-			<th>拥有者</th>
+			<th>项目</th>
 			<th>创建时间</th>
 			<th>备注</th>
 			<th>操作</th>
@@ -60,7 +60,7 @@
 		<tr>
 			<td>${status.index+1 }</td>
 			<td>${pageInfo.name }</td>
-			<td>${pageInfo.name }</td>
+			<td>${pageInfo.projectId }</td>
 			<td>${pageInfo.name }</td>
 			<td>${pageInfo.name }</td>
 			<td>
