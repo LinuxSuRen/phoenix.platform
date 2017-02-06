@@ -4,6 +4,7 @@
 package org.suren.autotest.platform.util;
 
 import java.io.ByteArrayInputStream;
+import java.io.UnsupportedEncodingException;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -21,10 +22,14 @@ public abstract class JAXBUtils
 		{
 			JAXBContext context = JAXBContext.newInstance(clazz.getClass());
 			
-			ByteArrayInputStream input = new ByteArrayInputStream(content.getBytes());
+			ByteArrayInputStream input = new ByteArrayInputStream(content.getBytes("utf-8"));
 			context.createUnmarshaller().unmarshal(input);
 		}
 		catch (JAXBException e)
+		{
+			e.printStackTrace();
+		}
+		catch (UnsupportedEncodingException e)
 		{
 			e.printStackTrace();
 		}

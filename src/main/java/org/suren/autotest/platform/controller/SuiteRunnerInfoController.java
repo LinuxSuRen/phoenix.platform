@@ -20,6 +20,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import java.util.List;
 
@@ -94,13 +95,17 @@ public class SuiteRunnerInfoController
 			}
 			else
 			{
-				ByteArrayInputStream input = new ByteArrayInputStream(content.getBytes());
+				ByteArrayInputStream input = new ByteArrayInputStream(content.getBytes("utf-8"));
 				suite = (Suite) unmarshaller.unmarshal(input);
 			}
 			
 			suiteRunnerInfo.setSuite(suite);
 		}
 		catch (JAXBException e)
+		{
+			e.printStackTrace();
+		}
+		catch (UnsupportedEncodingException e)
 		{
 			e.printStackTrace();
 		}

@@ -172,7 +172,7 @@ public class PageInfoController
 			}
 			else
 			{
-				ByteArrayInputStream input = new ByteArrayInputStream(content.getBytes());
+				ByteArrayInputStream input = new ByteArrayInputStream(content.getBytes("utf-8"));
 				
 				try
 				{
@@ -191,6 +191,10 @@ public class PageInfoController
 		catch (JAXBException e)
 		{
 			e.printStackTrace();
+		}
+		catch (UnsupportedEncodingException e1)
+		{
+			e1.printStackTrace();
 		}
 	}
 
@@ -214,7 +218,7 @@ public class PageInfoController
 				content = "";
 			}
 			
-			ByteArrayInputStream input = new ByteArrayInputStream(content.getBytes());
+			ByteArrayInputStream input = new ByteArrayInputStream(content.getBytes("utf-8"));
 			Autotest autotest = (Autotest) unmarshaller.unmarshal(input);
 
 			Pages pages = autotest.getPages();
@@ -249,6 +253,10 @@ public class PageInfoController
 		{
 			e.printStackTrace();
 		}
+		catch (UnsupportedEncodingException e)
+		{
+			e.printStackTrace();
+		}
 	}
 	
 	@RequestMapping("addPage.su")
@@ -265,7 +273,7 @@ public class PageInfoController
 			Autotest autotest;
 			if(content != null)
 			{
-				ByteArrayInputStream input = new ByteArrayInputStream(content.getBytes());
+				ByteArrayInputStream input = new ByteArrayInputStream(content.getBytes("utf-8"));
 				autotest = (Autotest) unmarshaller.unmarshal(input);
 			}
 			else
@@ -288,6 +296,10 @@ public class PageInfoController
 		{
 			e.printStackTrace();
 		}
+		catch (UnsupportedEncodingException e)
+		{
+			e.printStackTrace();
+		}
 		
 		return "page_info/test";
 	}
@@ -302,7 +314,7 @@ public class PageInfoController
 		try
 		{
 			JAXBContext context = JAXBContext.newInstance(Autotest.class);
-			ByteArrayInputStream input = new ByteArrayInputStream(pageInfo.getContent().getBytes());
+			ByteArrayInputStream input = new ByteArrayInputStream(pageInfo.getContent().getBytes("utf-8"));
 			
 			Autotest autotest = (Autotest) context.createUnmarshaller().unmarshal(input);
 			
@@ -320,6 +332,10 @@ public class PageInfoController
 			}
 		}
 		catch (JAXBException e)
+		{
+			e.printStackTrace();
+		}
+		catch (UnsupportedEncodingException e)
 		{
 			e.printStackTrace();
 		}
@@ -428,7 +444,7 @@ public class PageInfoController
 				content = "";
 			}
 			
-			ByteArrayInputStream input = new ByteArrayInputStream(content.getBytes());
+			ByteArrayInputStream input = new ByteArrayInputStream(content.getBytes("utf-8"));
 			Autotest autotest = (Autotest) unmarshaller.unmarshal(input);
 			
 			List<PageType> pages = autotest.getPages().getPage();
@@ -479,7 +495,16 @@ public class PageInfoController
 		headers.setContentType(MediaType.TEXT_XML);
 		headers.setContentDispositionFormData("filename", fileName + ".xml");
 		
-		return new ResponseEntity<byte[]>(content.getBytes(), headers, HttpStatus.CREATED);
+		try
+		{
+			return new ResponseEntity<byte[]>(content.getBytes("utf-8"), headers, HttpStatus.CREATED);
+		}
+		catch (UnsupportedEncodingException e)
+		{
+			e.printStackTrace();
+		}
+		
+		return new ResponseEntity<byte[]>("not supported encoding.".getBytes(), headers, HttpStatus.CREATED);
 	}
 	
 	/**
@@ -493,12 +518,13 @@ public class PageInfoController
 		final PageInfo pageInfo = pageInfoMapper.getById(id);
 		if(pageInfo != null && StringUtils.isNotBlank(pageInfo.getContent()))
 		{
-			ByteArrayInputStream input = new ByteArrayInputStream(pageInfo.getContent().getBytes());
 			final String projectId = pageInfo.getProjectId();
 			
 			File outputDir = PathUtil.getRootDir();
 			try
 			{
+				ByteArrayInputStream input = new ByteArrayInputStream(pageInfo.getContent().getBytes("utf-8"));
+				
 				dataSourceGenerator.generate(input, outputDir.toString(), new Callback<File>()
 				{
 					
@@ -538,6 +564,10 @@ public class PageInfoController
 			{
 				e.printStackTrace();
 			}
+			catch (UnsupportedEncodingException e1)
+			{
+				e1.printStackTrace();
+			}
 			
 			return "redirect:/data_source_info/list.su?projectId=" + projectId;
 		}
@@ -554,11 +584,11 @@ public class PageInfoController
 		if(pageInfo != null && StringUtils.isNotBlank(pageInfo.getContent()))
 		{
 			final String projectId = pageInfo.getProjectId();
-			ByteArrayInputStream input = new ByteArrayInputStream(pageInfo.getContent().getBytes());
 
 			File outputDir = PathUtil.getRootDir();
 			try
 			{
+				ByteArrayInputStream input = new ByteArrayInputStream(pageInfo.getContent().getBytes("utf-8"));
 				suiteRunnerGenerator.generate(input, outputDir.toString(), new Callback<File>()
 				{
 
@@ -593,6 +623,10 @@ public class PageInfoController
 			catch (DocumentException | SAXException e)
 			{
 				e.printStackTrace();
+			}
+			catch (UnsupportedEncodingException e1)
+			{
+				e1.printStackTrace();
 			}
 			
 			return "redirect:/suite_runner_info/list.su?projectId=" + projectId;

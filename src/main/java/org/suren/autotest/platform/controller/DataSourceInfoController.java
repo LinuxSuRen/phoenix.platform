@@ -19,6 +19,7 @@ package org.suren.autotest.platform.controller;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 import javax.xml.bind.JAXBContext;
@@ -78,13 +79,17 @@ public class DataSourceInfoController
 			}
 			else
 			{
-				ByteArrayInputStream input = new ByteArrayInputStream(dataSourceInfo.getContent().getBytes());
+				ByteArrayInputStream input = new ByteArrayInputStream(dataSourceInfo.getContent().getBytes("utf-8"));
 				dataSources = (DataSources) unmarshaller.unmarshal(input);
 			}
 			
 			dataSourceInfo.setDataSources(dataSources);
 		}
 		catch (JAXBException e)
+		{
+			e.printStackTrace();
+		}
+		catch (UnsupportedEncodingException e)
 		{
 			e.printStackTrace();
 		}
