@@ -17,7 +17,6 @@
 package org.suren.autotest.platform.servlet;
 
 import java.io.ByteArrayOutputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
@@ -69,7 +68,7 @@ public class DialogTag extends TagSupport
 			template.process(paramMap, writer);
 			
 			JspWriter out = this.pageContext.getOut();
-			out.write(new String(byteOut.toByteArray()));
+			out.write(new String(byteOut.toByteArray(), "UTF-8"));
 		}
 		catch (IOException | TemplateException e)
 		{
