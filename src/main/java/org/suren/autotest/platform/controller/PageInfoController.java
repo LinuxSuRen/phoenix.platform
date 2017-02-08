@@ -263,6 +263,7 @@ public class PageInfoController
 	public String addPage(Model model, String id)
 	{
 		PageInfo pageInfo = pageInfoMapper.getById(id);
+		model.addAttribute("pageInfo", pageInfo);
 		
 		try
 		{
@@ -281,6 +282,7 @@ public class PageInfoController
 				autotest = initAutotest();
 			}
 			
+			pageInfo.setAutotest(autotest);
 			
 			PageType pageType = new PageType();
 			pageType.setClazz("PageStuff");
