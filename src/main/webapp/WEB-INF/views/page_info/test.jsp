@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ page isELIgnored="false"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="/META-INF/suren.tld" prefix="su" %>
 <%String basePath=request.getContextPath(); %>
 <!DOCTYPE html>
 <html lang="zh-cn">
@@ -10,14 +11,15 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>页面集</title>
-<link href="<%=basePath %>/static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-<link href="<%=basePath %>/static/bootstrapValidator/css/bootstrapValidator.css" rel="stylesheet">
+<su:link href="/static/bootstrap/css/bootstrap.min.css"></su:link>
+<su:link href="/static/bootstrapValidator/css/bootstrapValidator.css"></su:link>
+<su:link href="/static/intro/introjs.css"></su:link>
+<su:script src="/static/jquery/jquery.min.js"></su:script>
+<su:script src="/static/bootstrap/js/bootstrap.min.js"></su:script>
+<su:script src="/static/bootstrapValidator/js/bootstrapValidator.js"></su:script>
+<su:script src="/static/intro/intro.js"></su:script>
 </head>
 <body>
-	<script src="<%=basePath %>/static/jquery/jquery.min.js"></script>
-	<script src="<%=basePath %>/static/bootstrap/js/bootstrap.min.js"></script>
-	<script src="<%=basePath %>/static/bootstrapValidator/js/bootstrapValidator.js"></script>
-
 	<nav class="navbar navbar-default" role="navigation">
 		<div class="container-fluid">
 			<!-- Brand and toggle get grouped for better mobile display -->
@@ -35,10 +37,10 @@
 			<div class="collapse navbar-collapse"
 				id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav">
-					<li><a onclick="fortest()"><span style="cursor:pointer;">保存</span></a></li>
-					<li><a href="addPage.su?id=${pageInfo.id}">新增页面</a></li>
+					<li><a onclick="fortest()" data-step="2" data-intro="保存当前配置" data-position="right"><span style="cursor:pointer;">保存</span></a></li>
+					<li><a href="addPage.su?id=${pageInfo.id}" data-step="1" data-intro="新增页面" data-position="right">新增页面</a></li>
 					<li class="dropdown"><a href="#" class="dropdown-toggle"
-						data-toggle="dropdown">列表 <span class="caret"></span></a>
+						data-toggle="dropdown" data-step="3" data-intro="查看列表" data-position="right">列表 <span class="caret"></span></a>
 						<ul class="dropdown-menu" role="menu">
 							<li><a href="<%=basePath %>/project/list.su">项目列表</a></li>
 							<li class="divider"></li>
@@ -49,14 +51,15 @@
 					</li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
-					<li><a href="download.su?id=${pageInfo.id }">下载</a></li>
+					<li><a href="download.su?id=${pageInfo.id }" data-step="4" data-intro="把当前配置转为XML并提供下载" data-position="left">下载</a></li>
 					<li class="dropdown"><a href="#" class="dropdown-toggle"
-						data-toggle="dropdown">生成 <span class="caret"></span></a>
+						data-toggle="dropdown" data-step="5" data-intro="根据元素定位信息来生成数据源、测试套件" data-position="left">生成 <span class="caret"></span></a>
 						<ul class="dropdown-menu" role="menu">
 							<li><a href="<%=basePath %>/page_info/generateDataSource.su?id=${pageInfo.id}">数据源</a></li>
 							<li><a href="<%=basePath %>/page_info/generateSuiteRunner.su?id=${pageInfo.id}">测试套件</a></li>
 						</ul>
 					</li>
+					<li><a href="#" onclick="sysHelp();">帮助</a></li>
 				</ul>
 			</div>
 			<!-- /.navbar-collapse -->
@@ -81,13 +84,13 @@
 					<input name="projectId" value="${pageInfo.projectId }" type="hidden" />
 					<input name="id" value="${pageInfo.id }" type="hidden" />
 					<label class="col-sm-2 control-label">页面集名称</label>
-					<div class="col-sm-3">
+					<div class="col-sm-3" data-step="6" data-intro="给当前页面起个可爱的名字吧，无所谓中英文哦" data-position="down">
 				    	<input name="name" value="${pageInfo.name }" class="form-control" type="input" required />
 					</div>
 				</div>
 				<div class="form-group">
 					<label class="col-sm-2 control-label">浏览器</label>
-					<div class="col-sm-3">
+					<div class="col-sm-3" data-step="7" data-intro="选择你要测试的浏览器类型，我们支持IE、谷歌、火狐等等哦" data-position="down">
 						<select name="autotest.engine.driver" class="form-control">
 							<c:forEach items="${engineType }" var="type">
 							<option value="${type.value() }" <c:if test="${pageInfo.autotest.engine.driver.value()==type.value() }">selected="true"</c:if>>${type }</option>
@@ -113,14 +116,14 @@
 				</div>
 				<div class="form-group">
 					<label class="col-sm-2 control-label">包名</label>
-					<div class="col-sm-3">
+					<div class="col-sm-3" data-step="9" data-intro="Java语言的包（package），别问我为什么" data-position="down">
 				    	<input name="autotest.pages.pagePackage" value="${pageInfo.autotest.pages.pagePackage }" class="form-control"
 				    		type="text" required>
 					</div>
 					<label class="col-sm-2 control-label">远程地址</label>
 					<div class="col-sm-3">
 				    	<input name="autotest.engine.remote" value="${pageInfo.autotest.engine.remote }" class="form-control"
-				    		type="url">
+				    		type="">
 					</div>
 				</div>
 				
@@ -277,6 +280,11 @@
 	</div>
 	
 	<script type="text/javascript">
+	function sysHelp(){
+		introJs().setOption('done', 'next').start().oncomplete(function(){
+		});
+	}
+	
 	function fortest(){
 		var content = "1=1";
 		$('form').each(function(){

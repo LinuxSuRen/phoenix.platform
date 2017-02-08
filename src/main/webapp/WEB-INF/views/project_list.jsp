@@ -11,8 +11,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>项目列表</title>
 <su:link href="/static/bootstrap/css/bootstrap.min.css"></su:link>
+<su:link href="/static/intro/introjs.css"></su:link>
 <su:script src="/static/jquery/jquery.min.js"></su:script>
 <su:script src="/static/bootstrap/js/bootstrap.min.js"></su:script>
+<su:script src="/static/intro/intro.js"></su:script>
 </head>
 <body>
 
@@ -26,12 +28,12 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="list.su">刷新</a>
+        <a class="navbar-brand" href="list.su" data-step="1" data-intro="刷新当前页面" data-position="right">刷新</a>
         <su:anchor cssClass="navbar-brand" href="/user_info/logout.su" innerHtml="退出"></su:anchor>
     </div>
     <div class="collapse navbar-collapse" id="example-navbar-collapse">
         <ul class="nav navbar-nav">
-            <li><a href="edit.su">新增</a></li>
+            <li><a href="edit.su" data-step="2" data-intro="从这里新增一个项目，之后就可以添加元素定位、数据源等" data-position="right">新增</a></li>
 			<form class="navbar-form navbar-left" role="search">
 				<div class="form-group">
 					<input type="text" class="form-control" placeholder="项目名称">
@@ -39,6 +41,9 @@
 				<button type="submit" class="btn btn-default">搜索</button>
 			</form>
         </ul>
+		<ul class="nav navbar-nav navbar-right">
+			<li><a href="#" onclick="sysHelp();">帮助</a></li>
+		</ul>
     </div>
     </div>
 </nav>
@@ -72,5 +77,12 @@
 </table>
 
 <su:dialog dialogId="projectDelDialogId"></su:dialog>
+
+<script type="text/javascript">
+function sysHelp(){
+	introJs().setOption('done', 'next').start().oncomplete(function(){
+	});
+}
+</script>
 
 </body>

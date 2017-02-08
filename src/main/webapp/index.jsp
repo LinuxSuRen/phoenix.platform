@@ -12,8 +12,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Phoenix自动化测试平台</title>
 	<su:link href="/static/bootstrap/css/bootstrap.min.css"></su:link>
+	<su:link href="/static/intro/introjs.css"></su:link>
 	<su:script src="/static/jquery/jquery.min.js"></su:script>
 	<su:script src="/static/bootstrap/js/bootstrap.min.js"></su:script>
+	<su:script src="/static/intro/intro.js"></su:script>
   </head>
   <body>
   
@@ -27,14 +29,15 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="project/list.su">查看项目列表</a>
+        <a class="navbar-brand" href="project/list.su" data-step="1" data-intro="查看项目列表" data-position="right">查看项目列表</a>
     </div>
     <div class="collapse navbar-collapse" id="example-navbar-collapse">
         <ul class="nav navbar-nav">
             <li><a href="#">留白</a></li>
         </ul>
 		<ul class="nav navbar-nav navbar-right">
-			<li><su:anchor href="/sys/edit.su" innerHtml="系统配置"></su:anchor>
+			<li data-step="2" data-intro="查看项目列表" data-position="left"><su:anchor href="/sys/edit.su" innerHtml="系统配置"></su:anchor></li>
+			<li><a href="#" onclick="sysHelp();">帮助</a></li>
 		</ul>
     </div>
     </div>
@@ -51,9 +54,18 @@
 .osc_git_main a{color: #4183c4;}
 </style>
 
+<div data-step="3" data-intro="您可以通过这里来关注作者和项目" data-position="left">
 <iframe src="https://ghbtns.com/github-btn.html?user=LinuxSuRen&repo=autotest.platform&type=follow&count=true&size=large" frameborder="0" scrolling="0" width="250px" height="30px"></iframe><br/>
 <iframe src="https://ghbtns.com/github-btn.html?user=LinuxSuRen&repo=autotest.platform&type=watch&count=true&size=large&v=2" frameborder="0" scrolling="0" width="250px" height="30px"></iframe><br/>
 <iframe src="https://ghbtns.com/github-btn.html?user=LinuxSuRen&repo=autotest.platform&type=star&count=true&size=large" frameborder="0" scrolling="0" width="250px" height="30px"></iframe><br/>
+</div>
+
+<script type="text/javascript">
+function sysHelp(){
+	introJs().setOption('done', 'next').start().oncomplete(function(){
+	});
+}
+</script>
 
 </body>
 </html>
