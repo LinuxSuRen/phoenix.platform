@@ -47,6 +47,28 @@ public class SuRenDriverManagerDataSource extends DriverManagerDataSource
 				}
 			}
 	    });
+		Function.create(conn, "left", new Function() {
+			protected void xFunc() {
+				try
+				{
+					String str = this.value_text(0);
+					int len = this.value_int(1);
+					
+					if(str.length() > len)
+					{
+						this.result(str.substring(0, len));
+					}
+					else
+					{
+						this.result(str);
+					}
+				}
+				catch (SQLException e)
+				{
+					e.printStackTrace();
+				}
+			}
+	    });
 		return conn;
 	}
 
