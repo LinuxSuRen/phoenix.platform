@@ -51,5 +51,9 @@
 .osc_git_main a{color: #4183c4;}
 </style>
 
-  </body>
+<iframe src="https://ghbtns.com/github-btn.html?user=LinuxSuRen&repo=autotest.platform&type=follow&count=true&size=large" frameborder="0" scrolling="0" width="250px" height="30px"></iframe><br/>
+<iframe src="https://ghbtns.com/github-btn.html?user=LinuxSuRen&repo=autotest.platform&type=watch&count=true&size=large&v=2" frameborder="0" scrolling="0" width="250px" height="30px"></iframe><br/>
+<iframe src="https://ghbtns.com/github-btn.html?user=LinuxSuRen&repo=autotest.platform&type=star&count=true&size=large" frameborder="0" scrolling="0" width="250px" height="30px"></iframe><br/>
+
+</body>
 </html>
