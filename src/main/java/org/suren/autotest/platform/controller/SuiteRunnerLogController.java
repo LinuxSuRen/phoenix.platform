@@ -42,6 +42,14 @@ public class SuiteRunnerLogController
 	{
 		List<SuiteRunnerLog> logList = suiteRunnerLogMapper.findByRunnerId(runnerId);
 		
+		for(SuiteRunnerLog log : logList)
+		{
+			if(log.getMessage() != null && log.getMessage().length() > 20)
+			{
+				log.setMessage(log.getMessage().substring(0, 20));
+			}
+		}
+		
 		model.addAttribute("logList", logList);
 		
 		return "suite_runner_log/suite_runner_log_list";
@@ -55,5 +63,16 @@ public class SuiteRunnerLogController
 		model.addAttribute("log", log);
 		
 		return "suite_runner_log/suite_runner_log_detail";
+	}
+	
+	@RequestMapping("del")
+	public String del(String id)
+	{
+		SuiteRunnerLog log = suiteRunnerLogMapper.findById(id);
+		String suiteRunnerId = log.getSuiteRunnerInfoId();
+		
+		suiteRunnerLogMapper.delById(id);
+		
+		return "redirect:/suite_runner_log/list.su?runnerId=" + suiteRunnerId;
 	}
 }
