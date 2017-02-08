@@ -35,7 +35,10 @@ import org.springframework.web.multipart.MultipartFile;
 import org.suren.autotest.platform.mapping.DataSourceInfoMapper;
 import org.suren.autotest.platform.model.DataSourceInfo;
 import org.suren.autotest.platform.schemas.datasource.DataSourceFieldTypeEnum;
+import org.suren.autotest.platform.schemas.datasource.DataSourcePageFieldType;
+import org.suren.autotest.platform.schemas.datasource.DataSourcePageType;
 import org.suren.autotest.platform.schemas.datasource.DataSources;
+import org.suren.autotest.platform.schemas.datasource.DataSources.DataSource;
 import org.suren.autotest.platform.schemas.datasource.DataTypeEnum;
 import org.suren.autotest.web.framework.util.StringUtils;
 
@@ -58,6 +61,30 @@ public class DataSourceInfoController
 		model.addAttribute("projectId", projectId);
 		
 		return "data_source_info/data_source_info_list";
+	}
+	
+	@RequestMapping("add.su")
+	public String dataSourceInfoAdd(String projectId, Model model)
+	{
+		DataSourceInfo dataSourceInfo = new DataSourceInfo();
+		model.addAttribute("dataSourceInfo", dataSourceInfo);
+		initEnums(model);
+		
+		DataSources dataSources = new DataSources();
+		dataSourceInfo.setDataSources(dataSources);
+		
+		DataSource dataSource = new DataSource();
+		dataSources.getDataSource().add(dataSource);
+		dataSource.setPageClass("data_clazz");
+		
+		DataSourcePageType dataSourcePageType = new DataSourcePageType();
+		dataSource.getPage().add(dataSourcePageType);
+		
+		DataSourcePageFieldType dataSourcePageFieldType = new DataSourcePageFieldType();
+		dataSourcePageType.getField().add(dataSourcePageFieldType);
+		dataSourcePageFieldType.setName("test");
+
+		return "data_source_info/data_source_info_edit";
 	}
 	
 	@RequestMapping("edit.su")
