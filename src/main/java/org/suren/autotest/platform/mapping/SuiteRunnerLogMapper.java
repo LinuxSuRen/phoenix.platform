@@ -29,6 +29,8 @@ public interface SuiteRunnerLogMapper
 {
 	void save(SuiteRunnerLog suiteRunnerLog);
 	
+	void delById(String id);
+	
 	void delBySuiteRunnerId(String suiteRunnerInfoId);
 	
 	void delByTriggerUserId(String triggerUserId);
