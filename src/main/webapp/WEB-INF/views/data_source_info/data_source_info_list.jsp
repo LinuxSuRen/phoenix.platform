@@ -27,7 +27,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="<%=basePath %>/data_source_info_info/list.su?projectId=${projectId }">数据源列表</a>
+        <a class="navbar-brand" href="<%=basePath %>/data_source_info/list.su?projectId=${projectId }">数据源列表</a>
     </div>
     <div class="collapse navbar-collapse" id="example-navbar-collapse">
         <ul class="nav navbar-nav">
