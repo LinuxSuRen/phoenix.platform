@@ -16,6 +16,8 @@
 
 package org.suren.autotest.platform.controller;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -40,8 +42,14 @@ public class UserInfoController
 	 * @return
 	 */
 	@RequestMapping("login")
-	public String login()
+	public String login(HttpServletRequest request)
 	{
+		Object abc = request.getSession().getAttribute("SPRING_SECURITY_CONTEXT");
+		if(abc != null)
+		{
+			return "redirect:/";
+		}
+		
 		return "/user_info/login";
 	}
 	
