@@ -12,6 +12,10 @@
 		)
 	</insert>
 	
+	<delete id="delById">
+		delete from suite_runner_log where id = #{id}
+	</delete>
+	
 	<delete id="delBySuiteRunnerId">
 		delete from suite_runner_log where suite_runner_info_id = #{suiteRunnerInfoId}
 	</delete>
@@ -21,7 +25,7 @@
 	</delete>
 	
 	<select id="findByRunnerId" resultMap="SuiteRunnerLogMap">
-		select id, suite_runner_info_id, trigger_user_id, left(message, 20) as message,
+		select id, suite_runner_info_id, trigger_user_id, message,
 			begin_time, end_time from suite_runner_log
 		where suite_runner_info_id = #{suiteRunnerInfoId}
 	</select>
