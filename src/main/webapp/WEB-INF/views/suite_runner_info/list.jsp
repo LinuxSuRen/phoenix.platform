@@ -142,6 +142,13 @@
 						</div>
 					</div>
 					<div class="form-group">
+						<label class="col-sm-4 control-label">并发数</label>
+						<div class="col-sm-3">
+					    	<input name="concurrentTimes" class="form-control" type="number" value="0"
+					    		required="required" min="0" max="6"/>
+						</div>
+					</div>
+					<div class="form-group">
 						<label class="col-sm-4 control-label">失败后继续运行次数</label>
 						<div class="col-sm-3">
 					    	<input name="retryTimes" class="form-control" type="number" value="0"

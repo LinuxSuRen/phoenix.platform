@@ -25,6 +25,7 @@ public class DebugRunInfo
 	private String id;
 	private int normalTimes;
 	private int retryTimes;
+	private int concurrentTimes;
 	private String remark;
 	/**
 	 * @return the id
@@ -67,6 +68,14 @@ public class DebugRunInfo
 	public void setRetryTimes(int retryTimes)
 	{
 		this.retryTimes = retryTimes;
+	}
+	public int getConcurrentTimes()
+	{
+		return concurrentTimes;
+	}
+	public void setConcurrentTimes(int concurrentTimes)
+	{
+		this.concurrentTimes = concurrentTimes;
 	}
 	/**
 	 * @return the remark
