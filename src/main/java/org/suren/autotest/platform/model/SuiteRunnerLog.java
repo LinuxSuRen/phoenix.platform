@@ -30,6 +30,7 @@ public class SuiteRunnerLog
 	private String message;
 	private Date beginTime;
 	private Date endTime;
+	private String remark;
 	/**
 	 * @return the id
 	 */
@@ -113,5 +114,19 @@ public class SuiteRunnerLog
 	public void setEndTime(Date endTime)
 	{
 		this.endTime = endTime;
+	}
+	/**
+	 * @return the remark
+	 */
+	public String getRemark()
+	{
+		return remark;
+	}
+	/**
+	 * @param remark the remark to set
+	 */
+	public void setRemark(String remark)
+	{
+		this.remark = remark;
 	}
 }

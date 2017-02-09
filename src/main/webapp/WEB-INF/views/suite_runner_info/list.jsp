@@ -65,7 +65,7 @@
 			<td>${item.name }</td>
 			<td>
 				<a href="run.su?id=${item.id }">运行</a>
-				<a href="#" onclick="debugRun('${item.id }')">调试</a>
+				<a href="#" data-href="${item.id }" data-toggle="modal" data-target="#debugRunDialogId">调试</a>
 				<a href="edit.su?id=${item.id }">编辑</a>
 				<a href="<%=basePath %>/suite_runner_log/list.su?runnerId=${item.id }">日志</a>
 				<a href="#" data-href="del.su?id=${item.id }" data-toggle="modal" data-target="#suiteRunnerInfoDelDialogId">删除</a>
@@ -119,13 +119,69 @@
 		</div><!-- /.modal-content -->
 	</div><!-- /.modal -->
 </div>
+	
+<div class="modal fade" id="debugRunDialogId" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+					&times;
+				</button>
+				<h4 class="modal-title">
+					调试设置
+				</h4>
+			</div>
+			<form class="form-horizontal" role="form" method="post" action="<%=basePath%>/suite_runner_info/run.su">
+				<input name="id" type="hidden" />
+				<div class="modal-body">
+					<div class="form-group">
+						<label class="col-sm-4 control-label">运行次数</label>
+						<div class="col-sm-3">
+					    	<input name="normalTimes" class="form-control" type="number" value="1"
+					    		required="required" min="1" max="100" />
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-4 control-label">失败后继续运行次数</label>
+						<div class="col-sm-3">
+					    	<input name="retryTimes" class="form-control" type="number" value="0"
+					    		required="required" min="0" max="100"/>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-4 control-label">备注</label>
+						<div class="col-sm-3">
+					    	<input name="remark" class="form-control" type="text" />
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+					<button type="button" class="btn btn-primary btn-ok" data-dismiss="modal">运行</button>
+				</div>
+			</form>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal -->
+</div>
 
 <su:dialog dialogId="suiteRunnerInfoDelDialogId"></su:dialog>
 
 <script type="text/javascript">
-function debugRun(id){
+$(function(){
+	$('#debugRunDialogId').on('show.bs.modal', function(e) {
+		var itemId = $(e.relatedTarget).data('href');
+		var form = $(this).find('form');
+		form.find('[name="id"]').val(itemId);
+		
+		$(this).find('.btn-ok').unbind('click').click(function(){
+			debugRun(form);
+		});
+	});
+});
+
+function debugRun(form){
 	$.post('<%=basePath %>/project/deploy.su?id=${projectId }', function(){
-		$.post('run.su?id=' + id, function(data){
+		$.post(form.attr('action'), form.serialize(), function(data){
 			if(data.message && data.message != ''){
 				$('#messageBody').html(data.message);
 			}else{

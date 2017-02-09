@@ -39,6 +39,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.suren.autotest.platform.mapping.SuiteRunnerInfoMapper;
 import org.suren.autotest.platform.mapping.SuiteRunnerLogMapper;
+import org.suren.autotest.platform.model.DebugRunInfo;
 import org.suren.autotest.platform.model.SuiteRunnerInfo;
 import org.suren.autotest.platform.model.SuiteRunnerLog;
 import org.suren.autotest.platform.schemas.suite.ActionEnum;
@@ -199,13 +200,16 @@ public class SuiteRunnerInfoController
 	
 	@ResponseBody
 	@RequestMapping("run.su")
-	public SuiteRunnerLog suiteRunnerToRun(Model model, String id)
+	public SuiteRunnerLog suiteRunnerToRun(Model model, DebugRunInfo debugRunInfo)
 	{
+		String id = debugRunInfo.getId();
+		
 		Date beginTime = new Date();
 		
 		SuiteRunnerLog suiteRunnerLog = new SuiteRunnerLog();
 		suiteRunnerLog.setBeginTime(beginTime);
 		suiteRunnerLog.setSuiteRunnerInfoId(id);
+		suiteRunnerLog.setRemark(debugRunInfo.getRemark());
 		
 		//用户信息
 		UserDetail userDetail = (UserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -218,7 +222,10 @@ public class SuiteRunnerInfoController
 
 		try
 		{
-			SuiteRunner.runFromFile(runnerFile);
+			for(int i = 0; i < debugRunInfo.getNormalTimes(); i++)
+			{
+				SuiteRunner.runFromFile(runnerFile);
+			}
 		}
 		catch(Exception e)
 		{
