@@ -22,8 +22,10 @@ import java.util.Properties;
 
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.sqlite.Function;
+import org.sqlite.SQLiteConnection;
 
 /**
+ * 扩展数据库连接
  * @author suren
  * @date 2017年2月7日 下午9:33:50
  */
@@ -35,6 +37,22 @@ public class SuRenDriverManagerDataSource extends DriverManagerDataSource
 			throws SQLException
 	{
 		Connection conn = super.getConnectionFromDriver(props);
+		
+		if(conn instanceof SQLiteConnection)
+		{
+			createUserDefFunc4SQLite(conn);
+		}
+		
+		return conn;
+	}
+	
+	/**
+	 * 为SQLite数据库添加自定义函数
+	 * @param conn
+	 * @throws SQLException
+	 */
+	private void createUserDefFunc4SQLite(Connection conn) throws SQLException
+	{
 		Function.create(conn, "UUID", new Function() {
 			protected void xFunc() {
 				try
@@ -69,7 +87,6 @@ public class SuRenDriverManagerDataSource extends DriverManagerDataSource
 				}
 			}
 	    });
-		return conn;
 	}
 
 }
