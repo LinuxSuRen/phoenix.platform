@@ -110,6 +110,12 @@ html,body {
 		<div class="login-title text-center">
 			<h1><small>登录</small></h1>
 		</div>
+		<c:if test="${not empty param.error}">
+	    <div class="alert alert-danger">
+		    <a href="#" class="close" data-dismiss="alert">&times;</a>
+		    <strong>错误！</strong>${sessionScope["SPRING_SECURITY_LAST_EXCEPTION"].message}
+		</div>
+		</c:if>
 		<div class="login-content ">
 			<div class="form">
 			<form action="<%=basePath %>/user_info/login_process.su" method="post">

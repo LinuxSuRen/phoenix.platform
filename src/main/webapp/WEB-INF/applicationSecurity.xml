@@ -17,16 +17,24 @@
 	<http use-expressions="false" auto-config="true">
 		<intercept-url pattern="/**" access="ROLE_USER" />
 
-		<!-- 同一时间内允许同一账号保持4个在线,error-if-maximum-exceeded="true"表示第第四个以后的登不进去 -->
 		<session-management>
-			<concurrency-control max-sessions="4"
+			<concurrency-control max-sessions="400"
 				error-if-maximum-exceeded="true" />
 		</session-management>
+		
 		<csrf disabled="true" />
-		<form-login login-page="/user_info/login.su" login-processing-url="/user_info/login_process.su"
-			username-parameter="username" password-parameter="password"/>
-		<logout logout-url="/user_info/logout.su" logout-success-url="/user_info/login.su"
-			invalidate-session="true" delete-cookies="JSESSIONID" />
+		
+		<form-login login-page="/user_info/login.su"
+			login-processing-url="/user_info/login_process.su"
+			default-target-url="/"
+			authentication-failure-url="/user_info/login.su?error=true"
+			username-parameter="username"
+			password-parameter="password"/>
+			
+		<logout logout-url="/user_info/logout.su"
+			logout-success-url="/user_info/login.su"
+			invalidate-session="true"
+			delete-cookies="JSESSIONID" />
 	</http>
 
 	<authentication-manager alias="authenticationManager">
@@ -39,5 +47,13 @@
 
 	<beans:bean id="authSuccessHandler"
 		class="org.suren.autotest.platform.security.AutoTestAuthSuccessHandler">
+	</beans:bean>
+	
+	<beans:bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+		<beans:property name="basenames">
+			<beans:list>
+				<beans:value>message</beans:value>
+			</beans:list>
+		</beans:property>
 	</beans:bean>
 </beans:beans>
