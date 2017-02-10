@@ -18,6 +18,10 @@
 		select id, name from data_source_info where project_id = #{projectId}
 	</select>
 	
+	<select id="getCountByProjectId" resultType="int">
+		select count(*) from data_source_info where project_id = #{projectId}
+	</select>
+	
 	<insert id="save">
 		<selectKey keyProperty="id" resultType="String" order="BEFORE">
 			SELECT UUID()

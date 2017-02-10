@@ -119,6 +119,11 @@ public class SuiteRunnerInfoController
 	@RequestMapping("add.su")
 	public String suiteRunnerInfoAdd(Model model, String projectId)
 	{
+		SuiteRunnerInfo suiteRunnerInfo = new SuiteRunnerInfo();
+		suiteRunnerInfo.setProjectId(projectId);
+		
+		addAttr(model, suiteRunnerInfo);
+		
 		return "suite_runner_info/edit";
 	}
 	
@@ -239,9 +244,11 @@ public class SuiteRunnerInfoController
 		return suiteRunnerLog;
 	}
 	
-	public static void main(String[] args)
+	@ResponseBody
+	@RequestMapping("count")
+	public int getCountByProjectId(String projectId)
 	{
-		SuiteRunner.runFromFile(new File("D:/Program Files (x86)/Gboat-Toolkit-Suit/workspace_surenpi/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/autotest.platform/deploy/项目报建测试.xml"));
+		return suiteRunnerInfoMapper.getCountByProjectId(projectId);
 	}
 	
 	private void addAttr(Model model, SuiteRunnerInfo suiteRunnerInfo)

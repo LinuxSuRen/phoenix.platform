@@ -40,6 +40,7 @@
 					<li class="dropdown"><a href="#" class="dropdown-toggle"
 						data-toggle="dropdown">列表 <span class="caret"></span></a>
 						<ul class="dropdown-menu" role="menu">
+							<li><a href="<%=basePath %>/project/edit.su?id=${suiteRunnerInfo.projectId}">当前项目</a></li>
 							<li><a href="<%=basePath %>/project/list.su">项目列表</a></li>
 							<li class="divider"></li>
 							<li><a href="<%=basePath %>/page_info/list.su?projectId=${suiteRunnerInfo.projectId}">页面集列表</a></li>

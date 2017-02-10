@@ -31,9 +31,9 @@
     </div>
     <div class="collapse navbar-collapse" id="example-navbar-collapse">
         <ul class="nav navbar-nav">
-            <li><a href="<%=basePath%>/page_info/list.su?projectId=${project.id}">查看页面集列表</a></li>
-            <li><a href="<%=basePath%>/data_source_info/list.su?projectId=${project.id}">查看数据源列表</a></li>
-            <li><a href="<%=basePath%>/suite_runner_info/list.su?projectId=${project.id}">查看运行套件列表</a></li>
+            <li><a href="<%=basePath%>/page_info/list.su?projectId=${project.id}">查看页面集列表 <span class="badge"></span></a></li>
+            <li><a href="<%=basePath%>/data_source_info/list.su?projectId=${project.id}">查看数据源列表 <span class="badge"></span></a></li>
+            <li><a href="<%=basePath%>/suite_runner_info/list.su?projectId=${project.id}">查看运行套件列表 <span class="badge"></span></a></li>
         </ul>
 		<ul class="nav navbar-nav navbar-right">
 			<li><a href="#" onclick="deploy()">部署</a></li>
@@ -72,6 +72,22 @@ function deploy(){
 		}, 1000);
 	});
 }
+
+function updateBadge(url, text){
+	$.ajax({
+		url : url,
+		dataType : 'json',
+		success : function(count){
+			$('a:contains("' + text + '")').find('.badge').html(count);
+		}
+	});
+}
+
+$(function(){
+	updateBadge('<%=basePath%>/page_info/count.su?projectId=${project.id}', '查看页面集列表');
+	updateBadge('<%=basePath%>/data_source_info/count.su?projectId=${project.id}', '查看数据源列表');
+	updateBadge('<%=basePath%>/suite_runner_info/count.su?projectId=${project.id}', '查看运行套件列表');
+});
 </script>
 
 </body>

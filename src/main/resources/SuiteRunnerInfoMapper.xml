@@ -17,6 +17,10 @@
 		select * from suite_runner_info where project_id = #{projectId}
 	</select>
 	
+	<select id="getCountByProjectId" resultType="int">
+		select count(*) from suite_runner_info where project_id = #{projectId}
+	</select>
+	
 	<insert id="save">
 		<selectKey keyProperty="id" resultType="String" order="BEFORE">
 			SELECT UUID()

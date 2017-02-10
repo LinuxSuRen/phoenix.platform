@@ -19,9 +19,9 @@ public interface DataSourceInfoMapper
 	List<DataSourceInfo> getAllIds();
 	
 	DataSourceInfo getById(String id);
+	int getCountByProjectId(String projectId);
 	
 	void save(DataSourceInfo dataSourceInfo);
-	
 	void update(DataSourceInfo dataSourceInfo);
 	
 	void delById(String id);

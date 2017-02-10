@@ -19,6 +19,8 @@ public interface PageInfoMapper
 	
 	void save(PageInfo pageInfo);
 	int getTotalNum();
+	int getCountByProjectId(String projectId);
+	
 	PageInfo getById(String id);
 	List<PageInfo> getAllIds();
 	void update(PageInfo pageInfo);

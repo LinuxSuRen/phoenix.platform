@@ -639,6 +639,13 @@ public class PageInfoController
 		}
 	}
 	
+	@ResponseBody
+	@RequestMapping("count")
+	public int getCountByProjectId(String projectId)
+	{
+		return pageInfoMapper.getCountByProjectId(projectId);
+	}
+	
 	private Autotest initAutotest()
 	{
 		Autotest autotest = new Autotest();

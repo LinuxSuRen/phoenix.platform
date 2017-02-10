@@ -18,6 +18,7 @@ public interface SuiteRunnerInfoMapper
 	List<SuiteRunnerInfo> getAllWithContentByProjectId(String projectId);
 	
 	SuiteRunnerInfo getById(String id);
+	int getCountByProjectId(String projectId);
 	
 	void save(SuiteRunnerInfo suiteRunnerInfo);
 	void update(SuiteRunnerInfo suiteRunnerInfo);

@@ -31,6 +31,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.suren.autotest.platform.mapping.DataSourceInfoMapper;
 import org.suren.autotest.platform.model.DataSourceInfo;
@@ -67,6 +68,7 @@ public class DataSourceInfoController
 	public String dataSourceInfoAdd(String projectId, Model model)
 	{
 		DataSourceInfo dataSourceInfo = new DataSourceInfo();
+		dataSourceInfo.setProjectId(projectId);
 		model.addAttribute("dataSourceInfo", dataSourceInfo);
 		initEnums(model);
 		
@@ -199,6 +201,13 @@ public class DataSourceInfoController
 		
 		dataSourceInfoMapper.delById(id);
 		return "redirect:/data_source_info/list.su?projectId=" + dataSourceInfo.getProjectId();
+	}
+	
+	@ResponseBody
+	@RequestMapping("count")
+	public int getCountByProjectId(String projectId)
+	{
+		return dataSourceInfoMapper.getCountByProjectId(projectId);
 	}
 	
 	/**
