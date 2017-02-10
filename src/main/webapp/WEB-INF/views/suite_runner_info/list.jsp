@@ -188,6 +188,7 @@ $(function(){
 		form.find('[name="id"]').val(itemId);
 		form.find('input').removeAttr('readonly');
 		form.find('[name="currentIndex"]').attr('readonly', 'readonly');
+		$('#messageBody').html('');
 		
 		var normalTimes = form.find('[name="normalTimes"]').val();
 		
@@ -199,7 +200,7 @@ $(function(){
 			
 			$(this).attr('disabled', true);
 			
-			debugRun(form, normalTimes);
+			debugRun(form, Number(normalTimes));
 		}).attr('disabled', false);
 	});
 });
@@ -218,7 +219,7 @@ function suiteRun(form, url, formData, maxTimes){
 			}else{
 				var index = form.find('[name="currentIndex"]').val();
 				index = Number(index);
-				if(index <= maxTimes){
+				if(index < Number(maxTimes)){
 					form.find('[name="currentIndex"]').val(index + 1);
 					
 					suiteRun(form, url, formData, maxTimes);
