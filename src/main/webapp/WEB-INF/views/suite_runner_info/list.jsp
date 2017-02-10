@@ -120,7 +120,8 @@
 	</div><!-- /.modal -->
 </div>
 	
-<div class="modal fade" id="debugRunDialogId" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="debugRunDialogId" tabindex="-1" role="dialog"
+	aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="false">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -140,12 +141,17 @@
 					    	<input name="normalTimes" class="form-control" type="number" value="1"
 					    		required="required" min="1" max="100" />
 						</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">当前</label>
+						<div class="col-sm-2">
+					    	<input name="currentIndex" class="form-control" type="number" readonly="readonly" />
+						</div>
 					</div>
 					<div class="form-group">
 						<label class="col-sm-4 control-label">并发数</label>
 						<div class="col-sm-3">
-					    	<input name="concurrentTimes" class="form-control" type="number" value="0"
-					    		required="required" min="0" max="6"/>
+					    	<input name="concurrentTimes" class="form-control" type="number" value="1"
+					    		required="required" min="1" max="6"/>
 						</div>
 					</div>
 					<div class="form-group">
@@ -163,8 +169,8 @@
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-					<button type="button" class="btn btn-primary btn-ok" data-dismiss="modal">运行</button>
+					<button type="button" class="btn btn-primary btn-ok">运行</button>
+					<button type="button" class="btn btn-default btn-close" data-dismiss="modal">关闭</button>
 				</div>
 			</form>
 		</div><!-- /.modal-content -->
@@ -176,27 +182,61 @@
 <script type="text/javascript">
 $(function(){
 	$('#debugRunDialogId').on('show.bs.modal', function(e) {
+		var dialog = $(this);
 		var itemId = $(e.relatedTarget).data('href');
-		var form = $(this).find('form');
+		var form = dialog.find('form');
 		form.find('[name="id"]').val(itemId);
+		form.find('input').removeAttr('readonly');
+		form.find('[name="currentIndex"]').attr('readonly', 'readonly');
 		
-		$(this).find('.btn-ok').unbind('click').click(function(){
-			debugRun(form);
-		});
+		var normalTimes = form.find('[name="normalTimes"]').val();
+		
+		dialog.find('.btn-ok').unbind('click').click(function(){
+			form.find('input').attr('readonly', 'readonly');
+			dialog.find('.btn-close').unbind('click').html('关闭并查看结果').click(function(){
+				$('#runInfoDialogId').modal();
+			});
+			
+			$(this).attr('disabled', true);
+			
+			debugRun(form, normalTimes);
+		}).attr('disabled', false);
 	});
 });
 
-function debugRun(form){
-	$.post('<%=basePath %>/project/deploy.su?id=${projectId }', function(){
-		$.post(form.attr('action'), form.serialize(), function(data){
+function suiteRun(form, url, formData, maxTimes){
+	$.ajax({
+		type : 'POST',
+		url : url,
+		async : true,
+		dataType : 'json',
+		data : formData,
+		success : function(data){
 			if(data.message && data.message != ''){
 				$('#messageBody').html(data.message);
+				form.find('[name="currentIndex"]').attr('style', 'background-color: read;');
 			}else{
-				$('#messageBody').html("成功！");
+				var index = form.find('[name="currentIndex"]').val();
+				index = Number(index);
+				if(index <= maxTimes){
+					form.find('[name="currentIndex"]').val(index + 1);
+					
+					suiteRun(form, url, formData, maxTimes);
+				}
 			}
-			
-			$('#runInfoDialogId').modal();
-		});
+		}
+	});
+}
+
+function debugRun(form, normalTimes){
+	$.post('<%=basePath %>/project/deploy.su?id=${projectId }', function(){
+		form.find('[name="currentIndex"]').val(1);
+		
+		suiteRun(form, form.attr('action'), form.serialize(), normalTimes);
+
+		if($('#messageBody').html() == ''){
+			$('#messageBody').html('成功！');
+		}
 	});
 }
 </script>

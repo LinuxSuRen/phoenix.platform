@@ -207,6 +207,7 @@ public class SuiteRunnerInfoController
 		Date beginTime = new Date();
 		
 		SuiteRunnerLog suiteRunnerLog = new SuiteRunnerLog();
+		suiteRunnerLog.setMessage("");
 		suiteRunnerLog.setBeginTime(beginTime);
 		suiteRunnerLog.setSuiteRunnerInfoId(id);
 		suiteRunnerLog.setRemark(debugRunInfo.getRemark());
@@ -222,10 +223,7 @@ public class SuiteRunnerInfoController
 
 		try
 		{
-			for(int i = 0; i < debugRunInfo.getNormalTimes(); i++)
-			{
-				SuiteRunner.runFromFile(runnerFile);
-			}
+			SuiteRunner.runFromFile(runnerFile);
 		}
 		catch(Exception e)
 		{
