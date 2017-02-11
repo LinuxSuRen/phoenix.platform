@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.suren.autotest.platform.mapping.UserBehaviorMapper">
+	<insert id="save">
+		<selectKey keyProperty="id" resultType="String" order="BEFORE">
+			SELECT UUID()
+		</selectKey>
+		insert into user_behavior (id, user_id, method, user_agent, server_ip,
+			client_ip, operating_system, request_uri, query_info, visit_time)
+		values (#{id}, #{userId}, #{method}, #{userAgent}, #{serverIP}, #{clientIP},
+			#{operatingSystem}, #{requestUri}, #{queryInfo}, #{visitTime}) 
+	</insert>
+</mapper>

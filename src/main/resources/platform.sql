@@ -7,6 +7,7 @@ drop table if exists page_info;
 drop table if exists project;
 drop table if exists user_role_info;
 drop table if exists role_info;
+drop table if exists user_behavior;
 drop table if exists user_info;
 
 create table user_info (
@@ -17,6 +18,22 @@ create table user_info (
 	email varchar(100) unique,
 	regist_time timestamp,
 	primary key (id)
+);
+
+create table user_behavior(
+	id varchar(36) not null,
+	user_id varchar(36) not null,
+	method varchar(10),
+	user_agent varchar(200),
+	server_ip varchar(20),
+	client_ip varchar(20),
+	operating_system varchar(20),
+	request_uri varchar(200),
+	query_info varchar(200),
+	visit_time timestamp,
+	primary key(id),
+	constraint user_behavior_2_user_info foreign key (user_id)
+	references user_info (id) on delete restrict
 );
 
 create table role_info (
