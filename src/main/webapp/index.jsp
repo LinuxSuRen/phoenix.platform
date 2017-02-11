@@ -36,6 +36,7 @@
             <li><a href="#">留白</a></li>
         </ul>
 		<ul class="nav navbar-nav navbar-right">
+			<li><a href="#">在线用户 <span class="badge"></span></a></li>
 			<li data-step="2" data-intro="查看项目列表" data-position="left"><su:anchor href="/sys/edit.su" innerHtml="系统配置"></su:anchor></li>
 			<li><a href="#" onclick="sysHelp();">帮助</a></li>
 		</ul>
@@ -54,17 +55,28 @@
 .osc_git_main a{color: #4183c4;}
 </style>
 
+<%--
 <div data-step="3" data-intro="您可以通过这里来关注作者和项目" data-position="left">
 <iframe src="https://ghbtns.com/github-btn.html?user=LinuxSuRen&repo=autotest.platform&type=follow&count=true&size=large" frameborder="0" scrolling="0" width="250px" height="30px"></iframe><br/>
 <iframe src="https://ghbtns.com/github-btn.html?user=LinuxSuRen&repo=autotest.platform&type=watch&count=true&size=large&v=2" frameborder="0" scrolling="0" width="250px" height="30px"></iframe><br/>
 <iframe src="https://ghbtns.com/github-btn.html?user=LinuxSuRen&repo=autotest.platform&type=star&count=true&size=large" frameborder="0" scrolling="0" width="250px" height="30px"></iframe><br/>
 </div>
+ --%>
 
 <script type="text/javascript">
 function sysHelp(){
 	introJs().setOption('done', 'next').start().oncomplete(function(){
 	});
 }
+
+$(function(){
+	$.ajax({
+		url : '<%=basePath%>/user_info/onLineCount.su',
+		success : function(count){
+			$('a:contains("在线用户")').find('.badge').html(count);
+		}
+	});
+});
 </script>
 
 </body>
