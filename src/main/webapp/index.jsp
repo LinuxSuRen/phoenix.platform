@@ -71,7 +71,7 @@ function sysHelp(){
 
 $(function(){
 	$.ajax({
-		url : '<%=basePath%>/user_info/onLineCount.su',
+		url : '<%=basePath%>/user_manager/onLineCount.su',
 		success : function(count){
 			$('a:contains("在线用户")').find('.badge').html(count);
 		}

@@ -19,11 +19,9 @@ package org.suren.autotest.platform.controller;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.suren.autotest.platform.mapping.UserInfoMapper;
 import org.suren.autotest.platform.model.UserInfo;
 
@@ -38,8 +36,6 @@ public class UserInfoController
 {
 	@Autowired
 	private UserInfoMapper userInfoMapper;
-	@Autowired
-	private SessionRegistry sessionRegistry;
 	
 	/**
 	 * 跳转到登录页面
@@ -48,8 +44,8 @@ public class UserInfoController
 	@RequestMapping("login")
 	public String login(HttpServletRequest request)
 	{
-		Object abc = request.getSession().getAttribute("SPRING_SECURITY_CONTEXT");
-		if(abc != null)
+		Object context = request.getSession().getAttribute("SPRING_SECURITY_CONTEXT");
+		if(context != null)
 		{
 			return "redirect:/";
 		}
@@ -90,13 +86,6 @@ public class UserInfoController
 			
 			return "redirect:/user_info/regist.su";
 		}
-	}
-	
-	@ResponseBody
-	@RequestMapping("onLineCount")
-	public int onLineCount()
-	{
-		return sessionRegistry.getAllPrincipals().size();
 	}
 	
 	@RequestMapping("logout")
