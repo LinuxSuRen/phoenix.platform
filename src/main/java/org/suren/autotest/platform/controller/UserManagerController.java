@@ -16,6 +16,8 @@
 
 package org.suren.autotest.platform.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.stereotype.Controller;
@@ -38,6 +40,13 @@ public class UserManagerController
 	public int onLineCount()
 	{
 		return sessionRegistry.getAllPrincipals().size();
+	}
+	
+	@ResponseBody
+	@RequestMapping("onLineUser")
+	public List<Object> onLineUser()
+	{
+		return sessionRegistry.getAllPrincipals();
 	}
 
 }
