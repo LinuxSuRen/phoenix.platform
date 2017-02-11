@@ -17,28 +17,45 @@
 package org.suren.autotest.platform.security;
 
 import java.io.IOException;
+import java.util.Date;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
+import org.suren.autotest.platform.mapping.UserBehaviorMapper;
+import org.suren.autotest.platform.model.UserBehavior;
 
 /**
  * @author suren
  * @date 2017年1月29日 下午2:54:13
  */
-public class AutoTestAuthSuccessHandler implements AuthenticationSuccessHandler
+public class AutoTestAuthSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler
 {
+	@Autowired
+	private UserBehaviorMapper userBehaviorMapper;
 
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request,
 			HttpServletResponse response, Authentication authentication)
-			throws IOException, ServletException
+			throws ServletException, IOException
 	{
-		// TODO Auto-generated method stub
-
+		super.onAuthenticationSuccess(request, response, authentication);
+		UserDetail details = (UserDetail) authentication.getPrincipal();
+		
+		UserBehavior userBehavior = new UserBehavior();
+		userBehavior.setUserId(details.getId());
+		userBehavior.setMethod(request.getMethod());
+		userBehavior.setRequestUri(request.getRequestURI());
+		userBehavior.setQueryInfo(request.getQueryString());
+		userBehavior.setServerIP(request.getServerName());
+		userBehavior.setClientIP(request.getRemoteAddr());
+		userBehavior.setVisitTime(new Date());
+		
+		userBehaviorMapper.save(userBehavior);
 	}
 
 }

@@ -27,6 +27,7 @@
 		<form-login login-page="/user_info/login.su"
 			login-processing-url="/user_info/login_process.su"
 			default-target-url="/"
+			authentication-success-handler-ref="authSuccessHandler"
 			authentication-failure-url="/user_info/login.su?error=true"
 			username-parameter="username"
 			password-parameter="password"/>

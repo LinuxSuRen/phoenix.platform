@@ -26,6 +26,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.suren.autotest.platform.mapping.UserBehaviorMapper;
 import org.suren.autotest.platform.mapping.UserInfoMapper;
 import org.suren.autotest.platform.model.UserInfo;
 
@@ -38,6 +39,8 @@ public class AutoTestUserDetailsService implements UserDetailsService
 {
 	@Autowired
 	private UserInfoMapper userInfoMapper;
+	@Autowired
+	private UserBehaviorMapper userBehaviorMapper;
 
 	@Override
 	public UserDetails loadUserByUsername(String username)
