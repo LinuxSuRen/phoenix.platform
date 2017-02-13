@@ -1,0 +1,7 @@
+<sitemesh>
+	<mapping decorator="/decorators/default.jsp"/> 
+  
+	<excludes>  
+		<pattern>/static/*</pattern>  
+	</excludes> 
+</sitemesh>
