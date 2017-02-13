@@ -7,14 +7,7 @@
 <!DOCTYPE html>
 <html lang="zh-cn">
 <head>
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>数据源</title>
-<su:link href="/static/bootstrap/css/bootstrap.min.css"></su:link>
-<su:script src="/static/jquery/jquery.min.js"></su:script>
-<su:script src="/static/bootstrap/js/bootstrap.min.js"></su:script>
-
 <su:link href="/static/bootstrapValidator/css/bootstrapValidator.css"></su:link>
 <su:script src="/static/bootstrapValidator/js/bootstrapValidator.js"></su:script>
 </head>

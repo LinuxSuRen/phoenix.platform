@@ -6,17 +6,11 @@
 <!DOCTYPE html>
 <html lang="zh-cn">
 <head>
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>测试套件</title>
-<link href="<%=basePath %>/static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 <link href="<%=basePath %>/static/bootstrapValidator/css/bootstrapValidator.css" rel="stylesheet">
+<script src="<%=basePath %>/static/bootstrapValidator/js/bootstrapValidator.js"></script>
 </head>
 <body>
-	<script src="<%=basePath %>/static/jquery/jquery.min.js"></script>
-	<script src="<%=basePath %>/static/bootstrap/js/bootstrap.min.js"></script>
-	<script src="<%=basePath %>/static/bootstrapValidator/js/bootstrapValidator.js"></script>
 
 	<nav class="navbar navbar-default" role="navigation">
 		<div class="container-fluid">
