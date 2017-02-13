@@ -1,3 +1,5 @@
+drop table if exists attachment;
+drop table if exists attach_config;
 drop table if exists options;
 drop table if exists suite_runner_log;
 drop table if exists suite_runner_info;
@@ -128,6 +130,29 @@ create table suite_runner_log (
 	references suite_runner_info (id) on delete restrict,
 	constraint suite_runner_log_2_user_info foreign key (trigger_user_id)
 	references user_info (id) on delete restrict
+);
+
+create table attach_config (
+	id varchar(36) not null,
+	name varchar(100) not null,
+	remark varchar(200),
+	primary key(id)
+);
+
+create table attachment (
+	id varchar(36) not null,
+	owner_id varchar(36) not null,
+	belong_id varchar(36) not null,
+	config_id varchar(36) not null,
+	file_name varchar(200) not null,
+	relative_path varchar(512) not null,
+	remark varchar(200),
+	create_time timestamp not null,
+	constraint attach_2_user_info foreign key (owner_id)
+	references user_info (id) on delete restrict
+	constraint attach_2_config foreign key (config_id)
+	references attach_config (id) on delete restrict
+	primary key(id)
 );
 
 create table options (
