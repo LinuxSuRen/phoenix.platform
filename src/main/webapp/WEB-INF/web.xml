@@ -3,7 +3,12 @@
  "http://java.sun.com/dtd/web-app_2_3.dtd" >
 
 <web-app>
-	<display-name>Archetype Created Web Application</display-name>
+	<display-name>Phoenix Platform</display-name>
+	
+	<error-page>
+		<error-code>404</error-code>
+		<location>/errors/404.su</location>
+	</error-page>
 
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
