@@ -36,10 +36,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.suren.autotest.platform.mapping.DataSourceInfoMapper;
 import org.suren.autotest.platform.mapping.PageInfoMapper;
+import org.suren.autotest.platform.mapping.ProjectMapper;
 import org.suren.autotest.platform.mapping.SuiteRunnerInfoMapper;
 import org.suren.autotest.platform.mapping.UserInfoMapper;
 import org.suren.autotest.platform.model.DataSourceInfo;
 import org.suren.autotest.platform.model.PageInfo;
+import org.suren.autotest.platform.model.Project;
 import org.suren.autotest.platform.model.SuiteRunnerInfo;
 import org.suren.autotest.platform.schemas.autotest.Autotest;
 import org.suren.autotest.platform.schemas.autotest.Autotest.DataSources;
@@ -70,6 +72,8 @@ public class PageInfoController
 	@Autowired
 	private UserInfoMapper userMapper;
 	@Autowired
+	private ProjectMapper projectMapper;
+	@Autowired
 	private PageInfoMapper pageInfoMapper;
 	@Autowired
 	private DataSourceInfoMapper dataSourceInfoMapper;
@@ -85,8 +89,14 @@ public class PageInfoController
 	public String pageInfoAdd(Model model, String projectId)
 	{
 		PageInfo pageInfo = new PageInfo();
-		pageInfo.setProjectId(projectId);
 		pageInfo.setAutotest(initAutotest());
+		
+		Project project = projectMapper.getById(projectId);
+		if(project != null)
+		{
+			pageInfo.setProjectId(projectId);
+			pageInfo.getAutotest().getPages().setPagePackage(project.getPkgName());
+		}
 		
 		model.addAttribute("pageInfo", pageInfo);
 		model.addAttribute("fieldType", FieldTypeEnum.values());

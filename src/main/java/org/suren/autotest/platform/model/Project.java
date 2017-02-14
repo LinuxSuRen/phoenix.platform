@@ -4,6 +4,7 @@
 package org.suren.autotest.platform.model;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author suren
@@ -14,8 +15,11 @@ public class Project
 	private String id;
 	private String ownerId;
 	private String name;
+	private String pkgName;
 	private String remark;
 	private Date createTime;
+	/** 以下是非DB相关属性 **/
+	private List<Attachment> attachList;
 	/**
 	 * @return the id
 	 */
@@ -59,6 +63,20 @@ public class Project
 		this.name = name;
 	}
 	/**
+	 * @return the pkgName
+	 */
+	public String getPkgName()
+	{
+		return pkgName;
+	}
+	/**
+	 * @param pkgName the pkgName to set
+	 */
+	public void setPkgName(String pkgName)
+	{
+		this.pkgName = pkgName;
+	}
+	/**
 	 * @return the remark
 	 */
 	public String getRemark()
@@ -85,5 +103,19 @@ public class Project
 	public void setCreateTime(Date createTime)
 	{
 		this.createTime = createTime;
+	}
+	/**
+	 * @return the attachList
+	 */
+	public List<Attachment> getAttachList()
+	{
+		return attachList;
+	}
+	/**
+	 * @param attachList the attachList to set
+	 */
+	public void setAttachList(List<Attachment> attachList)
+	{
+		this.attachList = attachList;
 	}
 }

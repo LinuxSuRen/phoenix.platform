@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.lang.reflect.Field;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -29,10 +30,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.suren.autotest.platform.AutoTestClassloader;
+import org.suren.autotest.platform.mapping.AttachmentMapper;
 import org.suren.autotest.platform.mapping.DataSourceInfoMapper;
 import org.suren.autotest.platform.mapping.PageInfoMapper;
 import org.suren.autotest.platform.mapping.ProjectMapper;
 import org.suren.autotest.platform.mapping.SuiteRunnerInfoMapper;
+import org.suren.autotest.platform.model.Attachment;
 import org.suren.autotest.platform.model.DataSourceInfo;
 import org.suren.autotest.platform.model.PageInfo;
 import org.suren.autotest.platform.model.Project;
@@ -59,6 +62,8 @@ public class ProjectController implements ApplicationContextAware
 	private DataSourceInfoMapper dataSourceInfoMapper;
 	@Autowired
 	private SuiteRunnerInfoMapper suiteRunnerInfoMapper;
+	@Autowired
+	private AttachmentMapper attachmentMapper;
 	
 	@Autowired
 	private ServletContext servletContext;
@@ -88,6 +93,11 @@ public class ProjectController implements ApplicationContextAware
 			proForModel = new Project();
 			proForModel.setOwnerId(ownerId);
 		}
+		else
+		{
+			List<Attachment> attachList = attachmentMapper.getByBelongId(id);
+			proForModel.setAttachList(attachList);
+		}
 		
 		model.addAttribute("project", proForModel);
 		
@@ -99,6 +109,7 @@ public class ProjectController implements ApplicationContextAware
 	{
 		if(StringUtils.isBlank(project.getId()))
 		{
+			project.setCreateTime(new Date());
 			projectMapper.save(project);
 		}
 		else
