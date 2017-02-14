@@ -16,11 +16,22 @@
 
 package org.suren.autotest.platform.mapping;
 
+import java.util.List;
+
 /**
  * @author suren
  * @date 2017年2月13日 下午9:17:57
  */
-public interface BaseMapper
+public interface BaseMapper<T>
 {
 	void save(Object obj);
+
+	/**
+	 * @param id
+	 */
+	void delById(String id);
+	
+	T getById(String id);
+	
+	List<T> getAll();
 }

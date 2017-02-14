@@ -16,11 +16,12 @@
 
 package org.suren.autotest.platform.mapping;
 
+import org.suren.autotest.platform.model.AttachConfig;
+
 /**
  * @author suren
  * @date 2017年2月13日 下午9:22:10
  */
-public interface AttachConfigMapper extends BaseMapper
+public interface AttachConfigMapper extends BaseMapper<AttachConfig>
 {
-
 }

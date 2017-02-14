@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.suren.autotest.platform.mapping.AttachmentMapper">
+	<insert id="save">
+		<selectKey keyProperty="id" resultType="String" order="BEFORE">
+			SELECT UUID()
+		</selectKey>
+		
+		insert into attachment (id, owner_id, belong_id, config_id, file_name, relative_path, remark, create_time) values (
+			#{id}, #{ownerId}, #{belongId}, #{configId}, #{fileName}, #{relativePath}, #{remark}, #{createTime}
+		)
+	</insert>
+	
+	<select id="getByBelongId" resultType="Attachment" resultMap="attachmentMap">
+		select * from attachment where belong_id = #{belongId}
+	</select>
+	
+	<resultMap type="org.suren.autotest.platform.model.Attachment" id="attachmentMap">
+		<result property="ownerId" column="owner_id"/>
+		<result property="belongId" column="belong_id"/>
+		<result property="configId" column="config_id"/>
+		<result property="fileName" column="file_name"/>
+		<result property="relativePath" column="relative_path"/>
+		<result property="createTime" column="create_time"/>
+	</resultMap>
+</mapper>

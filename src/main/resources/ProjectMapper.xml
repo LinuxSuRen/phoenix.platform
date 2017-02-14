@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<!--命名空间应该是对应接口的包名+类名 -->
 <mapper namespace="org.suren.autotest.platform.mapping.ProjectMapper">
 	<resultMap type="org.suren.autotest.platform.model.Project" id="projectMap">
 		<result property="ownerId" column="owner_id"/>
 		<result property="createTime" column="create_time"/>
+		<result property="pkgName" column="pkg_name"/>
 	</resultMap>
 	
-	<select id="getById" resultType="Project">
+	<select id="getById" resultType="Project" resultMap="projectMap">
 		select * from project where id = #{id}
 	</select>
 	
@@ -20,13 +20,15 @@
 			SELECT UUID()
 		</selectKey>
 		
-		insert into project (id, owner_id, name, remark, create_time) values (
-			#{id}, #{ownerId}, #{name}, #{remark}, #{createTime}
+		insert into project (id, owner_id, name, pkg_name, remark, create_time) values (
+			#{id}, #{ownerId}, #{name}, #{pkgName}, #{remark}, #{createTime}
 		)
 	</insert>
 	
 	<update id="update">
-		update project set name = #{name}, remark = #{remark} where id = #{id}
+		update project set name = #{name},
+			remark = #{remark}, pkg_name = #{pkgName}
+		where id = #{id}
 	</update>
 	
 	<delete id="delById">

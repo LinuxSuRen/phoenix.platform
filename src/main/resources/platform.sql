@@ -69,6 +69,7 @@ create table project (
 	id varchar(36) not null,
 	owner_id varchar(36),
 	name varchar(100) unique,
+	pkg_name varchar(300),
 	remark longtext,
 	create_time timestamp,
 	primary key (id),
@@ -134,7 +135,7 @@ create table suite_runner_log (
 
 create table attach_config (
 	id varchar(36) not null,
-	name varchar(100) not null,
+	name varchar(100) not null unique,
 	remark varchar(200),
 	primary key(id)
 );
@@ -149,9 +150,9 @@ create table attachment (
 	remark varchar(200),
 	create_time timestamp not null,
 	constraint attach_2_user_info foreign key (owner_id)
-	references user_info (id) on delete restrict
+	references user_info (id) on delete restrict,
 	constraint attach_2_config foreign key (config_id)
-	references attach_config (id) on delete restrict
+	references attach_config (id) on delete restrict,
 	primary key(id)
 );
 
@@ -161,3 +162,7 @@ create table options (
 	opt_value varchar(300),
 	primary key (id)
 );
+
+create view project_user_view as 
+select project.id, project.name, project.owner_id, user_info.nick_name as userName
+from project left join user_info on project.owner_id = user_info.id;

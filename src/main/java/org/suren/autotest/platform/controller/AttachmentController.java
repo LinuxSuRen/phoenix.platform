@@ -14,17 +14,18 @@
  * limitations under the License.
  */
 
-package org.suren.autotest.platform.mapping;
+package org.suren.autotest.platform.controller;
 
-import java.util.List;
-
-import org.suren.autotest.platform.model.Attachment;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
  * @author suren
- * @date 2017年2月13日 下午9:21:57
+ * @date 2017年2月14日 上午8:20:47
  */
-public interface AttachmentMapper extends BaseMapper<Attachment>
+@Controller
+@RequestMapping("attachment")
+public class AttachmentController
 {
-	List<Attachment> getByBelongId(String belongId);
+
 }
