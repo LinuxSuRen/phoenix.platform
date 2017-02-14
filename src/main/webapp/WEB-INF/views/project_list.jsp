@@ -20,12 +20,14 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
         </button>
+        <su:anchor cssClass="navbar-brand" href="/" innerHtml="首页"></su:anchor>
         <a class="navbar-brand" href="list.su" data-step="1" data-intro="刷新当前页面" data-position="right">刷新</a>
         <su:anchor cssClass="navbar-brand" href="/user_info/logout.su" innerHtml="退出"></su:anchor>
     </div>
     <div class="collapse navbar-collapse" id="example-navbar-collapse">
         <ul class="nav navbar-nav">
-            <li><a href="edit.su" data-step="2" data-intro="从这里新增一个项目，之后就可以添加元素定位、数据源等" data-position="right">新增</a></li>
+            <li><a href="edit.su" data-step="2" data-intro="从这里新增一个项目，之后就可以添加元素定位、数据源等"
+            	data-position="right">新增</a></li>
 			<form class="navbar-form navbar-left" role="search">
 				<div class="form-group">
 					<input type="text" class="form-control" placeholder="项目名称">

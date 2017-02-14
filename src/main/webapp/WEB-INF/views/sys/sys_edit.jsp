@@ -7,29 +7,55 @@
 <!DOCTYPE html>
 <html lang="zh-cn">
 <head>
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>系统配置</title>
-<su:link href="/static/bootstrap/css/bootstrap.min.css"></su:link>
-<su:script src="/static/jquery/jquery.min.js"></su:script>
-<su:script src="/static/bootstrap/js/bootstrap.min.js"></su:script>
 </head>
 <body>
+<nav class="navbar navbar-default" role="navigation">
+    <div class="container-fluid">
+	    <div class="navbar-header">
+	        <button type="button" class="navbar-toggle" data-toggle="collapse"
+	                data-target="#example-navbar-collapse">
+	            <span class="sr-only">切换导航</span>
+	            <span class="icon-bar"></span>
+	            <span class="icon-bar"></span>
+	            <span class="icon-bar"></span>
+	        </button>
+	        <su:anchor cssClass="navbar-brand" href="/" innerHtml="首页"></su:anchor>
+	        <span data-step="3" data-intro="项目中允许添加的附件类型配置"
+				data-position="down">
+	        	<su:anchor cssClass="navbar-brand" href="/attach_config/list.su" innerHtml="附件类型"></su:anchor>
+	        </span>
+	    </div>
+	    <div class="collapse navbar-collapse" id="example-navbar-collapse">
+			<ul class="nav navbar-nav navbar-right">
+				<li><a href="#" onclick="sysHelp();">帮助</a></li>
+			</ul>
+	    </div>
+    </div>
+</nav>
 
 <form class="form-horizontal" role="form" method="post" action="save.su">
 	<div class="form-group">
-		<label class="col-sm-2 control-label">Gif图片路径</label>
-		<div class="col-sm-3">
+		<label class="col-sm-2 control-label">GIF图片路径</label>
+		<div class="col-sm-3" data-step="1" data-intro="自动化UI测试过程录制的GIF图片在服务器上存放的位置"
+			data-position="right">
 	    	<input name="gifPath" value="${sysConf.gifPath }" class="form-control" type="input" />
 		</div>
 		<label class="col-sm-2 control-label">密钥</label>
-		<div class="col-sm-3">
+		<div class="col-sm-3" data-step="2" data-intro="用于保存加密数据的密钥"
+			data-position="left">
 	    	<input name="securtyKey" value="${sysConf.securtyKey }" class="form-control" type="password" />
 		</div>
 	</div>
 	
 	<button type="submit" class="btn btn-primary">保存</button>
 </form>
+
+<script type="text/javascript">
+function sysHelp(){
+	introJs().setOption('done', 'next').start().oncomplete(function(){
+	});
+}
+</script>
 
 </body>
