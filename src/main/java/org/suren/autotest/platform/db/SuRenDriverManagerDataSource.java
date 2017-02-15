@@ -54,6 +54,7 @@ public class SuRenDriverManagerDataSource extends DriverManagerDataSource
 	private void createUserDefFunc4SQLite(Connection conn) throws SQLException
 	{
 		Function.create(conn, "UUID", new Function() {
+			@Override
 			protected void xFunc() {
 				try
 				{
@@ -66,6 +67,7 @@ public class SuRenDriverManagerDataSource extends DriverManagerDataSource
 			}
 	    });
 		Function.create(conn, "left", new Function() {
+			@Override
 			protected void xFunc() {
 				try
 				{
