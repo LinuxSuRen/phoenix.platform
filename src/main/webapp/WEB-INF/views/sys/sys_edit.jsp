@@ -47,6 +47,12 @@
 	    	<input name="securtyKey" value="${sysConf.securtyKey }" class="form-control" type="password" />
 		</div>
 	</div>
+	<div class="form-group">
+		<label class="col-sm-2 control-label">附件所在根目录</label>
+		<div class="col-sm-3">
+	    	<input name="attachRoot" value="${sysConf.attachRoot }" class="form-control" type="input" />
+		</div>
+	</div>
 	
 	<button type="submit" class="btn btn-primary">保存</button>
 </form>

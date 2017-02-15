@@ -25,14 +25,19 @@ import java.net.URL;
 import java.net.URLDecoder;
 import java.util.Properties;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.suren.autotest.platform.mapping.OptionsMapper;
+import org.suren.autotest.platform.model.Options;
 import org.suren.autotest.platform.model.SystemConf;
 import org.suren.autotest.web.framework.log.Image4SearchLog;
 import org.suren.autotest.web.framework.log.LoggerConstants;
 import org.suren.autotest.web.framework.util.EncryptorUtil;
+import org.suren.autotest.web.framework.util.StringUtils;
 
 /**
  * @author suren
@@ -44,9 +49,11 @@ public class SystemController
 {
 	@Autowired
 	private Image4SearchLog image4SearchLog;
+	@Autowired
+	private OptionsMapper optionsMapper;
 
 	@RequestMapping("edit")
-	public String edit(Model model)
+	public String edit(Model model, HttpServletRequest request)
 	{
 		File file = image4SearchLog.getOutputFile();
 		
@@ -54,13 +61,24 @@ public class SystemController
 		sysConf.setGifPath(file.getAbsolutePath());
 		sysConf.setSecurtyKey(EncryptorUtil.getSecretKey());
 		
+		Options options = optionsMapper.getByKey("attachRoot");
+		if(options != null)
+		{
+			sysConf.setAttachRoot(options.getOptValue());
+		}
+		
+		if(StringUtils.isBlank(sysConf.getAttachRoot()))
+		{
+			sysConf.setAttachRoot(request.getServletContext().getRealPath("/"));
+		}
+		
 		model.addAttribute("sysConf", sysConf);
 		
 		return "sys/sys_edit";
 	}
 	
 	@RequestMapping("save")
-	public String edit(Model model, SystemConf sysConf)
+	public String save(Model model, SystemConf sysConf)
 	{
 		URL url = this.getClass().getClassLoader().getResource(LoggerConstants.IMG_LOG_CONF_FILE_NAME);
 		if(url != null)
@@ -99,6 +117,15 @@ public class SystemController
 				e.printStackTrace();
 			}
 		}
+		
+		Options options = optionsMapper.getByKey("attachRoot");
+		if(options == null)
+		{
+			options = new Options();
+			options.setOptKey("attachRoot");
+		}
+		options.setOptValue(sysConf.getAttachRoot());
+		optionsMapper.save(options);
 		
 		return "redirect:/sys/edit.su";
 	}
