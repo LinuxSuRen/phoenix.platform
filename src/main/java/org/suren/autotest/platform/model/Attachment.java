@@ -16,6 +16,8 @@
 
 package org.suren.autotest.platform.model;
 
+import java.util.Date;
+
 /**
  * 附件表
  * @author suren
@@ -30,7 +32,7 @@ public class Attachment
 	private String fileName;
 	private String relativePath;
 	private String remark;
-	private String createTime;
+	private Date createTime;
 	/**
 	 * @return the id
 	 */
@@ -132,14 +134,14 @@ public class Attachment
 	/**
 	 * @return the createTime
 	 */
-	public String getCreateTime()
+	public Date getCreateTime()
 	{
 		return createTime;
 	}
 	/**
 	 * @param createTime the createTime to set
 	 */
-	public void setCreateTime(String createTime)
+	public void setCreateTime(Date createTime)
 	{
 		this.createTime = createTime;
 	}
