@@ -11,6 +11,7 @@ drop table if exists user_role_info;
 drop table if exists role_info;
 drop table if exists user_behavior;
 drop table if exists user_info;
+drop table if exists sys_config;
 
 create table user_info (
 	id varchar(36) not null,
@@ -163,6 +164,13 @@ create table options (
 	primary key (id)
 );
 
-create view project_user_view as 
-select project.id, project.name, project.owner_id, user_info.nick_name as userName
-from project left join user_info on project.owner_id = user_info.id;
+create table sys_config (
+	id varchar(36) not null,
+	attach_root varchar(300),
+	primary key(id);
+);
+
+create view project_user_view as
+	select project.id, project.name, project.owner_id, user_info.nick_name as userName
+	from project left join user_info
+	on project.owner_id = user_info.id;
