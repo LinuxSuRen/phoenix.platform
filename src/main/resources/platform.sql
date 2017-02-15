@@ -161,13 +161,14 @@ create table options (
 	id varchar(36) not null,
 	opt_key varchar(100) not null unique,
 	opt_value varchar(300),
+	remark varchar(300),
 	primary key (id)
 );
 
 create table sys_config (
 	id varchar(36) not null,
 	attach_root varchar(300),
-	primary key(id);
+	primary key(id)
 );
 
 create view project_user_view as
