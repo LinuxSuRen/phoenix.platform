@@ -34,6 +34,7 @@ public class UserBehavior
 	private String operatingSystem;
 	private String requestUri;
 	private String queryInfo;
+	private String cookie;
 	private Date visitTime;
 	/**
 	 * @return the id
@@ -154,6 +155,20 @@ public class UserBehavior
 	public void setQueryInfo(String queryInfo)
 	{
 		this.queryInfo = queryInfo;
+	}
+	/**
+	 * @return the cookie
+	 */
+	public String getCookie()
+	{
+		return cookie;
+	}
+	/**
+	 * @param cookie the cookie to set
+	 */
+	public void setCookie(String cookie)
+	{
+		this.cookie = cookie;
 	}
 	/**
 	 * @return the visitTime

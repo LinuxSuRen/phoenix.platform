@@ -30,6 +30,7 @@ import org.suren.autotest.platform.mapping.UserBehaviorMapper;
 import org.suren.autotest.platform.model.UserBehavior;
 
 /**
+ * 当认证成功后，记录用户的登陆信息
  * @author suren
  * @date 2017年1月29日 下午2:54:13
  */
@@ -54,6 +55,8 @@ public class AutoTestAuthSuccessHandler extends SavedRequestAwareAuthenticationS
 		userBehavior.setServerIP(request.getServerName());
 		userBehavior.setClientIP(request.getRemoteAddr());
 		userBehavior.setVisitTime(new Date());
+		
+		userBehavior.setUserAgent(request.getHeader("User-Agent"));
 		
 		userBehaviorMapper.save(userBehavior);
 	}
