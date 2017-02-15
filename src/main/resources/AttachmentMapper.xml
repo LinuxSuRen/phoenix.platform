@@ -15,6 +15,10 @@
 		select * from attachment where belong_id = #{belongId}
 	</select>
 	
+	<select id="countByBelongId" resultType="int">
+		select count(*) from attachment where belong_id = #{belongId}
+	</select>
+	
 	<resultMap type="org.suren.autotest.platform.model.Attachment" id="attachmentMap">
 		<result property="ownerId" column="owner_id"/>
 		<result property="belongId" column="belong_id"/>

@@ -27,6 +27,8 @@ public class SystemConf
 	private String gifPath;
 	/** 全局默认的密钥 */
 	private String securtyKey;
+	/** 附件所在根目录 */
+	private String attachRoot;
 	/**
 	 * @return the gifPath
 	 */
@@ -54,5 +56,19 @@ public class SystemConf
 	public void setSecurtyKey(String securtyKey)
 	{
 		this.securtyKey = securtyKey;
+	}
+	/**
+	 * @return the attachRoot
+	 */
+	public String getAttachRoot()
+	{
+		return attachRoot;
+	}
+	/**
+	 * @param attachRoot the attachRoot to set
+	 */
+	public void setAttachRoot(String attachRoot)
+	{
+		this.attachRoot = attachRoot;
 	}
 }

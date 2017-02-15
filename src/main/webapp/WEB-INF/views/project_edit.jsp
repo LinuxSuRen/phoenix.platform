@@ -39,6 +39,7 @@
             </li>
         </ul>
 		<ul class="nav navbar-nav navbar-right">
+			<li><a data-toggle="modal" data-target="#attachUploadDialogId" href="#">添加附件</a></li>
 			<li><a href="#" onclick="deploy()" data-step="6" data-intro="这个操作会把当前项目中的元素定位、数据源、测试套件以及附件等都拷贝、编译到指定目录下，为测试套件的运行做好准备！"
             		data-position="left">部署</a></li>
 			<li><a href="#" onclick="sysHelp();">帮助</a></li>
@@ -54,6 +55,9 @@
 <ul class="nav nav-tabs" id="project_tabs">
 	<li class="active">
 		<a href="#project_basic" data-toggle="tab">基本信息</a>
+	</li>
+	<li>
+		<a href="#project_attach" data-toggle="tab">附件 <span class="badge"></a>
 	</li>
 </ul>
 
@@ -92,6 +96,61 @@
 			</div>
 		</form>
 	</div>
+	<div class="tab-pane fade" id="project_attach">
+		<table class="table">
+			<thead>
+				<tr>
+					<th>序号</th>
+					<th>名称</th>
+					<th>备注</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+			<tbody>
+				<c:forEach items="${project.attachList}" varStatus="i" var="attach" >
+				<tr>
+					<td>${status.index+1 }</td>
+					<td>${attach.fileName }</td>
+					<td>${attach.remark }</td>
+					<td>
+						<a href="edit.su?id=${attach.id }">编辑</a>
+						<a href="#" data-href="del.su?id=${attach.id }" data-toggle="modal" data-target="#projectDelDialogId">删除</a>
+					</td>
+				</tr>
+				</c:forEach>
+			</tbody>
+		</table>
+	</div>
+</div>
+
+<div class="modal fade" id="attachUploadDialogId" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<form action="<%=basePath%>/attachment/upload.su" method="post" enctype="multipart/form-data">
+			<input type="hidden" name="belongId" value="${project.id }" />
+			<input type="hidden" name="redirectPath" value="/project/edit.su?id=${project.id }" />
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+					&times;
+				</button>
+				<h4 class="modal-title">
+					添加附件
+				</h4>
+			</div>
+			<div class="modal-body">
+				<label>附件名称</label>
+				<input name="fileName" type="text" />
+				<input name="file" type="file" accept="text/java" />
+				<label>备注</label>
+				<input name="remark" type="text" />
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+				<button type="submit" class="btn btn-primary">上传</button>
+			</div>
+			</form>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal -->
 </div>
 
 <script type="text/javascript">
@@ -118,6 +177,7 @@ $(function(){
 	updateBadge('<%=basePath%>/page_info/count.su?projectId=${project.id}', '查看页面集列表');
 	updateBadge('<%=basePath%>/data_source_info/count.su?projectId=${project.id}', '查看数据源列表');
 	updateBadge('<%=basePath%>/suite_runner_info/count.su?projectId=${project.id}', '查看运行套件列表');
+	updateBadge('<%=basePath%>/attachment/count.su?belongId=${project.id}', '附件');
 });
 
 function sysHelp(){

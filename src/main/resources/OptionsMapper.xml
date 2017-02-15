@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.suren.autotest.platform.mapping.OptionsMapper">
+	<resultMap type="org.suren.autotest.platform.model.Options" id="optionsMap">
+		<result property="optKey" column="opt_key"/>
+		<result property="optValue" column="opt_value"/>
+	</resultMap>
+	
+	<select id="getByKey" resultType="Options" resultMap="optionsMap">
+		select * from options where opt_key = #{key}
+	</select>
+	
+	<insert id="save">
+		<selectKey keyProperty="id" resultType="String" order="BEFORE">
+			SELECT UUID()
+		</selectKey>
+		insert into options (id, opt_key, opt_value, remark) values (
+			#{id}, #{optKey}, #{optValue}, #{remark}
+		)
+	</insert>
+</mapper>

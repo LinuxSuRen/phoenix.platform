@@ -16,17 +16,13 @@
 
 package org.suren.autotest.platform.mapping;
 
-import java.util.List;
-
-import org.suren.autotest.platform.model.Attachment;
+import org.suren.autotest.platform.model.Options;
 
 /**
  * @author suren
- * @date 2017年2月13日 下午9:21:57
+ * @date 2017年2月15日 下午8:44:38
  */
-public interface AttachmentMapper extends BaseMapper<Attachment>
+public interface OptionsMapper extends BaseMapper<Options>
 {
-	List<Attachment> getByBelongId(String belongId);
-	
-	int countByBelongId(String belongId);
+	Options getByKey(String key);
 }
