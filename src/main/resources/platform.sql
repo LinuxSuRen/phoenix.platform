@@ -10,8 +10,10 @@ drop table if exists project;
 drop table if exists user_role_info;
 drop table if exists role_info;
 drop table if exists user_behavior;
+drop table if exists group_info;
 drop table if exists user_info;
 drop table if exists sys_config;
+drop view if exists project_user_view;
 
 create table user_info (
 	id varchar(36) not null,
