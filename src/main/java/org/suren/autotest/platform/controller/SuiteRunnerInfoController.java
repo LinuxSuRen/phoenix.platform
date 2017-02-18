@@ -147,6 +147,7 @@ public class SuiteRunnerInfoController
 			}
 			else
 			{
+				suiteRunnerInfo.setCreateTime(new Date());
 				suiteRunnerInfoMapper.save(suiteRunnerInfo);
 			}
 		}

@@ -174,10 +174,12 @@ function updateBadge(url, text){
 }
 
 $(function(){
-	updateBadge('<%=basePath%>/page_info/count.su?projectId=${project.id}', '查看页面集列表');
-	updateBadge('<%=basePath%>/data_source_info/count.su?projectId=${project.id}', '查看数据源列表');
-	updateBadge('<%=basePath%>/suite_runner_info/count.su?projectId=${project.id}', '查看运行套件列表');
-	updateBadge('<%=basePath%>/attachment/count.su?belongId=${project.id}', '附件');
+	if('${project.id}' != ''){
+		updateBadge('<%=basePath%>/page_info/count.su?projectId=${project.id}', '查看页面集列表');
+		updateBadge('<%=basePath%>/data_source_info/count.su?projectId=${project.id}', '查看数据源列表');
+		updateBadge('<%=basePath%>/suite_runner_info/count.su?projectId=${project.id}', '查看运行套件列表');
+		updateBadge('<%=basePath%>/attachment/count.su?belongId=${project.id}', '附件');
+	}
 });
 
 function sysHelp(){

@@ -54,6 +54,7 @@ import org.suren.autotest.platform.schemas.autotest.PageFieldLocatorTypeEnum;
 import org.suren.autotest.platform.schemas.autotest.PageFieldType;
 import org.suren.autotest.platform.schemas.autotest.PageType;
 import org.suren.autotest.platform.schemas.autotest.StrategyEnum;
+import org.suren.autotest.platform.util.DomUtils;
 import org.suren.autotest.web.framework.code.Generator;
 import org.suren.autotest.web.framework.core.Callback;
 import org.suren.autotest.web.framework.util.PathUtil;
@@ -90,6 +91,7 @@ public class PageInfoController
 	{
 		PageInfo pageInfo = new PageInfo();
 		pageInfo.setAutotest(initAutotest());
+		pageInfo.setCreateTime(new Date());
 		
 		Project project = projectMapper.getById(projectId);
 		if(project != null)
@@ -119,6 +121,7 @@ public class PageInfoController
 		PageInfo pageInfo = new PageInfo();
 		pageInfo.setProjectId(projectId);
 		pageInfo.setName(originalFileName);
+		pageInfo.setCreateTime(new Date());
 		
 		model.addAttribute("pageInfo", pageInfo);
 		initEnums(model);
@@ -491,7 +494,7 @@ public class PageInfoController
 		PageInfo pageInfo = pageInfoMapper.getById(id);
 		
 		String content = pageInfo.getContent();
-		content = (content == null ? "" : content);
+		content = (StringUtils.isBlank(content) ? "" : DomUtils.format(content));
 
 		String fileName = pageInfo.getName();
 		try

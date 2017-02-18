@@ -97,6 +97,8 @@ create table page_info (
 	project_id varchar(36) not null,
 	name varchar(100) unique,
 	content longtext,
+	create_time timestamp not null,
+	remark varchar(300),
 	primary key (id),
 	constraint page_info_2_project foreign key (project_id)
 	references project (id) on delete restrict
@@ -107,6 +109,8 @@ create table data_source_info (
 	project_id varchar(36) not null,
 	name varchar(100),
 	content longtext,
+	create_time timestamp not null,
+	remark varchar(300),
 	primary key(id),
 	constraint data_source_info_2_project foreign key (project_id)
 	references project (id) on delete restrict
@@ -117,6 +121,8 @@ create table suite_runner_info (
 	project_id varchar(36) not null,
 	name varchar(100) unique,
 	content longtext,
+	create_time timestamp not null,
+	remark varchar(300),
 	primary key(id),
 	constraint suite_runner_info_2_project foreign key (project_id)
 	references project (id) on delete restrict

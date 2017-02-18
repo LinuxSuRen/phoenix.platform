@@ -25,6 +25,7 @@
 				data-position="down">
 	        	<su:anchor cssClass="navbar-brand" href="/attach_config/list.su" innerHtml="附件类型"></su:anchor>
 	        </span>
+        	<su:anchor cssClass="navbar-brand" href="/data_base/init_schema.su" innerHtml="数据库初始化"></su:anchor>
 	    </div>
 	    <div class="collapse navbar-collapse" id="example-navbar-collapse">
 			<ul class="nav navbar-nav navbar-right">

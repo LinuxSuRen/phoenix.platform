@@ -3,6 +3,8 @@
  */
 package org.suren.autotest.platform.model;
 
+import java.util.Date;
+
 import org.suren.autotest.platform.schemas.autotest.Autotest;
 
 /**
@@ -15,6 +17,8 @@ public class PageInfo
 	private String projectId;
 	private String name;
 	private String content;
+	private Date createTime;
+	private String remark;
 	private Autotest autotest;
 	/**
 	 * @return the id
@@ -71,6 +75,34 @@ public class PageInfo
 	public void setContent(String content)
 	{
 		this.content = content;
+	}
+	/**
+	 * @return the createTime
+	 */
+	public Date getCreateTime()
+	{
+		return createTime;
+	}
+	/**
+	 * @param createTime the createTime to set
+	 */
+	public void setCreateTime(Date createTime)
+	{
+		this.createTime = createTime;
+	}
+	/**
+	 * @return the remark
+	 */
+	public String getRemark()
+	{
+		return remark;
+	}
+	/**
+	 * @param remark the remark to set
+	 */
+	public void setRemark(String remark)
+	{
+		this.remark = remark;
 	}
 	/**
 	 * @return the autotest

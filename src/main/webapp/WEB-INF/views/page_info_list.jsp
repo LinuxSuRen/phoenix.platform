@@ -53,12 +53,11 @@
 		<c:forEach items="${pageInfoList }" var="pageInfo" varStatus="status">
 		<tr>
 			<td>${status.index+1 }</td>
-			<td>${pageInfo.name }</td>
+			<td><a href="test.su?id=${pageInfo.id }">${pageInfo.name }</a></td>
 			<td>${pageInfo.projectId }</td>
-			<td>${pageInfo.name }</td>
-			<td>${pageInfo.name }</td>
+			<td>${pageInfo.createTime }</td>
+			<td>${pageInfo.remark }</td>
 			<td>
-				<a href="test.su?id=${pageInfo.id }">编辑</a>
 				<a href="#" data-href="del.su?id=${pageInfo.id }" data-toggle="modal" data-target="#pageInfoDelDialogId">删除</a>
 			</td>
 		</tr>

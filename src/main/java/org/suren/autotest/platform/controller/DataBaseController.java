@@ -39,6 +39,7 @@ import org.suren.autotest.platform.model.DataBase;
 import org.suren.autotest.web.framework.util.StringUtils;
 
 /**
+ * 数据库初始化
  * @author suren
  * @date 2017年2月16日 下午7:40:37
  */
@@ -69,16 +70,22 @@ public class DataBaseController
 		String username = dataBase.getUsername();
 		String password = dataBase.getPassword();
 		
+		try
+		{
+			Class.forName(dataBase.getDriver());
+		}
+		catch (ClassNotFoundException e)
+		{
+			return e.getMessage();
+		}
+		
 		String connUrl = getJdbcUrl(dataBase.getDefaultSchema(), url, port);
 		URL jdbcProUrl = DataBase.class.getClassLoader().getResource("jdbc.properties");
 		try(InputStream input = DataBase.class.getClassLoader().getResourceAsStream("platform.sql");
-				OutputStream output = new FileOutputStream(URLDecoder.decode(jdbcProUrl.getFile(), "utf-8")))
+				OutputStream output = new FileOutputStream(URLDecoder.decode(jdbcProUrl.getFile(), "utf-8"));
+				Connection conn = DriverManager.getConnection(connUrl, username, password);
+				Statement statement = conn.createStatement())
 		{
-			Class.forName(dataBase.getDriver());
-			
-			Connection conn = DriverManager.getConnection(connUrl, username, password);
-			Statement statement = conn.createStatement();
-			
 			StringBuffer buf = new StringBuffer();
 			buf.append("use ").append(dataBase.getSchema()).append(";");
 			
@@ -124,7 +131,7 @@ public class DataBaseController
 				new FileNotFoundException("platform.sql");
 			}
 		}
-		catch(ClassNotFoundException | SQLException | IOException e)
+		catch(SQLException | IOException e)
 		{
 			return e.getMessage();
 		}

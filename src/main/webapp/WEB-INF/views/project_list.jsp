@@ -57,12 +57,11 @@
 		<c:forEach items="${projects }" var="project" varStatus="status">
 		<tr>
 			<td>${status.index+1 }</td>
-			<td>${project.name }</td>
+			<td><a href="edit.su?id=${project.id }">${project.name }</a></td>
 			<td>${project.ownerId }</td>
 			<td>${project.createTime }</td>
 			<td>${project.remark }</td>
 			<td>
-				<a href="edit.su?id=${project.id }">编辑</a>
 				<a href="#" data-href="del.su?id=${project.id }" data-toggle="modal" data-target="#projectDelDialogId">删除</a>
 			</td>
 		</tr>

@@ -43,7 +43,7 @@
 		<tr>
 			<th>序号</th>
 			<th>名称</th>
-			<th>拥有者</th>
+			<th>项目</th>
 			<th>创建时间</th>
 			<th>备注</th>
 			<th>操作</th>
@@ -53,14 +53,13 @@
 		<c:forEach items="${suiteRunnerInfoList }" var="item" varStatus="status">
 		<tr>
 			<td>${status.index+1 }</td>
-			<td>${item.name }</td>
-			<td>${item.name }</td>
-			<td>${item.name }</td>
-			<td>${item.name }</td>
+			<td><a href="edit.su?id=${item.id }">${item.name }</a></td>
+			<td>${item.projectId }</td>
+			<td>${item.createTime }</td>
+			<td>${item.remark }</td>
 			<td>
 				<a href="run.su?id=${item.id }">运行</a>
 				<a href="#" data-href="${item.id }" data-toggle="modal" data-target="#debugRunDialogId">调试</a>
-				<a href="edit.su?id=${item.id }">编辑</a>
 				<a href="<%=basePath %>/suite_runner_log/list.su?runnerId=${item.id }">日志</a>
 				<a href="#" data-href="del.su?id=${item.id }" data-toggle="modal" data-target="#suiteRunnerInfoDelDialogId">删除</a>
 			</td>

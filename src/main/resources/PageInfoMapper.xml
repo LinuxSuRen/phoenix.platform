@@ -27,8 +27,8 @@
 		<selectKey keyProperty="id" resultType="String" order="BEFORE">
 			SELECT UUID()
 		</selectKey>
-		insert into page_info(id, project_id, name, content)
-		values (#{id}, #{projectId}, #{name}, #{content})
+		insert into page_info(id, project_id, name, content, create_time, remark)
+		values (#{id}, #{projectId}, #{name}, #{content}, #{createTime}, #{remark})
 	</insert>
 	
 	<update id="update">
@@ -49,5 +49,6 @@
 	
 	<resultMap type="org.suren.autotest.platform.model.PageInfo" id="pageInfoMap">
 		<result property="projectId" column="project_id"/>
+		<result property="createTime" column="create_time"/>
 	</resultMap>
 </mapper>

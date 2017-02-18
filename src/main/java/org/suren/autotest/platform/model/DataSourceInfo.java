@@ -3,6 +3,8 @@
  */
 package org.suren.autotest.platform.model;
 
+import java.util.Date;
+
 import org.suren.autotest.platform.schemas.datasource.DataSources;
 
 
@@ -16,6 +18,8 @@ public class DataSourceInfo
 	private String projectId;
 	private String name;
 	private String content;
+	private Date createTime;
+	private String remark;
 	private DataSources dataSources;
 	/**
 	 * @return the id
@@ -72,6 +76,34 @@ public class DataSourceInfo
 	public void setContent(String content)
 	{
 		this.content = content;
+	}
+	/**
+	 * @return the createTime
+	 */
+	public Date getCreateTime()
+	{
+		return createTime;
+	}
+	/**
+	 * @param createTime the createTime to set
+	 */
+	public void setCreateTime(Date createTime)
+	{
+		this.createTime = createTime;
+	}
+	/**
+	 * @return the remark
+	 */
+	public String getRemark()
+	{
+		return remark;
+	}
+	/**
+	 * @param remark the remark to set
+	 */
+	public void setRemark(String remark)
+	{
+		this.remark = remark;
 	}
 	/**
 	 * @return the dataSources

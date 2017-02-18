@@ -20,6 +20,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.Date;
 import java.util.List;
 
 import javax.xml.bind.JAXBContext;
@@ -44,6 +45,7 @@ import org.suren.autotest.platform.schemas.datasource.DataTypeEnum;
 import org.suren.autotest.web.framework.util.StringUtils;
 
 /**
+ * 数据源管理
  * @author suren
  * @date 2017年1月22日 下午6:31:17
  */
@@ -146,6 +148,7 @@ public class DataSourceInfoController
 			}
 			else
 			{
+				dataSourceInfo.setCreateTime(new Date());
 				dataSourceInfoMapper.save(dataSourceInfo);
 			}
 		}

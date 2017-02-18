@@ -43,7 +43,7 @@
 		<tr>
 			<th>序号</th>
 			<th>名称</th>
-			<th>拥有者</th>
+			<th>项目</th>
 			<th>创建时间</th>
 			<th>备注</th>
 			<th>操作</th>
@@ -53,12 +53,11 @@
 		<c:forEach items="${dataSourceInfoList }" var="dataSourceInfo" varStatus="status">
 		<tr>
 			<td>${status.index+1 }</td>
-			<td>${dataSourceInfo.name }</td>
-			<td>${dataSourceInfo.name }</td>
-			<td>${dataSourceInfo.name }</td>
-			<td>${dataSourceInfo.name }</td>
+			<td><a href="edit.su?id=${dataSourceInfo.id }">${dataSourceInfo.name }</a></td>
+			<td>${dataSourceInfo.projectId }</td>
+			<td>${dataSourceInfo.createTime }</td>
+			<td>${dataSourceInfo.remark }</td>
 			<td>
-				<a href="edit.su?id=${dataSourceInfo.id }">编辑</a>
 				<a href="#" data-href="del.su?id=${dataSourceInfo.id }" data-toggle="modal" data-target="#delDialogId">删除</a>
 			</td>
 		</tr>
