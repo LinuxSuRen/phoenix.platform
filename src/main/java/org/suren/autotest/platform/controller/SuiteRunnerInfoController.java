@@ -224,8 +224,8 @@ public class SuiteRunnerInfoController
 		suiteRunnerLog.setTriggerUserId(ownerId);
 		
 		SuiteRunnerInfo suiteRunnerInfo = suiteRunnerInfoMapper.getById(id);
-		File runnerFile = new File(servletContext.getRealPath("/deploy"),
-				suiteRunnerInfo.getName() + ".xml");
+		File runnerFile = new File(servletContext.getRealPath("/deploy"), suiteRunnerInfo.getProjectId() + "/"
+				+ "/" + ownerId + "/" + suiteRunnerInfo.getName() + ".xml");
 
 		try
 		{
