@@ -168,9 +168,12 @@ public class PageInfoController
 	}
 	
 	@RequestMapping("test.su")
-	public void test(Model model, String id)
+	public void test(Model model, PageInfo pageInfo)
 	{
-		PageInfo pageInfo = pageInfoMapper.getById(id);
+		String id = pageInfo.getId();
+		int tabIndex = pageInfo.getTabIndex();
+		pageInfo = pageInfoMapper.getById(id);
+		pageInfo.setTabIndex(tabIndex);
 		model.addAttribute("pageInfo", pageInfo);
 		
 		try

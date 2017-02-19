@@ -20,6 +20,7 @@ public class PageInfo
 	private Date createTime;
 	private String remark;
 	private Autotest autotest;
+	private int tabIndex;
 	/**
 	 * @return the id
 	 */
@@ -117,5 +118,13 @@ public class PageInfo
 	public void setAutotest(Autotest autotest)
 	{
 		this.autotest = autotest;
+	}
+	public int getTabIndex()
+	{
+		return tabIndex;
+	}
+	public void setTabIndex(int tabIndex)
+	{
+		this.tabIndex = tabIndex;
 	}
 }

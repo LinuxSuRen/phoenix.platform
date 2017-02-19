@@ -179,11 +179,11 @@
 			</div>
 	
 			<c:forEach items="${page.field}" varStatus="j" var="field" >
-			<div class="panel-group" id="accordion">
+			<div class="panel-group" id="accordion_${field.name }">
 			    <div class="panel panel-default">
 			        <div class="panel-heading">
 			            <h4 class="panel-title">
-			                <a data-toggle="collapse" data-parent="#accordion" 
+			                <a data-toggle="collapse" data-parent="#accordion_${field.name }" 
 			                href="#collapse-${field.name }">${field.name }</a>
 			            </h4>
 			        </div>
@@ -287,7 +287,8 @@
 	}
 	
 	function fortest(){
-		var content = "1=1";
+		var tabIndex = $('#engine_tabs .active').index()
+		var content = "tabIndex=" + tabIndex;
 		$('form').each(function(){
 			var bv = $(this).data('bootstrapValidator');
 			bv.validate();
@@ -305,7 +306,7 @@
 		if(content != ""){
 			$.post('updatePage.su', content, function(data){
 				if(data.id){
-					window.location = 'test.su?id=' + data.id;
+					window.location = 'test.su?id=' + data.id + '&tabIndex=' + data.tabIndex;
 				}
 			});
 		}
@@ -313,6 +314,9 @@
 	
     $(document).ready(function() {
         $('form').bootstrapValidator();
+
+		$('#engine_tabs li:eq(${pageInfo.tabIndex}) a').tab('show');
+		//$('#collapse-搜索框').collapse('toggle')
     });
 	</script>
 </body>
