@@ -54,6 +54,7 @@ import org.suren.autotest.platform.schemas.autotest.PageFieldLocatorTypeEnum;
 import org.suren.autotest.platform.schemas.autotest.PageFieldType;
 import org.suren.autotest.platform.schemas.autotest.PageType;
 import org.suren.autotest.platform.schemas.autotest.StrategyEnum;
+import org.suren.autotest.platform.schemas.suite.Suite;
 import org.suren.autotest.platform.util.DomUtils;
 import org.suren.autotest.web.framework.code.Generator;
 import org.suren.autotest.web.framework.core.Callback;
@@ -430,6 +431,7 @@ public class PageInfoController
 			}
 			else
 			{
+				pageInfo.setCreateTime(new Date());
 				pageInfoMapper.save(pageInfo);
 			}
 			
@@ -603,6 +605,8 @@ public class PageInfoController
 			File outputDir = PathUtil.getRootDir();
 			try
 			{
+				final String pageInfoName = pageInfo.getName();
+				
 				ByteArrayInputStream input = new ByteArrayInputStream(pageInfo.getContent().getBytes("utf-8"));
 				suiteRunnerGenerator.generate(input, outputDir.toString(), new Callback<File>()
 				{
@@ -612,7 +616,9 @@ public class PageInfoController
 					{
 						SuiteRunnerInfo suiteRunnerInfo = new SuiteRunnerInfo();
 						suiteRunnerInfo.setProjectId(projectId);
-						suiteRunnerInfo.setName(data.getName().replace(".xml", ""));
+						suiteRunnerInfo.setName(pageInfoName + "测试");
+						suiteRunnerInfo.setCreateTime(new Date());
+						suiteRunnerInfo.setRemark("Generate from " + pageInfoName);
 						
 						StringBuffer contentBuf = new StringBuffer();
 						try(InputStream input = new FileInputStream(data))
@@ -629,7 +635,29 @@ public class PageInfoController
 						{
 							e.printStackTrace();
 						}
+						
 						suiteRunnerInfo.setContent(contentBuf.toString());
+
+						try
+						{
+							JAXBContext context = JAXBContext.newInstance(Suite.class);
+							Unmarshaller unmarshaller = context.createUnmarshaller();
+							
+							Suite suite = (Suite) unmarshaller.unmarshal(
+									new ByteArrayInputStream(contentBuf.toString().getBytes()));
+							suite.setPageConfig(pageInfoName + ".xml");
+							
+							Marshaller marshaller = context.createMarshaller();
+							
+							ByteArrayOutputStream out = new ByteArrayOutputStream();
+							marshaller.marshal(suite, out);
+							
+							suiteRunnerInfo.setContent(new String(out.toByteArray()));
+						}
+						catch (JAXBException e)
+						{
+							e.printStackTrace();
+						}
 						
 						suiteRunnerInfoMapper.save(suiteRunnerInfo);
 					}
