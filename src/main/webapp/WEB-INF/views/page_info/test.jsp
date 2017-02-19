@@ -44,6 +44,7 @@
 					</li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
+					<c:if test="${!empty pageInfo.id }">
 					<li><a href="download.su?id=${pageInfo.id }" data-step="4" data-intro="把当前配置转为XML并提供下载" data-position="left">下载</a></li>
 					<li class="dropdown"><a href="#" class="dropdown-toggle"
 						data-toggle="dropdown" data-step="5" data-intro="根据元素定位信息来生成数据源、测试套件" data-position="left">生成 <span class="caret"></span></a>
@@ -52,6 +53,7 @@
 							<li><a href="<%=basePath %>/page_info/generateSuiteRunner.su?id=${pageInfo.id}">测试套件</a></li>
 						</ul>
 					</li>
+					</c:if>
 					<li><a href="#" onclick="sysHelp();">帮助</a></li>
 				</ul>
 			</div>
@@ -156,18 +158,18 @@
 				</div>
 				<label class="col-sm-1 control-label">URL</label>
 				<div class="col-sm-3">
-					<input name="autotest.pages.page[${i.index }].url" value="${page.url }" class="form-control" type="text" />
+					<input name="autotest.pages.page[${i.index }].url" value="${page.url }" class="form-control" type="url" />
 				</div>
 				<label class="col-sm-1 control-label">数据源</label>
 				<div class="col-sm-1">
 					<input name="autotest.pages.page[${i.index }].dataSource" value="${page.dataSource }" class="form-control" type="text" />
 				</div>
+				<c:if test="${!empty pageInfo.id }">
 				<div class="col-sm-3">
 					<a href="delPage.su?pageName=${page.clazz }" class="form-control">删除</a>
-					<c:if test="${pageInfo.id!='' }">
 					<a href="addField.su?id=${pageInfo.id }&pageName=${page.clazz }" class="form-control">添加属性</a>
-					</c:if>
 				</div>
+				</c:if>
 			</div>
 	
 			<c:forEach items="${page.field}" varStatus="j" var="field" >
