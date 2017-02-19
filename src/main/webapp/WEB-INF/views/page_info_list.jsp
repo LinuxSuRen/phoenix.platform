@@ -58,7 +58,8 @@
 			<td>${pageInfo.createTime }</td>
 			<td>${pageInfo.remark }</td>
 			<td>
-				<a href="#" data-href="del.su?id=${pageInfo.id }" data-toggle="modal" data-target="#pageInfoDelDialogId">删除</a>
+				<a href="#" data-href="del.su?id=${pageInfo.id }" data-toggle="modal"
+					data-target="#pageInfoDelDialogId" class="glyphicon glyphicon-trash"></a>
 			</td>
 		</tr>
 		</c:forEach>

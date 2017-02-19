@@ -100,13 +100,19 @@
 				<div class="form-group">
 					<label class="col-sm-2 control-label">宽度</label>
 					<div class="col-sm-3">
-				    	<input name="autotest.engine.width" value="${pageInfo.autotest.engine.width }" class="form-control"
-				    		type="number" min="10" max="2048"/>
+						<div class="input-group">
+					    	<input name="autotest.engine.width" value="${pageInfo.autotest.engine.width }" class="form-control"
+					    		type="number" min="10" max="2048"/>
+					    	<span class="input-group-addon">像素</span>
+				    	</div>
 					</div>
 					<label class="col-sm-2 control-label">高度</label>
 					<div class="col-sm-3">
-				    	<input name="autotest.engine.height" value="${pageInfo.autotest.engine.height }" class="form-control"
-				    		type="number" min="10" max="2048"/>
+						<div class="input-group">
+					    	<input name="autotest.engine.height" value="${pageInfo.autotest.engine.height }" class="form-control"
+					    		type="number" min="10" max="2048"/>
+					    	<span class="input-group-addon">像素</span>
+				    	</div>
 					</div>
 				</div>
 				<div class="form-group">

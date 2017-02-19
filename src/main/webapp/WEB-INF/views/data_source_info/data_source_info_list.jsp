@@ -58,7 +58,8 @@
 			<td>${dataSourceInfo.createTime }</td>
 			<td>${dataSourceInfo.remark }</td>
 			<td>
-				<a href="#" data-href="del.su?id=${dataSourceInfo.id }" data-toggle="modal" data-target="#delDialogId">删除</a>
+				<a href="#" data-href="del.su?id=${dataSourceInfo.id }" data-toggle="modal"
+					data-target="#delDialogId" class="glyphicon glyphicon-trash"></a>
 			</td>
 		</tr>
 		</c:forEach>

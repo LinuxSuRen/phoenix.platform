@@ -62,7 +62,7 @@
 				<a href="#" data-href="${item.id }" data-toggle="modal" data-target="#debugRunDialogId">调试</a>
 				<a href="<%=basePath %>/suite_runner_log/list.su?runnerId=${item.id }">日志</a>
 				<a href="#" data-href="del.su?id=${item.id }" data-toggle="modal"
-					data-target="#suiteRunnerInfoDelDialogId">删除</a>
+					data-target="#suiteRunnerInfoDelDialogId" class="glyphicon glyphicon-trash"></a>
 			</td>
 		</tr>
 		</c:forEach>

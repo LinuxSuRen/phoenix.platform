@@ -62,7 +62,8 @@
 			<td>${project.createTime }</td>
 			<td>${project.remark }</td>
 			<td>
-				<a href="#" data-href="del.su?id=${project.id }" data-toggle="modal" data-target="#projectDelDialogId">删除</a>
+				<a href="#" data-href="del.su?id=${project.id }" data-toggle="modal"
+					data-target="#projectDelDialogId" class="glyphicon glyphicon-trash"></a>
 			</td>
 		</tr>
 		</c:forEach>
