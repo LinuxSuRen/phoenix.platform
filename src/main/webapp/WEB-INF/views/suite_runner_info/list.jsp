@@ -61,12 +61,15 @@
 				<a href="run.su?id=${item.id }">运行</a>
 				<a href="#" data-href="${item.id }" data-toggle="modal" data-target="#debugRunDialogId">调试</a>
 				<a href="<%=basePath %>/suite_runner_log/list.su?runnerId=${item.id }">日志</a>
-				<a href="#" data-href="del.su?id=${item.id }" data-toggle="modal" data-target="#suiteRunnerInfoDelDialogId">删除</a>
+				<a href="#" data-href="del.su?id=${item.id }" data-toggle="modal"
+					data-target="#suiteRunnerInfoDelDialogId">删除</a>
 			</td>
 		</tr>
 		</c:forEach>
 	</tbody>
 </table>
+
+<su:dialog dialogId="suiteRunnerInfoDelDialogId"></su:dialog>
 	
 <div class="modal fade" id="suiteRunnerUploadDialogId" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
@@ -169,8 +172,6 @@
 		</div><!-- /.modal-content -->
 	</div><!-- /.modal -->
 </div>
-
-<su:dialog dialogId="suiteRunnerInfoDelDialogId"></su:dialog>
 
 <script type="text/javascript">
 $(function(){
