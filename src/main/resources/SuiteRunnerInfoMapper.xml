@@ -10,7 +10,7 @@
 	</select>
 	
 	<select id="getAllByProjectId" resultType="SuiteRunnerInfo">
-		select id, name, create_time, remark from suite_runner_info where project_id = #{projectId} order by create_time desc
+		select id, project_id, name, create_time, remark from suite_runner_info where project_id = #{projectId} order by create_time desc
 	</select>
 	
 	<select id="getAllWithContentByProjectId" resultType="SuiteRunnerInfo" resultMap="SuiteRunnerInfoMap">
@@ -48,5 +48,6 @@
 	
 	<resultMap type="org.suren.autotest.platform.model.SuiteRunnerInfo" id="SuiteRunnerInfoMap">
 		<result property="projectId" column="project_id"/>
+		<result property="createTime" column="create_time"/>
 	</resultMap>
 </mapper>
