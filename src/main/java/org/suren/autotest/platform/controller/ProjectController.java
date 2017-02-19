@@ -46,6 +46,7 @@ import org.suren.autotest.web.framework.jdt.JDTUtils;
 import org.suren.autotest.web.framework.util.StringUtils;
 
 /**
+ * 项目管理
  * @author suren
  * @date 2017年1月20日 下午7:43:05
  */
@@ -131,8 +132,11 @@ public class ProjectController implements ApplicationContextAware
 	@RequestMapping("/deploy")
 	public String projectDeploy(String id)
 	{
+		UserDetail userDetail = (UserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		String ownerId = userDetail.getId();
+		
 		String projectId = id;
-		File rootDir = new File(servletContext.getRealPath("/deploy"));
+		File rootDir = new File(servletContext.getRealPath("/deploy"), id + "/" + ownerId);
 		rootDir.mkdirs();
 		File srcOutputDir = new File(rootDir, "src");
 		JDTUtils jdtUtils = new JDTUtils(srcOutputDir);
