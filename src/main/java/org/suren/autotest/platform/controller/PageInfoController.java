@@ -666,11 +666,11 @@ public class PageInfoController
 		autotest.setPages(pages);
 		
 		PageType pageType = new PageType();
-		pageType.setClazz(String.valueOf(System.currentTimeMillis()));
+		pageType.setClazz("类名");
 		pages.getPage().add(pageType);
 		
 		PageFieldType pageFieldType = new PageFieldType();
-		pageFieldType.setName(String.valueOf(System.currentTimeMillis()));
+		pageFieldType.setName("属性");
 		pageType.getField().add(pageFieldType);
 
 		return autotest;
