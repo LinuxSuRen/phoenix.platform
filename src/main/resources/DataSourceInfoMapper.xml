@@ -15,7 +15,7 @@
 	</select>
 	
 	<select id="getAllByProjectId" resultType="DataSourceInfo">
-		select id, name from data_source_info where project_id = #{projectId}
+		select id, name, create_time, remark from data_source_info where project_id = #{projectId} order by create_time desc
 	</select>
 	
 	<select id="getCountByProjectId" resultType="int">

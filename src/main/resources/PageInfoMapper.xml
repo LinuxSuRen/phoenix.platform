@@ -8,7 +8,7 @@
 	</select>
 	
 	<select id="getAllByProjectId" resultType="PageInfo" resultMap="pageInfoMap">
-		select id, project_id, name from page_info where project_id = #{projectId}
+		select id, project_id, name, create_time, remark from page_info where project_id = #{projectId} order by create_time desc
 	</select>
 	
 	<select id="getAllIds" resultType="PageInfo">
