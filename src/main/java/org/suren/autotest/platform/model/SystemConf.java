@@ -29,6 +29,8 @@ public class SystemConf
 	private String securtyKey;
 	/** 附件所在根目录 */
 	private String attachRoot;
+	/** 谷歌浏览器版本号 */
+	private String chromeVer;
 	/**
 	 * @return the gifPath
 	 */
@@ -70,5 +72,19 @@ public class SystemConf
 	public void setAttachRoot(String attachRoot)
 	{
 		this.attachRoot = attachRoot;
+	}
+	/**
+	 * @return the chromeVer
+	 */
+	public String getChromeVer()
+	{
+		return chromeVer;
+	}
+	/**
+	 * @param chromeVer the chromeVer to set
+	 */
+	public void setChromeVer(String chromeVer)
+	{
+		this.chromeVer = chromeVer;
 	}
 }

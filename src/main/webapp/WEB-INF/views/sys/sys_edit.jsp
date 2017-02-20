@@ -53,6 +53,10 @@
 		<div class="col-sm-3">
 	    	<input name="attachRoot" value="${sysConf.attachRoot }" class="form-control" type="input" />
 		</div>
+		<label class="col-sm-2 control-label">谷歌浏览器版本号</label>
+		<div class="col-sm-3">
+	    	<input name="chromeVer" value="${sysConf.chromeVer }" class="form-control" type="input" />
+		</div>
 	</div>
 	
 	<button type="submit" class="btn btn-primary">保存</button>

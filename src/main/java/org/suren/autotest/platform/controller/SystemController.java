@@ -36,6 +36,7 @@ import org.suren.autotest.platform.model.Options;
 import org.suren.autotest.platform.model.SystemConf;
 import org.suren.autotest.web.framework.log.Image4SearchLog;
 import org.suren.autotest.web.framework.log.LoggerConstants;
+import org.suren.autotest.web.framework.selenium.SeleniumEngine;
 import org.suren.autotest.web.framework.util.EncryptorUtil;
 import org.suren.autotest.web.framework.util.StringUtils;
 
@@ -51,6 +52,8 @@ public class SystemController
 	private Image4SearchLog image4SearchLog;
 	@Autowired
 	private OptionsMapper optionsMapper;
+	@Autowired
+	private SeleniumEngine seleniumEngine;
 
 	@RequestMapping("edit")
 	public String edit(Model model, HttpServletRequest request)
@@ -71,6 +74,12 @@ public class SystemController
 		{
 			sysConf.setAttachRoot(request.getServletContext().getRealPath("/"));
 		}
+		
+		//浏览器配置
+		seleniumEngine.setDriverStr("chrome");
+		seleniumEngine.initConfig();
+		String chromeVer = seleniumEngine.getChromeVer();
+		sysConf.setChromeVer(chromeVer);
 		
 		model.addAttribute("sysConf", sysConf);
 		
@@ -123,9 +132,19 @@ public class SystemController
 		{
 			options = new Options();
 			options.setOptKey("attachRoot");
+			options.setOptValue(sysConf.getAttachRoot());
+			optionsMapper.save(options);
 		}
-		options.setOptValue(sysConf.getAttachRoot());
-		optionsMapper.save(options);
+		else
+		{
+			options.setOptValue(sysConf.getAttachRoot());
+			optionsMapper.update(options);
+		}
+		
+		seleniumEngine.setDriverStr("chrome");
+		seleniumEngine.initConfig();
+		seleniumEngine.setChromeVer(sysConf.getChromeVer());
+		seleniumEngine.storePro();
 		
 		return "redirect:/sys/edit.su";
 	}
