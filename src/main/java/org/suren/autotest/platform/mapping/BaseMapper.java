@@ -25,6 +25,8 @@ import java.util.List;
 public interface BaseMapper<T>
 {
 	void save(Object obj);
+	
+	void update(Object obj);
 
 	/**
 	 * @param id
