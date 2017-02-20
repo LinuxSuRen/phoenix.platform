@@ -18,4 +18,8 @@
 			#{id}, #{optKey}, #{optValue}, #{remark}
 		)
 	</insert>
+	
+	<update id="update">
+		update options set opt_value = '${optValue}', remark = '${remark}' where id = ${id}
+	</update>
 </mapper>
