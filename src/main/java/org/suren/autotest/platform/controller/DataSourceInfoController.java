@@ -172,6 +172,7 @@ public class DataSourceInfoController
 		DataSourceInfo dataSourceInfo = new DataSourceInfo();
 		dataSourceInfo.setProjectId(projectId);
 		dataSourceInfo.setName(originalFileName);
+		dataSourceInfo.setCreateTime(new Date());
 		
 		model.addAttribute("dataSourceInfo", dataSourceInfo);
 		initEnums(model);
