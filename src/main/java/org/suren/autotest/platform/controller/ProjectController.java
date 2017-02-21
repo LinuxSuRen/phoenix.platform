@@ -3,19 +3,33 @@
  */
 package org.suren.autotest.platform.controller;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.lang.reflect.Field;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Date;
 import java.util.List;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
 import javax.annotation.Resource;
 import javax.servlet.ServletContext;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.io.FileUtils;
+import org.apache.poi.util.IOUtils;
+import org.dom4j.Document;
+import org.dom4j.DocumentException;
+import org.dom4j.Element;
+import org.dom4j.io.SAXReader;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +43,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.multipart.MultipartFile;
 import org.suren.autotest.platform.AutoTestClassloader;
 import org.suren.autotest.platform.mapping.AttachmentMapper;
 import org.suren.autotest.platform.mapping.DataSourceInfoMapper;
@@ -118,7 +133,7 @@ public class ProjectController implements ApplicationContextAware
 			projectMapper.update(project);
 		}
 		
-		return "project_edit";
+		return "redirect:/project/edit.su?id=" + project.getId();
 	}
 	
 	@RequestMapping("/del")
@@ -140,6 +155,32 @@ public class ProjectController implements ApplicationContextAware
 		rootDir.mkdirs();
 		File srcOutputDir = new File(rootDir, "src");
 		JDTUtils jdtUtils = new JDTUtils(srcOutputDir);
+		
+		//附件拷贝
+		List<Attachment> attachList = attachmentMapper.getByBelongId(projectId);
+		if(CollectionUtils.isNotEmpty(attachList))
+		{
+			for(Attachment attach : attachList)
+			{
+				String name = attach.getFileName();
+				if(name.endsWith(".java"))
+				{
+					String pkgPath = attach.getRemark();
+					pkgPath = StringUtils.isBlank(pkgPath) ? "" : pkgPath.trim();
+					pkgPath = pkgPath.replace(".", "/");
+					
+					try
+					{
+						FileUtils.copyFile(new File(attach.getRelativePath(), name),
+								new File(srcOutputDir, pkgPath + "/" + name));
+					}
+					catch (IOException e)
+					{
+						e.printStackTrace();
+					}
+				}
+			}
+		}
 
 		//元素定位文件部署
 		List<PageInfo> pageInfoList = pageInfoMapper.getAllWithContentByProjectId(projectId);
@@ -193,11 +234,8 @@ public class ProjectController implements ApplicationContextAware
 					{
 						try
 						{
-//							Method method = new PropertyDescriptor(field.getName(), field.getType()).getWriteMethod();
-							
 							Object fieldObj = applicationContext.getBean(field.getType());
 							
-//							method.invoke(targetObj, fieldObj);
 							field.setAccessible(true);
 							field.set(targetObj, fieldObj);;
 						}
@@ -217,7 +255,6 @@ public class ProjectController implements ApplicationContextAware
 			}
 			catch (MalformedURLException | ClassNotFoundException e)
 			{
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -263,6 +300,98 @@ public class ProjectController implements ApplicationContextAware
 		}
 		
 		return "redirect:/project/list.su";
+	}
+	
+	@RequestMapping("import.su")
+	public String projectImport(Model model, MultipartFile file, final String id) throws IOException
+	{
+		final File tmpFile = File.createTempFile("autotest", "platform");
+		
+		try(InputStream input = file.getInputStream();
+				OutputStream out = new FileOutputStream(tmpFile))
+		{
+			IOUtils.copy(input, out);
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+		
+		new Thread(){
+
+			@Override
+			public void run()
+			{
+				try(ZipInputStream zipIn = new ZipInputStream(new FileInputStream(tmpFile)))
+				{
+					ZipEntry entry = null;
+					while((entry  = zipIn.getNextEntry()) != null)
+					{
+						String entryName = entry.getName();
+						if(entry.isDirectory() || !entryName.endsWith(".xml"))
+						{
+							continue;
+						}
+						
+						entryName = entryName.substring(0, entryName.length() - 4);
+						
+						ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
+						IOUtils.copy(zipIn, byteOut);
+						
+						SAXReader reader = new SAXReader();
+						Document doc = reader.read(new ByteArrayInputStream(byteOut.toByteArray()));
+						Element rootEle = doc.getRootElement();
+						
+						String rootEleName = rootEle.getName();
+						System.out.println(rootEleName);
+						if("autotest".equals(rootEleName))
+						{
+							PageInfo pageInfo = new PageInfo();
+							pageInfo.setProjectId(id);
+							pageInfo.setName(entryName);
+							pageInfo.setCreateTime(new Date());
+							pageInfo.setContent(doc.asXML());
+							
+							pageInfoMapper.save(pageInfo);
+						}
+						else if("dataSources".equals(rootEleName))
+						{
+							DataSourceInfo dataSourceInfo = new DataSourceInfo();
+							dataSourceInfo.setProjectId(id);
+							dataSourceInfo.setName(entryName);
+							dataSourceInfo.setCreateTime(new Date());
+							dataSourceInfo.setContent(doc.asXML());
+							
+							dataSourceInfoMapper.save(dataSourceInfo);
+						}
+						else if("suite".equals(rootEleName))
+						{
+							SuiteRunnerInfo suiteRunnerInfo = new SuiteRunnerInfo();
+							suiteRunnerInfo.setProjectId(id);
+							suiteRunnerInfo.setName(entryName);
+							suiteRunnerInfo.setCreateTime(new Date());
+							suiteRunnerInfo.setContent(doc.asXML());
+							
+							suiteRunnerInfoMapper.save(suiteRunnerInfo);
+						}
+					}
+				}
+				catch (FileNotFoundException e)
+				{
+					e.printStackTrace();
+				}
+				catch (IOException e)
+				{
+					e.printStackTrace();
+				}
+				catch (DocumentException e)
+				{
+					e.printStackTrace();
+				}
+			}
+		}.start();
+
+		return "redirect:/project/edit.su?id=" + id;
 	}
 
 	private ApplicationContext applicationContext;
