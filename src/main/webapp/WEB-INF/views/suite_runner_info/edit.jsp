@@ -22,7 +22,9 @@
 						class="icon-bar"></span> <span class="icon-bar"></span> <span
 						class="icon-bar"></span>
 				</button>
+				<c:if test="${!empty suiteRunnerInfo.id }">
 				<a class="navbar-brand" href="edit.su?id=${suiteRunnerInfo.id }">测试套件</a>
+				</c:if>
 			</div>
 
 			<!-- Collect the nav links, forms, and other content for toggling -->
@@ -30,7 +32,9 @@
 				id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav">
 					<li><a onclick="fortest()"><span style="cursor:pointer;">保存</span></a></li>
+					<c:if test="${!empty suiteRunnerInfo.id }">
 					<li><a href="add.su?id=${suiteRunnerInfo.id}">新增测试</a></li>
+					</c:if>
 					<li class="dropdown"><a href="#" class="dropdown-toggle"
 						data-toggle="dropdown">列表 <span class="caret"></span></a>
 						<ul class="dropdown-menu" role="menu">
@@ -43,9 +47,11 @@
 						</ul>
 					</li>
 				</ul>
+				<c:if test="${!empty suiteRunnerInfo.id }">
 				<ul class="nav navbar-nav navbar-right">
 					<li><a href="download.su?id=${suiteRunnerInfo.id }">下载</a></li>
 				</ul>
+				</c:if>
 			</div>
 			<!-- /.navbar-collapse -->
 		</div>

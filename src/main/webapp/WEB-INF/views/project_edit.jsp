@@ -24,6 +24,7 @@
         <a class="navbar-brand" href="list.su">项目列表</a>
     </div>
     <div class="collapse navbar-collapse" id="example-navbar-collapse">
+		<c:if test="${!empty project.id }">
         <ul class="nav navbar-nav">
             <li>
             	<a href="<%=basePath%>/page_info/list.su?projectId=${project.id}" data-step="3" data-intro="查看、添加元素定位信息"
@@ -38,10 +39,14 @@
             		data-position="right">查看运行套件列表 <span class="badge"></span></a>
             </li>
         </ul>
+        </c:if>
 		<ul class="nav navbar-nav navbar-right">
+			<c:if test="${!empty project.id }">
 			<li><a data-toggle="modal" data-target="#attachUploadDialogId" href="#">添加附件</a></li>
+			<li><a data-toggle="modal" data-target="#projectUploadDialogId" href="#">导入</a></li>
 			<li><a href="#" onclick="deploy()" data-step="6" data-intro="这个操作会把当前项目中的元素定位、数据源、测试套件以及附件等都拷贝、编译到指定目录下，为测试套件的运行做好准备！"
             		data-position="left">部署</a></li>
+        	</c:if>
 			<li><a href="#" onclick="sysHelp();">帮助</a></li>
 		</ul>
     </div>
@@ -70,7 +75,7 @@
 				<label class="col-sm-2 control-label">项目名称</label>
 				<div class="col-sm-3" data-step="1" data-intro="项目名称，不能重复哦"
             		data-position="right">
-			    	<input name="name" value="${project.name }" class="form-control" type="text">
+			    	<input name="name" value="${project.name }" class="form-control" type="text" required="required" />
 				</div>
 				<label class="col-sm-2 control-label">备注</label>
 				<div class="col-sm-3">
@@ -126,7 +131,7 @@
 <div class="modal fade" id="attachUploadDialogId" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
-			<form action="<%=basePath%>/attachment/upload.su" method="post" enctype="multipart/form-data">
+			<form class="form-horizontal" role="form" action="<%=basePath%>/attachment/upload.su" method="post" enctype="multipart/form-data">
 			<input type="hidden" name="belongId" value="${project.id }" />
 			<input type="hidden" name="redirectPath" value="/project/edit.su?id=${project.id }" />
 			<div class="modal-header">
@@ -138,15 +143,52 @@
 				</h4>
 			</div>
 			<div class="modal-body">
-				<label>附件名称</label>
-				<input name="fileName" type="text" />
-				<input name="file" type="file" accept="text/java" />
-				<label>备注</label>
-				<input name="remark" type="text" />
+				<div class="form-group">
+					<label class="col-sm-2 control-label">附件名称</label>
+					<div class="col-sm-5">
+				    	<input name="fileName" type="text" placeholder="Java类文件名，例如：Test.java" required="required" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">文件</label>
+					<div class="col-sm-5">
+				    	<input name="file" type="file" accept="text/java" required="required" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">备注</label>
+					<div class="col-sm-5">
+				    	<input name="remark" type="text" placeholder="Java类包（package）" />
+					</div>
+				</div>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
 				<button type="submit" class="btn btn-primary">上传</button>
+			</div>
+			</form>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal -->
+</div>
+	
+<div class="modal fade" id="projectUploadDialogId" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<form action="import.su?id=${project.id }" method="post" enctype="multipart/form-data">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+					&times;
+				</button>
+				<h4 class="modal-title">
+					项目压缩包(.zip)导入
+				</h4>
+			</div>
+			<div class="modal-body">
+				<input name="file" type="file" accept="application/x-zip-compressed" required="required" />
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+				<button type="submit" class="btn btn-primary">导入</button>
 			</div>
 			</form>
 		</div><!-- /.modal-content -->

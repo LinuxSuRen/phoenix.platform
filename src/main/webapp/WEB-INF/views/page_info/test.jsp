@@ -22,7 +22,9 @@
 						class="icon-bar"></span> <span class="icon-bar"></span> <span
 						class="icon-bar"></span>
 				</button>
+				<c:if test="${!empty pageInfo.id }">
 				<a class="navbar-brand" href="test.su?id=${pageInfo.id }">刷新</a>
+				</c:if>
 			</div>
 
 			<!-- Collect the nav links, forms, and other content for toggling -->
@@ -30,7 +32,9 @@
 				id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav">
 					<li><a onclick="fortest()" data-step="2" data-intro="保存当前配置" data-position="right"><span style="cursor:pointer;">保存</span></a></li>
+					<c:if test="${!empty pageInfo.id }">
 					<li><a href="addPage.su?id=${pageInfo.id}" data-step="1" data-intro="新增页面" data-position="right">新增页面</a></li>
+					</c:if>
 					<li class="dropdown"><a href="#" class="dropdown-toggle"
 						data-toggle="dropdown" data-step="3" data-intro="查看列表" data-position="right">列表 <span class="caret"></span></a>
 						<ul class="dropdown-menu" role="menu">

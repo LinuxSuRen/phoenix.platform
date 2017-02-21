@@ -23,7 +23,9 @@
 						class="icon-bar"></span> <span class="icon-bar"></span> <span
 						class="icon-bar"></span>
 				</button>
+				<c:if test="${!empty dataSourceInfo.id }">
 				<a class="navbar-brand" href="edit.su?id=${dataSourceInfo.id }">数据源</a>
+				</c:if>
 			</div>
 
 			<!-- Collect the nav links, forms, and other content for toggling -->
@@ -49,9 +51,11 @@
 					</div>
 					<button type="submit" class="btn btn-default">Submit</button>
 				</form>
+				<c:if test="${!empty dataSourceInfo.id }">
 				<ul class="nav navbar-nav navbar-right">
 					<li><a href="download.su?id=${dataSourceInfo.id }">下载</a></li>
 				</ul>
+				</c:if>
 			</div>
 			<!-- /.navbar-collapse -->
 		</div>

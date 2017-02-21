@@ -79,7 +79,7 @@
 				</h4>
 			</div>
 			<div class="modal-body">
-				<input name="file" type="file" />
+				<input name="file" type="file" accept="text/xml" required="required" />
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
