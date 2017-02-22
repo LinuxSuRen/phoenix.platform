@@ -22,6 +22,9 @@ import java.util.zip.ZipInputStream;
 
 import javax.annotation.Resource;
 import javax.servlet.ServletContext;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Unmarshaller;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.io.FileUtils;
@@ -55,6 +58,12 @@ import org.suren.autotest.platform.model.DataSourceInfo;
 import org.suren.autotest.platform.model.PageInfo;
 import org.suren.autotest.platform.model.Project;
 import org.suren.autotest.platform.model.SuiteRunnerInfo;
+import org.suren.autotest.platform.schemas.autotest.Autotest;
+import org.suren.autotest.platform.schemas.autotest.PageType;
+import org.suren.autotest.platform.schemas.datasource.DataSources;
+import org.suren.autotest.platform.schemas.datasource.DataSources.DataSource;
+import org.suren.autotest.platform.schemas.suite.Suite;
+import org.suren.autotest.platform.schemas.suite.SuitePageType;
 import org.suren.autotest.platform.security.UserDetail;
 import org.suren.autotest.web.framework.code.Generator;
 import org.suren.autotest.web.framework.jdt.JDTUtils;
@@ -343,7 +352,6 @@ public class ProjectController implements ApplicationContextAware
 						Element rootEle = doc.getRootElement();
 						
 						String rootEleName = rootEle.getName();
-						System.out.println(rootEleName);
 						if("autotest".equals(rootEleName))
 						{
 							PageInfo pageInfo = new PageInfo();
@@ -351,6 +359,39 @@ public class ProjectController implements ApplicationContextAware
 							pageInfo.setName(entryName);
 							pageInfo.setCreateTime(new Date());
 							pageInfo.setContent(doc.asXML());
+							
+							try
+							{
+								JAXBContext context = JAXBContext.newInstance(Autotest.class);
+								Unmarshaller unmarshaller = context.createUnmarshaller();
+								
+								Autotest autotest = (Autotest) unmarshaller.unmarshal(
+										new ByteArrayInputStream(doc.asXML().getBytes()));
+								
+								List<PageType> pageList = autotest.getPages().getPage();
+								for(PageType page : pageList)
+								{
+									String clazz = page.getClazz();
+									int index = clazz.lastIndexOf(".");
+									if(index > 0)
+									{
+										String pkg = clazz.substring(0, index);
+										String name = clazz.substring(index + 1);
+										
+										autotest.getPages().setPagePackage(pkg);
+										page.setClazz(name);
+									}
+								}
+								
+								ByteArrayOutputStream autoTestByteOut = new ByteArrayOutputStream();
+								context.createMarshaller().marshal(autotest, autoTestByteOut);
+								
+								pageInfo.setContent(autoTestByteOut.toString());
+							}
+							catch (JAXBException e)
+							{
+								e.printStackTrace();
+							}
 							
 							pageInfoMapper.save(pageInfo);
 						}
@@ -362,6 +403,39 @@ public class ProjectController implements ApplicationContextAware
 							dataSourceInfo.setCreateTime(new Date());
 							dataSourceInfo.setContent(doc.asXML());
 							
+							try
+							{
+								JAXBContext context = JAXBContext.newInstance(DataSources.class);
+								Unmarshaller unmarshaller = context.createUnmarshaller();
+								
+								DataSources dataSources = (DataSources) unmarshaller.unmarshal(
+										new ByteArrayInputStream(doc.asXML().getBytes()));
+								
+								List<DataSource> dataSourcesList = dataSources.getDataSource();
+								for(DataSource dataSource : dataSourcesList)
+								{
+									String clazz = dataSource.getPageClass();
+									int index = clazz.lastIndexOf(".");
+									if(index > 0)
+									{
+										String pkg = clazz.substring(0, index);
+										String name = clazz.substring(index + 1);
+										
+										dataSources.setPagePackage(pkg);
+										dataSource.setPageClass(name);
+									}
+								}
+								
+								ByteArrayOutputStream dataSourceByteOut = new ByteArrayOutputStream();
+								context.createMarshaller().marshal(dataSources, dataSourceByteOut);
+								
+								dataSourceInfo.setContent(dataSourceByteOut.toString());
+							}
+							catch (JAXBException e)
+							{
+								e.printStackTrace();
+							}
+							
 							dataSourceInfoMapper.save(dataSourceInfo);
 						}
 						else if("suite".equals(rootEleName))
@@ -372,7 +446,44 @@ public class ProjectController implements ApplicationContextAware
 							suiteRunnerInfo.setCreateTime(new Date());
 							suiteRunnerInfo.setContent(doc.asXML());
 							
+							try
+							{
+								JAXBContext context = JAXBContext.newInstance(Suite.class);
+								Unmarshaller unmarshaller = context.createUnmarshaller();
+								
+								Suite suite = (Suite) unmarshaller.unmarshal(
+										new ByteArrayInputStream(doc.asXML().getBytes()));
+								
+								List<SuitePageType> suitePageTypeList = suite.getPage();
+								for(SuitePageType suitePageType : suitePageTypeList)
+								{
+									String clazz = suitePageType.getClazz();
+									int index = clazz.lastIndexOf(".");
+									if(index > 0)
+									{
+										String pkg = clazz.substring(0, index);
+										String name = clazz.substring(index + 1);
+										
+										suite.setPagePackage(pkg);
+										suitePageType.setClazz(name);
+									}
+								}
+								
+								ByteArrayOutputStream suiteByteOut = new ByteArrayOutputStream();
+								context.createMarshaller().marshal(suite, suiteByteOut);
+								
+								suiteRunnerInfo.setContent(suiteByteOut.toString());
+							}
+							catch (JAXBException e)
+							{
+								e.printStackTrace();
+							}
+							
 							suiteRunnerInfoMapper.save(suiteRunnerInfo);
+						}
+						else
+						{
+							System.err.println("Unknow type xml, root element name is : " + rootEleName);
 						}
 					}
 				}
