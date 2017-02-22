@@ -116,13 +116,13 @@
 			<c:forEach items="${page.actions.action}" varStatus="j" var="action" >
 			<div class="panel-group" id="accordion">
 			    <div class="panel panel-default">
-			        <div class="panel-heading">
-			            <h4 class="panel-title <c:if test="${action.disable==true }">alert alert-warning</c:if>">
+			        <div class="panel-heading" <c:if test="${action.disable==true }">style="background-color: #faebcc;"</c:if>>
+			            <h4 class="panel-title">
 			                <a data-toggle="collapse" data-parent="#accordion" 
-			                href="#collapse-${action.field }">${action.field }</a>
+			                href="#collapse-${i.index }-${action.field }">${action.field }</a>
 			            </h4>
 			        </div>
-			        <div id="collapse-${action.field }" class="panel-collapse collapse">
+			        <div id="collapse-${i.index }-${action.field }" class="panel-collapse collapse">
 			            <div class="panel-body">
 							<div class="form-group">
 								<label class="col-sm-1 control-label">属性名</label>
@@ -167,11 +167,12 @@
 								</div>
 							</div>
 							
-							<c:forEach items="${action.param}" varStatus="x" var="param" >
+							<c:forEach items="${action.param}" varStatus="x" var="para" >
 							<div class="form-group">
 								<label class="col-sm-1 control-label">参数值</label>
 								<div class="col-sm-2">
-									<input name="suite.page[${i.index }].actions.action[${j.index }].param[${x.index}].value" value="${param.value}" class="form-control" type="text" />
+									<input name="suite.page[${i.index }].actions.action[${j.index }].param[${x.index}].value"
+										value="${para.value}" class="form-control" type="text" />
 								</div>
 							</div>
 							</c:forEach>

@@ -168,7 +168,7 @@
 				</div>
 				<label class="col-sm-1 control-label">URL</label>
 				<div class="col-sm-3">
-					<input name="autotest.pages.page[${i.index }].url" value="${page.url }" class="form-control" type="url" />
+					<input name="autotest.pages.page[${i.index }].url" value="${page.url }" class="form-control" type="text" />
 				</div>
 				<label class="col-sm-1 control-label">数据源</label>
 				<div class="col-sm-1">
@@ -183,15 +183,15 @@
 			</div>
 	
 			<c:forEach items="${page.field}" varStatus="j" var="field" >
-			<div class="panel-group" id="accordion_${field.name }">
+			<div class="panel-group" id="accordion_${i.index }_${field.name }">
 			    <div class="panel panel-default">
 			        <div class="panel-heading">
 			            <h4 class="panel-title">
-			                <a data-toggle="collapse" data-parent="#accordion_${field.name }" 
-			                href="#collapse-${field.name }">${field.name }</a>
+			                <a data-toggle="collapse" data-parent="#accordion_${i.index }_${field.name }" 
+			                href="#collapse-${i.index }-${field.name }">${field.name }</a>
 			            </h4>
 			        </div>
-			        <div id="collapse-${field.name }" class="panel-collapse collapse">
+			        <div id="collapse-${i.index }-${field.name }" class="panel-collapse collapse">
 			            <div class="panel-body">
 							<div class="form-group">
 								<label class="col-sm-1 control-label">属性名</label>
@@ -242,7 +242,8 @@
 								</div>
 								<label class="col-sm-1 control-label">byTagName</label>
 								<div class="col-sm-2">
-									<input name="autotest.pages.page[${i.index }].field[${j.index }].byTagName" value="${field.byTagName}" class="form-control" type="text" />
+									<input name="autotest.pages.page[${i.index }].field[${j.index }].byTagName"
+										value="${field.byTagName}" class="form-control" type="text" pattern="标签名称" />
 								</div>
 								<label class="col-sm-1 control-label">byXpath</label>
 								<div class="col-sm-2">

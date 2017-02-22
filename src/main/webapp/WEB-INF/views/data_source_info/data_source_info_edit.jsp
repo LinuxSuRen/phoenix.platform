@@ -110,10 +110,10 @@
 			        <div class="panel-heading">
 			            <h4 class="panel-title">
 			                <a data-toggle="collapse" data-parent="#accordion" 
-			                href="#collapse-${field.name }">${field.name }</a>
+			                href="#collapse-${i.index }-${field.name }">${field.name }<span style="color: blue; right: 25px; position: absolute;">${field.data }</span></a>
 			            </h4>
 			        </div>
-			        <div id="collapse-${field.name }" class="panel-collapse collapse">
+			        <div id="collapse-${i.index }-${field.name }" class="panel-collapse collapse">
 			            <div class="panel-body">
 							<div class="form-group">
 								<label class="col-sm-1 control-label">属性名</label>
@@ -122,7 +122,8 @@
 								</div>
 								<label class="col-sm-1 control-label">数据</label>
 								<div class="col-sm-2">
-									<input name="dataSources.dataSource[${i.index }].page[0].field[${j.index }].data" value="${field.data }" class="form-control" type="text" />
+									<input name="dataSources.dataSource[${i.index }].page[0].field[${j.index }].data
+										value="${field.data }" class="form-control" type="text" />
 								</div>
 								<label class="col-sm-1 control-label">类型</label>
 								<div class="col-sm-2">
