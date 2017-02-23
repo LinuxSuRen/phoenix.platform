@@ -122,7 +122,7 @@
 								</div>
 								<label class="col-sm-1 control-label">数据</label>
 								<div class="col-sm-2">
-									<input name="dataSources.dataSource[${i.index }].page[0].field[${j.index }].data
+									<input name="dataSources.dataSource[${i.index }].page[0].field[${j.index }].data"
 										value="${field.data }" class="form-control" type="text" />
 								</div>
 								<label class="col-sm-1 control-label">类型</label>
