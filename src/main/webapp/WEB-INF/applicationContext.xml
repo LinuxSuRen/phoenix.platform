@@ -31,6 +31,14 @@
         <property name="basePackage" value="org.suren.autotest.platform.mapping"/>
     </bean>
     
+    <bean class="org.springframework.beans.factory.config.CustomScopeConfigurer">
+    	<property name="scopes">
+    		<map>
+    			<entry key="autotest" value="org.suren.autotest.platform.AutotestScope"/>
+    		</map>
+    	</property>
+    </bean>
+    
     <!-- 
 	<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">  
 		<property name="customArgumentResolvers">  
