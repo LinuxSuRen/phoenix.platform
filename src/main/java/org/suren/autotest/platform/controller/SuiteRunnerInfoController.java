@@ -127,9 +127,11 @@ public class SuiteRunnerInfoController
 		return "suite_runner_info/edit";
 	}
 	
+	@ResponseBody
 	@RequestMapping("save.su")
-	public String suiteRunnerInfoSave(Model model, SuiteRunnerInfo suiteRunnerInfo)
+	public SuiteRunnerInfo suiteRunnerInfoSave(Model model, SuiteRunnerInfo suiteRunnerInfo)
 	{
+		int tabIndex = suiteRunnerInfo.getTabIndex();
 		Suite suite = suiteRunnerInfo.getSuite();
 		
 		try
@@ -155,8 +157,11 @@ public class SuiteRunnerInfoController
 		{
 			e.printStackTrace();
 		}
+		
+		suiteRunnerInfo = suiteRunnerInfoMapper.getById(suiteRunnerInfo.getId());
+		suiteRunnerInfo.setTabIndex(tabIndex);
 
-		return "redirect:/suite_runner_info/list.su?projectId=" + suiteRunnerInfo.getProjectId();
+		return suiteRunnerInfo;
 	}
 	
 	@RequestMapping("import.su")
