@@ -20,6 +20,7 @@ public class SuiteRunnerInfo
 	private Date createTime;
 	private String remark;
 	private Suite suite;
+	private int tabIndex;
 	/**
 	 * @return the id
 	 */
@@ -117,5 +118,19 @@ public class SuiteRunnerInfo
 	public void setSuite(Suite suite)
 	{
 		this.suite = suite;
+	}
+	/**
+	 * @return the tabIndex
+	 */
+	public int getTabIndex()
+	{
+		return tabIndex;
+	}
+	/**
+	 * @param tabIndex the tabIndex to set
+	 */
+	public void setTabIndex(int tabIndex)
+	{
+		this.tabIndex = tabIndex;
 	}
 }
