@@ -16,7 +16,6 @@
 
 package org.suren.autotest.platform;
 
-import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.beans.factory.config.Scope;
 import org.springframework.web.context.request.RequestScope;
 
@@ -26,24 +25,4 @@ import org.springframework.web.context.request.RequestScope;
  */
 public class AutotestScope extends RequestScope implements Scope
 {
-
-	@Override
-	protected int getScope()
-	{
-		return super.getScope();
-	}
-
-	@Override
-	public String getConversationId()
-	{
-		return super.getConversationId();
-	}
-
-	@Override
-	public Object get(String name, ObjectFactory<?> objectFactory)
-	{
-		// TODO Auto-generated method stub
-		return super.get(name, objectFactory);
-	}
-	
 }
