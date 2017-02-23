@@ -26,12 +26,12 @@
 			SELECT UUID()
 		</selectKey>
 		
-		insert into suite_runner_info(id, project_id, name, content)
-		values (#{id}, #{projectId}, #{name}, #{content})
+		insert into suite_runner_info(id, project_id, name, content, remark, create_time)
+		values (#{id}, #{projectId}, #{name}, #{content}, #{remark}, #{createTime})
 	</insert>
 	
 	<update id="update">
-		update suite_runner_info set name = #{name}, content = #{content} where id = #{id}
+		update suite_runner_info set name = #{name}, content = #{content}, remark = #{remark} where id = #{id}
 	</update>
 	
 	<select id="getTotalNum" resultType="int">
