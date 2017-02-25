@@ -20,6 +20,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.Date;
 import java.util.List;
 
@@ -29,6 +30,10 @@ import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,12 +41,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.suren.autotest.platform.mapping.DataSourceInfoMapper;
 import org.suren.autotest.platform.model.DataSourceInfo;
+import org.suren.autotest.platform.model.SuiteRunnerInfo;
 import org.suren.autotest.platform.schemas.datasource.DataSourceFieldTypeEnum;
 import org.suren.autotest.platform.schemas.datasource.DataSourcePageFieldType;
 import org.suren.autotest.platform.schemas.datasource.DataSourcePageType;
 import org.suren.autotest.platform.schemas.datasource.DataSources;
 import org.suren.autotest.platform.schemas.datasource.DataSources.DataSource;
 import org.suren.autotest.platform.schemas.datasource.DataTypeEnum;
+import org.suren.autotest.platform.util.DomUtils;
 import org.suren.autotest.web.framework.util.StringUtils;
 
 /**
@@ -92,9 +99,19 @@ public class DataSourceInfoController
 	}
 	
 	@RequestMapping("edit.su")
-	public String dataSourceInfoEdit(Model model, String id)
+	public String dataSourceInfoEdit(Model model, DataSourceInfo dataSourceInfo)
 	{
-		DataSourceInfo dataSourceInfo = dataSourceInfoMapper.getById(id);
+		String resultPath = "data_source_info/data_source_info_edit";
+		
+		String id = dataSourceInfo.getId();
+		int tabIndex = dataSourceInfo.getTabIndex();
+		dataSourceInfo = dataSourceInfoMapper.getById(id);
+		if(dataSourceInfo == null)
+		{
+			return resultPath;
+		}
+		
+		dataSourceInfo.setTabIndex(tabIndex);
 		model.addAttribute("dataSourceInfo", dataSourceInfo);
 		initEnums(model);
 
@@ -125,11 +142,12 @@ public class DataSourceInfoController
 			e.printStackTrace();
 		}
 		
-		return "data_source_info/data_source_info_edit";
+		return resultPath;
 	}
 	
+	@ResponseBody
 	@RequestMapping("save.su")
-	public String dataSourceInfoSave(Model model, DataSourceInfo dataSourceInfo)
+	public DataSourceInfo dataSourceInfoSave(Model model, DataSourceInfo dataSourceInfo)
 	{
 		DataSources dataSources = dataSourceInfo.getDataSources();
 		
@@ -157,7 +175,7 @@ public class DataSourceInfoController
 			e.printStackTrace();
 		}
 
-		return "redirect:/data_source_info/list.su";
+		return dataSourceInfo;
 	}
 	
 	@RequestMapping("import.su")
@@ -205,6 +223,40 @@ public class DataSourceInfoController
 		
 		dataSourceInfoMapper.delById(id);
 		return "redirect:/data_source_info/list.su?projectId=" + dataSourceInfo.getProjectId();
+	}
+	
+	@RequestMapping(value = "/download.su")
+	public ResponseEntity<byte[]> download(String id)
+	{
+		DataSourceInfo sataSourceInfo = dataSourceInfoMapper.getById(id);
+		
+		String content = sataSourceInfo.getContent();
+		content = (StringUtils.isBlank(content) ? "" : DomUtils.format(content));
+
+		String fileName = sataSourceInfo.getName();
+		try
+		{
+			fileName = URLEncoder.encode(fileName, "utf-8");
+		}
+		catch (UnsupportedEncodingException e)
+		{
+			e.printStackTrace();
+		}
+		
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.TEXT_XML);
+		headers.setContentDispositionFormData("filename", fileName + ".xml");
+		
+		try
+		{
+			return new ResponseEntity<byte[]>(content.getBytes("utf-8"), headers, HttpStatus.CREATED);
+		}
+		catch (UnsupportedEncodingException e)
+		{
+			e.printStackTrace();
+		}
+		
+		return new ResponseEntity<byte[]>("not supported encoding.".getBytes(), headers, HttpStatus.CREATED);
 	}
 	
 	@ResponseBody

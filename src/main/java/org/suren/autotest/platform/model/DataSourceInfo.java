@@ -21,6 +21,7 @@ public class DataSourceInfo
 	private Date createTime;
 	private String remark;
 	private DataSources dataSources;
+	private int tabIndex;
 	/**
 	 * @return the id
 	 */
@@ -118,5 +119,19 @@ public class DataSourceInfo
 	public void setDataSources(DataSources dataSources)
 	{
 		this.dataSources = dataSources;
+	}
+	/**
+	 * @return the tabIndex
+	 */
+	public int getTabIndex()
+	{
+		return tabIndex;
+	}
+	/**
+	 * @param tabIndex the tabIndex to set
+	 */
+	public void setTabIndex(int tabIndex)
+	{
+		this.tabIndex = tabIndex;
 	}
 }
