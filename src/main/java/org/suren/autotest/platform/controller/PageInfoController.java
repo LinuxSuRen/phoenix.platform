@@ -324,9 +324,10 @@ public class PageInfoController
 	}
 	
 	@RequestMapping("addField")
-	public String addField(Model model, String id, String pageName)
+	public String addField(Model model, String id, String pageName, int tabIndex)
 	{
 		PageInfo pageInfo = pageInfoMapper.getById(id);
+		pageInfo.setTabIndex(tabIndex);
 		initEnums(model);
 		model.addAttribute("pageInfo", pageInfo);
 		

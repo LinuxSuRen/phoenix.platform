@@ -10,6 +10,7 @@
 <title>页面集</title>
 <su:link href="/static/bootstrapValidator/css/bootstrapValidator.css"></su:link>
 <su:script src="/static/bootstrapValidator/js/bootstrapValidator.js"></su:script>
+<su:script src="/static/autotest/msgTip.js"></su:script>
 </head>
 <body>
 <nav class="navbar navbar-default" role="navigation">
@@ -177,7 +178,7 @@
 			<c:if test="${!empty pageInfo.id }">
 			<div class="col-sm-3">
 				<a href="delPage.su?pageName=${page.clazz }" class="form-control">删除</a>
-				<a href="addField.su?id=${pageInfo.id }&pageName=${page.clazz }" class="form-control">添加属性</a>
+				<a href="addField.su?id=${pageInfo.id }&pageName=${page.clazz }&tabIndex=${i.index+1}" class="form-control">添加属性</a>
 			</div>
 			</c:if>
 		</div>
@@ -311,7 +312,9 @@ function fortest(){
 	if(content != ""){
 		$.post('updatePage.su', content, function(data){
 			if(data.id){
-				window.location = 'test.su?id=' + data.id + '&tabIndex=' + data.tabIndex;
+				tip('保存成功！', function(){
+					window.location = 'test.su?id=' + data.id + '&tabIndex=' + data.tabIndex;
+				});
 			}
 		});
 	}
