@@ -11,5 +11,6 @@
 <body>
 
 正在建设中。。。
+<a href="https://github.com/LinuxSuRen/autotest.platform/issues" target="_blank">打开GitHub问题反馈页面，把您遇到的问题记下，我们会尽快修复，谢谢您的贡献！</a>
 
 </body>
