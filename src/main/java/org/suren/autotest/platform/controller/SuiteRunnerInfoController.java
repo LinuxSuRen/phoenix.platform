@@ -138,6 +138,54 @@ public class SuiteRunnerInfoController
 		
 		return "suite_runner_info/edit";
 	}
+
+	@RequestMapping("addPage.su")
+	public String suiteRunnerInfoPageAdd(Model model, SuiteRunnerInfo suiteRunnerInfo)
+	{
+		String resultPath = "suite_runner_info/edit";
+		
+		suiteRunnerInfo = suiteRunnerInfoMapper.getById(suiteRunnerInfo.getId());
+		if(suiteRunnerInfo == null)
+		{
+			return resultPath;
+		}
+		
+		try
+		{
+			JAXBContext context = JAXBContext.newInstance(Suite.class);
+			Unmarshaller unmarshaller = context.createUnmarshaller();
+			
+			String content = suiteRunnerInfo.getContent();
+			Suite suite;
+			if(StringUtils.isBlank(content))
+			{
+				suite = initSuite();
+			}
+			else
+			{
+				ByteArrayInputStream input = new ByteArrayInputStream(content.getBytes("utf-8"));
+				suite = (Suite) unmarshaller.unmarshal(input);
+			}
+			
+			suiteRunnerInfo.setSuite(suite);
+		}
+		catch (JAXBException e)
+		{
+			e.printStackTrace();
+		}
+		catch (UnsupportedEncodingException e)
+		{
+			e.printStackTrace();
+		}
+		
+		SuitePageType suitePageType = new SuitePageType();
+		suitePageType.setClazz("dsfsfd");
+		suiteRunnerInfo.getSuite().getPage().add(suitePageType);
+		
+		addAttr(model, suiteRunnerInfo);
+		
+		return resultPath;
+	}
 	
 	@ResponseBody
 	@RequestMapping("save.su")

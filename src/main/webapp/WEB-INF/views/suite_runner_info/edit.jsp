@@ -35,7 +35,7 @@
 			<ul class="nav navbar-nav">
 				<li><a onclick="fortest()"><span style="cursor:pointer;">保存</span></a></li>
 				<c:if test="${!empty suiteRunnerInfo.id }">
-				<li><a href="add.su?id=${suiteRunnerInfo.id}">新增测试</a></li>
+				<li><a href="addPage.su?id=${suiteRunnerInfo.id}">新增测试</a></li>
 				</c:if>
 				<li class="dropdown"><a href="#" class="dropdown-toggle"
 					data-toggle="dropdown">列表 <span class="caret"></span></a>
