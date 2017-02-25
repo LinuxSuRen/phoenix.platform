@@ -21,22 +21,29 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.Date;
 import java.util.List;
 
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.suren.autotest.platform.constants.ControllerConstants;
 import org.suren.autotest.platform.mapping.SuiteRunnerInfoMapper;
 import org.suren.autotest.platform.mapping.SuiteRunnerLogMapper;
 import org.suren.autotest.platform.model.DebugRunInfo;
@@ -49,6 +56,8 @@ import org.suren.autotest.platform.schemas.suite.LackLinesEnum;
 import org.suren.autotest.platform.schemas.suite.Suite;
 import org.suren.autotest.platform.schemas.suite.SuitePageType;
 import org.suren.autotest.platform.security.UserDetail;
+import org.suren.autotest.platform.util.DomUtils;
+import org.suren.autotest.web.framework.core.SuiteProgressInfo;
 import org.suren.autotest.web.framework.core.suite.SuiteRunner;
 import org.suren.autotest.web.framework.util.StringUtils;
 
@@ -79,9 +88,12 @@ public class SuiteRunnerInfoController
 	}
 	
 	@RequestMapping("edit.su")
-	public String suiteRunnerInfoEdit(Model model, String id)
+	public String suiteRunnerInfoEdit(Model model, SuiteRunnerInfo suiteRunnerInfo)
 	{
-		SuiteRunnerInfo suiteRunnerInfo = suiteRunnerInfoMapper.getById(id);
+		String id = suiteRunnerInfo.getId();
+		int tabIndex = suiteRunnerInfo.getTabIndex();
+		suiteRunnerInfo = suiteRunnerInfoMapper.getById(id);
+		suiteRunnerInfo.setTabIndex(tabIndex);
 		
 		try
 		{
@@ -211,12 +223,24 @@ public class SuiteRunnerInfoController
 	
 	@ResponseBody
 	@RequestMapping("run.su")
-	public SuiteRunnerLog suiteRunnerToRun(Model model, DebugRunInfo debugRunInfo)
+	public SuiteRunnerLog suiteRunnerToRun(HttpServletRequest request, Model model, DebugRunInfo debugRunInfo)
 	{
 		String id = debugRunInfo.getId();
 		
 		Date beginTime = new Date();
 		
+		//设置进度信息到session中
+		SuiteProgressInfo suiteProgressInfo = null;
+		String progressKey = request.getParameter(ControllerConstants.PROGRESS_KEY);
+		if(StringUtils.isNotBlank(progressKey))
+		{
+			suiteProgressInfo = new SuiteProgressInfo();
+			
+			
+			request.getSession().setAttribute(ControllerConstants.PROGRESS_PREFIX + progressKey, suiteProgressInfo);
+		}
+		
+		//预备运行日志信息
 		SuiteRunnerLog suiteRunnerLog = new SuiteRunnerLog();
 		suiteRunnerLog.setMessage("");
 		suiteRunnerLog.setBeginTime(beginTime);
@@ -234,11 +258,16 @@ public class SuiteRunnerInfoController
 
 		try
 		{
-			SuiteRunner.runFromFile(runnerFile);
+			new SuiteRunner(suiteProgressInfo).runFromFile(runnerFile);
 		}
 		catch(Exception e)
 		{
 			suiteRunnerLog.setMessage(e.getMessage());
+			
+			if(suiteProgressInfo != null)
+			{
+				suiteProgressInfo.setInfo(String.format("套件[%s]运行过程中发生错误！", suiteRunnerInfo.getName()));
+			}
 		}
 		finally
 		{
@@ -248,6 +277,40 @@ public class SuiteRunnerInfoController
 		}
 		
 		return suiteRunnerLog;
+	}
+	
+	@RequestMapping(value = "/download.su")
+	public ResponseEntity<byte[]> download(String id)
+	{
+		SuiteRunnerInfo suiteRunnerInfo = suiteRunnerInfoMapper.getById(id);
+		
+		String content = suiteRunnerInfo.getContent();
+		content = (StringUtils.isBlank(content) ? "" : DomUtils.format(content));
+
+		String fileName = suiteRunnerInfo.getName();
+		try
+		{
+			fileName = URLEncoder.encode(fileName, "utf-8");
+		}
+		catch (UnsupportedEncodingException e)
+		{
+			e.printStackTrace();
+		}
+		
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.TEXT_XML);
+		headers.setContentDispositionFormData("filename", fileName + ".xml");
+		
+		try
+		{
+			return new ResponseEntity<byte[]>(content.getBytes("utf-8"), headers, HttpStatus.CREATED);
+		}
+		catch (UnsupportedEncodingException e)
+		{
+			e.printStackTrace();
+		}
+		
+		return new ResponseEntity<byte[]>("not supported encoding.".getBytes(), headers, HttpStatus.CREATED);
 	}
 	
 	@ResponseBody
