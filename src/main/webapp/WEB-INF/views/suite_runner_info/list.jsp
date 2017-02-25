@@ -132,37 +132,42 @@
 			<form class="form-horizontal" role="form" method="post" action="<%=basePath%>/suite_runner_info/run.su">
 				<input name="id" type="hidden" />
 				<input name="deployUrl" type="hidden" value="<%=basePath %>/project/deploy.su?id=${projectId }" />
+				<input name="progressUrl" type="hidden" value="<%=basePath %>/progress/info.su" />
+				<input name="progress_key" type="hidden" />
 				<div class="modal-body">
 					<div class="form-group">
-						<label class="col-sm-4 control-label">运行次数</label>
+						<label class="col-sm-2 control-label">运行次数</label>
 						<div class="col-sm-3">
 					    	<input name="normalTimes" class="form-control" type="number" value="1"
 					    		required="required" min="1" max="100" />
 						</div>
-					<div class="form-group">
-						<label class="col-sm-2 control-label">当前</label>
+						<label class="col-sm-3 control-label">当前</label>
 						<div class="col-sm-2">
 					    	<input name="currentIndex" class="form-control" type="number" readonly="readonly" />
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="col-sm-4 control-label">并发数</label>
+						<label class="col-sm-2 control-label">并发数</label>
 						<div class="col-sm-3">
 					    	<input name="concurrentTimes" class="form-control" type="number" value="1"
 					    		required="required" min="1" max="6"/>
 						</div>
-					</div>
-					<div class="form-group">
-						<label class="col-sm-4 control-label">失败后继续运行次数</label>
-						<div class="col-sm-3">
+						<label class="col-sm-3 control-label">失败后继续</label>
+						<div class="col-sm-2">
 					    	<input name="retryTimes" class="form-control" type="number" value="0"
 					    		required="required" min="0" max="100"/>
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="col-sm-4 control-label">备注</label>
-						<div class="col-sm-3">
+						<label class="col-sm-2 control-label">备注</label>
+						<div class="col-sm-6">
 					    	<input name="remark" class="form-control" type="text" />
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">进度信息</label>
+						<div class="col-sm-6">
+					    	<p class="form-control-static" id="progress_bar"></p>
 						</div>
 					</div>
 				</div>

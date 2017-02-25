@@ -23,7 +23,7 @@ $(function(){
 	});
 });
 
-function suiteRun(form, url, formData, maxTimes){
+function suiteRun(form, url, formData, maxTimes, clearId){
 	$.ajax({
 		type : 'POST',
 		url : url,
@@ -40,7 +40,13 @@ function suiteRun(form, url, formData, maxTimes){
 				if(index < Number(maxTimes)){
 					form.find('[name="currentIndex"]').val(index + 1);
 					
-					suiteRun(form, url, formData, maxTimes);
+					suiteRun(form, url, formData, maxTimes, null);
+				}else{
+					clearInterval(clearId);
+					
+					if($('#messageBody').html() == ''){
+						$('#messageBody').html('成功！');
+					}
 				}
 			}
 		}
@@ -51,12 +57,34 @@ function debugRun(form, normalTimes){
 	var deployUrl = form.find('[name="deployUrl"]').val();
 	
 	$.post(deployUrl, function(){
-		form.find('[name="currentIndex"]').val(1);
+		setProgressInfo('', '部署成功！');
 		
-		suiteRun(form, form.attr('action'), form.serialize(), normalTimes);
+		form.find('[name="currentIndex"]').val(1);
+		var key = form.find('[name="progress_key"]').val(new Date().getTime()).val();
 
-		if($('#messageBody').html() == ''){
-			$('#messageBody').html('成功！');
-		}
+		var progressUrl = form.find('[name="progressUrl"]').val() + "?key=" + key;
+		var clearId = window.setInterval(_setProgressInfo(progressUrl, ''), 1500);
+		
+		suiteRun(form, form.attr('action'), form.serialize(), normalTimes, clearId);
 	});
+}
+
+function _setProgressInfo(progressUrl, msg){
+	return function(){
+		setProgressInfo(progressUrl, msg)
+	};
+}
+
+function setProgressInfo(progressUrl, msg){
+	if(msg != ''){
+		$('#progress_bar').text(msg);
+	}else{
+		$.ajax({
+			url: progressUrl,
+			dataType: 'json',
+			success: function(text){
+				$('#progress_bar').text(text.msg);
+			}
+		});
+	}
 }
