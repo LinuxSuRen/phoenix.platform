@@ -18,7 +18,7 @@
     <mvc:resources mapping="/bootstrap/**" location="/bootstrap/"/>
     <mvc:annotation-driven conversion-service="conversionService" />
     
-    <context:component-scan base-package="org.suren.autotest.platform.controller" />
+    <context:component-scan base-package="org.suren.autotest.platform.controller,org.suren.autotest.platform.controller.commons" />
     
 	<bean id="conversionService"
         class="org.springframework.context.support.ConversionServiceFactoryBean">
