@@ -65,6 +65,7 @@ import org.suren.autotest.platform.schemas.datasource.DataSources.DataSource;
 import org.suren.autotest.platform.schemas.suite.Suite;
 import org.suren.autotest.platform.schemas.suite.SuitePageType;
 import org.suren.autotest.platform.security.UserDetail;
+import org.suren.autotest.platform.util.JAXBUtils;
 import org.suren.autotest.web.framework.code.Generator;
 import org.suren.autotest.web.framework.jdt.JDTUtils;
 import org.suren.autotest.web.framework.util.StringUtils;
@@ -410,6 +411,7 @@ public class ProjectController implements ApplicationContextAware
 								
 								DataSources dataSources = (DataSources) unmarshaller.unmarshal(
 										new ByteArrayInputStream(doc.asXML().getBytes()));
+								JAXBUtils.clearEncryptData(dataSources);
 								
 								List<DataSource> dataSourcesList = dataSources.getDataSource();
 								for(DataSource dataSource : dataSourcesList)

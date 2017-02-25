@@ -49,6 +49,7 @@ import org.suren.autotest.platform.schemas.datasource.DataSources;
 import org.suren.autotest.platform.schemas.datasource.DataSources.DataSource;
 import org.suren.autotest.platform.schemas.datasource.DataTypeEnum;
 import org.suren.autotest.platform.util.DomUtils;
+import org.suren.autotest.platform.util.JAXBUtils;
 import org.suren.autotest.web.framework.util.StringUtils;
 
 /**
@@ -202,6 +203,7 @@ public class DataSourceInfoController
 
 			DataSources dataSources = (DataSources) unmarshaller.unmarshal(file.getInputStream());
 			
+			JAXBUtils.clearEncryptData(dataSources);
 			dataSourceInfo.setDataSources(dataSources);
 		}
 		catch (JAXBException e)
