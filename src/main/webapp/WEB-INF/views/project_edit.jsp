@@ -8,6 +8,7 @@
 <html lang="zh-cn">
 <head>
 <title>项目编辑</title>
+<su:script src="/static/autotest/msgTip.js"></su:script>
 </head>
 <body>
 
@@ -52,10 +53,6 @@
     </div>
     </div>
 </nav>
-
-<div class="alert alert-success alert-dismissable hide fade" id="deployTipId">
-<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>部署成功!
-</div>
 
 <ul class="nav nav-tabs" id="project_tabs">
 	<li class="active">
@@ -198,10 +195,7 @@
 <script type="text/javascript">
 function deploy(){
 	$.post('deploy.su?id=${project.id }', function(){
-		$('#deployTipId').removeClass('hide fade');
-		window.setTimeout(function(){
-			$('#deployTipId').addClass('hide fade');
-		}, 1000);
+		tip('部署成功！');
 	});
 }
 
