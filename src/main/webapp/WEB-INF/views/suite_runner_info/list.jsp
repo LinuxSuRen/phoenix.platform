@@ -167,7 +167,14 @@
 					<div class="form-group">
 						<label class="col-sm-2 control-label">进度信息</label>
 						<div class="col-sm-6">
-					    	<p class="form-control-static" id="progress_bar"></p>
+							<div class="progress progress-striped active" style="height: 34px;">
+								<div class="progress-bar progress-bar-success" role="progressbar"
+	         aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"
+	         style="width: 100%;">
+						    	<p class="form-control-static" id="progress_bar"></p>
+							</div>
+						
+					    	</div>
 						</div>
 					</div>
 				</div>
