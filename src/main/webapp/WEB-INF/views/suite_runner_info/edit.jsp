@@ -288,7 +288,7 @@ function fortest(){
 	});
 	
 	if(content != ""){
-		$.post('save.su', content, function(){
+		$.post('save.su', content, function(data){
 			window.location = 'edit.su?id=' + data.id + '&tabIndex=' + data.tabIndex;
 		});
 	}
