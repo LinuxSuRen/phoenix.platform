@@ -11,6 +11,7 @@
 <link href="<%=basePath %>/static/bootstrapValidator/css/bootstrapValidator.css" rel="stylesheet">
 <script src="<%=basePath %>/static/bootstrapValidator/js/bootstrapValidator.js"></script>
 <su:script src="/static/autotest/suiteDebug.js"></su:script>
+<su:script src="/static/autotest/msgTip.js"></su:script>
 </head>
 
 <body>
@@ -98,6 +99,13 @@
 				<div class="col-sm-3">
 			    	<input name="suite.afterSleep" value="${suiteRunnerInfo.suite.afterSleep }" class="form-control"
 			    		type="number" min="0" step="100" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">备注</label>
+				<div class="col-sm-3">
+			    	<input name="remark" value="${suiteRunnerInfo.remark }" class="form-control"
+			    		type="input" />
 				</div>
 			</div>
 		</form>
@@ -301,7 +309,11 @@ function fortest(){
 	
 	if(content != ""){
 		$.post('save.su', content, function(data){
-			window.location = 'edit.su?id=' + data.id + '&tabIndex=' + data.tabIndex;
+			if(data.id){
+				tip('保存成功！', function(){
+					window.location = 'edit.su?id=' + data.id + '&tabIndex=' + data.tabIndex;
+				});
+			}
 		});
 	}
 }
