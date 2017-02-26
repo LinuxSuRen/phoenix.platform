@@ -12,6 +12,10 @@
 		)
 	</insert>
 	
+	<update id="update">
+		update suite_runner_log set end_time = #{endTime}, message = #{message} where id = #{id}
+	</update>
+	
 	<delete id="delById">
 		delete from suite_runner_log where id = #{id}
 	</delete>
