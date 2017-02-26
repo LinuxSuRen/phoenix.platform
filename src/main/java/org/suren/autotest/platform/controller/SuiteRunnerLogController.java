@@ -16,14 +16,25 @@
 
 package org.suren.autotest.platform.controller;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.suren.autotest.platform.mapping.SuiteRunnerLogMapper;
 import org.suren.autotest.platform.model.SuiteRunnerLog;
+import org.suren.autotest.web.framework.log.Image4SearchLog;
 
 /**
  * 运行日志
@@ -36,6 +47,8 @@ public class SuiteRunnerLogController
 {
 	@Autowired
 	private SuiteRunnerLogMapper suiteRunnerLogMapper;
+	@Autowired
+	private Image4SearchLog image4SearchLog;
 	
 	@RequestMapping("list")
 	public String list(String runnerId, Model model)
@@ -63,6 +76,27 @@ public class SuiteRunnerLogController
 		model.addAttribute("log", log);
 		
 		return "suite_runner_log/suite_runner_log_detail";
+	}
+	
+	@RequestMapping("gifDetail")
+	public ResponseEntity<byte[]> gifDetail(String id)
+	{
+		File file = image4SearchLog.getOutputFile();
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		
+		try(InputStream input = new FileInputStream(new File(file, id + ".gif")))
+		{
+			IOUtils.copy(input, out);
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+		
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.IMAGE_GIF);
+		
+		return new ResponseEntity<byte[]>(out.toByteArray(), headers, HttpStatus.CREATED);
 	}
 	
 	@RequestMapping("del")

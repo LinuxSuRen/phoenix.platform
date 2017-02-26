@@ -28,6 +28,7 @@
 			<td>${log.beginTime }</td>
 			<td>${log.endTime }</td>
 			<td>
+				<a href="gifDetail.su?id=${log.id }" target="_blank">Gif</a>
 				<a href="detail.su?id=${log.id }" data-toggle="modal" data-target="#logDetailId">详情</a>
 				<a href="#" data-href="del.su?id=${log.id }" data-toggle="modal" data-target="#logDelDialogId">删除</a>
 			</td>
