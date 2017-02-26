@@ -62,6 +62,7 @@ import org.suren.autotest.web.framework.core.suite.SuiteRunner;
 import org.suren.autotest.web.framework.util.StringUtils;
 
 /**
+ * 测试套件管理
  * @author suren
  * @date 2017年1月23日 上午7:38:33
  */
@@ -292,6 +293,7 @@ public class SuiteRunnerInfoController
 		SuiteRunnerLog suiteRunnerLog = new SuiteRunnerLog();
 		suiteRunnerLog.setMessage("");
 		suiteRunnerLog.setBeginTime(beginTime);
+		suiteRunnerLog.setEndTime(new Date());
 		suiteRunnerLog.setSuiteRunnerInfoId(id);
 		suiteRunnerLog.setRemark(debugRunInfo.getRemark());
 		
@@ -306,6 +308,9 @@ public class SuiteRunnerInfoController
 
 		try
 		{
+			suiteRunnerLogMapper.save(suiteRunnerLog);
+			suiteProgressInfo.setIdentify(suiteRunnerLog.getId());
+			
 			new SuiteRunner(suiteProgressInfo).runFromFile(runnerFile);
 		}
 		catch(Exception e)
@@ -321,7 +326,7 @@ public class SuiteRunnerInfoController
 		{
 			suiteRunnerLog.setEndTime(new Date());
 			
-			suiteRunnerLogMapper.save(suiteRunnerLog);
+			suiteRunnerLogMapper.update(suiteRunnerLog);
 		}
 		
 		return suiteRunnerLog;
