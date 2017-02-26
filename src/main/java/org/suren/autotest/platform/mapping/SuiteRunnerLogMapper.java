@@ -25,7 +25,7 @@ import org.suren.autotest.platform.model.SuiteRunnerLog;
  * @author suren
  * @date 2017年1月31日 下午7:40:36
  */
-public interface SuiteRunnerLogMapper
+public interface SuiteRunnerLogMapper extends BaseMapper<SuiteRunnerLog>
 {
 	void save(SuiteRunnerLog suiteRunnerLog);
 	
