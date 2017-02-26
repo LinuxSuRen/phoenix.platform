@@ -10,6 +10,7 @@
 <title>数据源</title>
 <su:link href="/static/bootstrapValidator/css/bootstrapValidator.css"></su:link>
 <su:script src="/static/bootstrapValidator/js/bootstrapValidator.js"></su:script>
+<su:script src="/static/autotest/msgTip.js"></su:script>
 </head>
 <body>
 
@@ -194,7 +195,11 @@ function fortest(){
 	
 	if(content != ""){
 		$.post('save.su', content, function(data){
-			window.location = 'edit.su?id=' + data.id + '&tabIndex=' + data.tabIndex;
+			if(data.id){
+				tip('保存成功！', function(){
+					window.location = 'edit.su?id=' + data.id + '&tabIndex=' + data.tabIndex;
+				});
+			}
 		});
 	}
 }
@@ -218,11 +223,11 @@ function dataTypeChange(obj){
 
 function dataEncrypt(obj){
 	var pass = $(obj).parent().find('[type="password"]');
-	console.log(pass);
 	var plainText = pass.val();
 	$.post('<%=basePath%>/data/encrypt.su?plainText=' + plainText, function(data){
-		console.log(data);
-		pass.val(data);
+		tip('加密完成，请及时保存！', function(){
+			pass.val(data);
+		});
 	});
 }
 
