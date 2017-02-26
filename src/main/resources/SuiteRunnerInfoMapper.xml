@@ -9,7 +9,7 @@
 		select id, name from suite_runner_info
 	</select>
 	
-	<select id="getAllByProjectId" resultType="SuiteRunnerInfo">
+	<select id="getAllByProjectId" resultType="SuiteRunnerInfo" resultMap="SuiteRunnerInfoMap">
 		select id, project_id, name, create_time, remark from suite_runner_info where project_id = #{projectId} order by create_time desc
 	</select>
 	
