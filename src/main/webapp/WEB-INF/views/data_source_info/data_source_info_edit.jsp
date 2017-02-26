@@ -88,6 +88,12 @@
 			    	<input name="dataSources.pagePackage" value="${dataSourceInfo.dataSources.pagePackage }" class="form-control" type="input" required />
 				</div>
 			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">备注</label>
+				<div class="col-sm-3">
+			    	<input name="remark" value="${dataSourceInfo.remark }" class="form-control" type="input" />
+				</div>
+			</div>
 		</form>
 	</div>
 	

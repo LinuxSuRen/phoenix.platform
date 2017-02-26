@@ -41,7 +41,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.suren.autotest.platform.mapping.DataSourceInfoMapper;
 import org.suren.autotest.platform.model.DataSourceInfo;
-import org.suren.autotest.platform.model.SuiteRunnerInfo;
 import org.suren.autotest.platform.schemas.datasource.DataSourceFieldTypeEnum;
 import org.suren.autotest.platform.schemas.datasource.DataSourcePageFieldType;
 import org.suren.autotest.platform.schemas.datasource.DataSourcePageType;
