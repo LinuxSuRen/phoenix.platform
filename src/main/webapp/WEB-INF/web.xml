@@ -21,15 +21,6 @@
 	</context-param>
 	
 	<filter>
-		<filter-name>autoTestFilter</filter-name>
-		<filter-class>org.suren.autotest.platform.filter.AutoTestFilter</filter-class>
-	</filter>
-	<filter-mapping>
-		<filter-name>autoTestFilter</filter-name>
-		<url-pattern>/*</url-pattern>
-	</filter-mapping>
-	
-	<filter>
 		<filter-name>springSecurityFilterChain</filter-name>
 		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
 	</filter>
@@ -77,4 +68,13 @@
 		<servlet-name>dispatcher</servlet-name>
 		<url-pattern>*.su</url-pattern>
 	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>dispatcher</servlet-name>
+		<url-pattern>*.json</url-pattern>
+	</servlet-mapping>
+	
+	<taglib>
+		<taglib-uri>/META-INF/suren.tld</taglib-uri>
+		<taglib-location>/META-INF/suren.tld</taglib-location>
+	</taglib>
 </web-app>
