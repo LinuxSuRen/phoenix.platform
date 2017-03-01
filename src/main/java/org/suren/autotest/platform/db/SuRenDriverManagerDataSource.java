@@ -19,6 +19,7 @@ package org.suren.autotest.platform.db;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Properties;
+import java.util.UUID;
 
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.sqlite.Function;
@@ -58,7 +59,7 @@ public class SuRenDriverManagerDataSource extends DriverManagerDataSource
 			protected void xFunc() {
 				try
 				{
-					this.result(System.currentTimeMillis() + "");
+					this.result(UUID.randomUUID().toString());
 				}
 				catch (SQLException e)
 				{
