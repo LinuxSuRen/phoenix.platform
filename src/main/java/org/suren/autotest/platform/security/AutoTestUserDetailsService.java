@@ -60,6 +60,7 @@ public class AutoTestUserDetailsService implements UserDetailsService
 		List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
 		
 		authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
+		authorities.add(new SimpleGrantedAuthority("SCOPE_READ"));
 		
 		UserDetail userDetail = new UserDetail(username, password, enabled, accountNonExpired,
 				credentialsNonExpired, accountNonLocked, authorities);
