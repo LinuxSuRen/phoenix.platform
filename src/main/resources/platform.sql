@@ -3,6 +3,7 @@ drop table if exists attach_config;
 drop table if exists options;
 drop table if exists suite_runner_log;
 drop table if exists suite_runner_info;
+drop table if exists test_plan;
 drop table if exists project_foucs;
 drop table if exists data_source_info;
 drop table if exists page_info;
@@ -126,6 +127,17 @@ create table suite_runner_info (
 	primary key(id),
 	constraint suite_runner_info_2_project foreign key (project_id)
 	references project (id) on delete restrict
+);
+
+create table test_plan (
+	id varchar(36) not null,
+	name varchar(100) not null,
+	suite_runner_id varchar(36) not null,
+	cron_exp varchar(300),
+	remark varchar(300),
+	primary key(id),
+	constraint test_plan_2_suite_runner foreign key (suite_runner_id)
+	references suite_runner_info (id) on delete restrict
 );
 
 create table suite_runner_log (
