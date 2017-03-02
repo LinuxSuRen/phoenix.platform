@@ -293,6 +293,9 @@
 function fortest(){
 	var tabIndex = $('#engine_tabs .active').index()
 	var content = "tabIndex=" + tabIndex;
+	$('input').each(function(){
+		$(this).val($(this).val().trim());
+	});
 	$('form').not('[action]').each(function(){
 		var ser = $(this).serialize();
 		var bv = $(this).data('bootstrapValidator');

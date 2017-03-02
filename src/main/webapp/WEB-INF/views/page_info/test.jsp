@@ -295,6 +295,9 @@ function sysHelp(){
 function fortest(){
 	var tabIndex = $('#engine_tabs .active').index()
 	var content = "tabIndex=" + tabIndex;
+	$('input').each(function(){
+		$(this).val($(this).val().trim());
+	});
 	$('form').each(function(){
 		var bv = $(this).data('bootstrapValidator');
 		bv.validate();
