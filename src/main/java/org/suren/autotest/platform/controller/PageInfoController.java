@@ -173,7 +173,15 @@ public class PageInfoController
 		String id = pageInfo.getId();
 		int tabIndex = pageInfo.getTabIndex();
 		pageInfo = pageInfoMapper.getById(id);
-		pageInfo.setTabIndex(tabIndex);
+		if(pageInfo == null)
+		{
+			pageInfo = new PageInfo();
+		}
+		else
+		{
+			pageInfo.setTabIndex(tabIndex);
+		}
+		
 		model.addAttribute("pageInfo", pageInfo);
 		
 		try
@@ -303,6 +311,9 @@ public class PageInfoController
 			
 			PageType pageType = new PageType();
 			pageType.setClazz("PageStuff");
+			PageFieldType pageFieldType = new PageFieldType();
+			pageFieldType.setName("PageFieldName");
+			pageType.getField().add(pageFieldType);
 			autotest.getPages().getPage().add(pageType);
 
 			model.addAttribute("autotest", autotest);
@@ -428,7 +439,15 @@ public class PageInfoController
 			ByteArrayOutputStream out = new ByteArrayOutputStream();
 			marshaller.marshal(autotest, out);
 
-			pageInfo.setContent(out.toString());
+			try
+			{
+				pageInfo.setContent(out.toString("UTF-8"));
+			}
+			catch (UnsupportedEncodingException e)
+			{
+				e.printStackTrace();
+			}
+			
 			if(StringUtils.isNotBlank(pageInfo.getId()))
 			{
 				pageInfoMapper.update(pageInfo);
@@ -483,12 +502,13 @@ public class PageInfoController
 			ByteArrayOutputStream out = new ByteArrayOutputStream();
 			marshaller.marshal(autotest, out);
 			
-			pageInfo.setContent(new String(out.toByteArray()));
+			pageInfo.setContent(out.toString("UTF-8"));
 			
 			pageInfoMapper.update(pageInfo);
 		}
 		catch(Exception e)
 		{
+			e.printStackTrace();
 		}
 		
 		return "redirect:/page_info/test.su";
@@ -656,9 +676,13 @@ public class PageInfoController
 							ByteArrayOutputStream out = new ByteArrayOutputStream();
 							marshaller.marshal(suite, out);
 							
-							suiteRunnerInfo.setContent(new String(out.toByteArray()));
+							suiteRunnerInfo.setContent(out.toString("UTF-8"));
 						}
 						catch (JAXBException e)
+						{
+							e.printStackTrace();
+						}
+						catch (UnsupportedEncodingException e)
 						{
 							e.printStackTrace();
 						}

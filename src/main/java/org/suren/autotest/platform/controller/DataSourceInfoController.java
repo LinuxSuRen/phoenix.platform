@@ -159,7 +159,15 @@ public class DataSourceInfoController
 			ByteArrayOutputStream out = new ByteArrayOutputStream();
 			marshaller.marshal(dataSources, out);
 			
-			dataSourceInfo.setContent(out.toString());
+			try
+			{
+				dataSourceInfo.setContent(out.toString("UTF-8"));
+			}
+			catch (UnsupportedEncodingException e)
+			{
+				e.printStackTrace();
+			}
+			
 			if(StringUtils.isNotBlank(dataSourceInfo.getId()))
 			{
 				dataSourceInfoMapper.update(dataSourceInfo);

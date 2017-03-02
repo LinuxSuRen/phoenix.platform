@@ -387,7 +387,7 @@ public class ProjectController implements ApplicationContextAware
 								ByteArrayOutputStream autoTestByteOut = new ByteArrayOutputStream();
 								context.createMarshaller().marshal(autotest, autoTestByteOut);
 								
-								pageInfo.setContent(autoTestByteOut.toString());
+								pageInfo.setContent(autoTestByteOut.toString("UTF-8"));
 							}
 							catch (JAXBException e)
 							{
@@ -431,7 +431,7 @@ public class ProjectController implements ApplicationContextAware
 								ByteArrayOutputStream dataSourceByteOut = new ByteArrayOutputStream();
 								context.createMarshaller().marshal(dataSources, dataSourceByteOut);
 								
-								dataSourceInfo.setContent(dataSourceByteOut.toString());
+								dataSourceInfo.setContent(dataSourceByteOut.toString("UTF-8"));
 							}
 							catch (JAXBException e)
 							{
@@ -474,7 +474,7 @@ public class ProjectController implements ApplicationContextAware
 								ByteArrayOutputStream suiteByteOut = new ByteArrayOutputStream();
 								context.createMarshaller().marshal(suite, suiteByteOut);
 								
-								suiteRunnerInfo.setContent(suiteByteOut.toString());
+								suiteRunnerInfo.setContent(suiteByteOut.toString("UTF-8"));
 							}
 							catch (JAXBException e)
 							{

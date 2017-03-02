@@ -203,7 +203,7 @@ public class SuiteRunnerInfoController
 			ByteArrayOutputStream out = new ByteArrayOutputStream();
 			marshaller.marshal(suite, out);
 			
-			suiteRunnerInfo.setContent(out.toString());
+			suiteRunnerInfo.setContent(out.toString("UTF-8"));
 			if(StringUtils.isNotBlank(suiteRunnerInfo.getId()))
 			{
 				suiteRunnerInfoMapper.update(suiteRunnerInfo);
@@ -215,6 +215,10 @@ public class SuiteRunnerInfoController
 			}
 		}
 		catch (JAXBException e)
+		{
+			e.printStackTrace();
+		}
+		catch (UnsupportedEncodingException e)
 		{
 			e.printStackTrace();
 		}
