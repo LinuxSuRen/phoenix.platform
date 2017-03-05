@@ -203,7 +203,7 @@ public class ProjectController implements ApplicationContextAware
 				
 				try
 				{
-					FileUtils.writeStringToFile(autotestFile, content);
+					FileUtils.writeStringToFile(autotestFile, content, "UTF-8");
 					
 					//生成Java源码
 					codeGenerator.generate(autotestFile.toString(), srcOutputDir.toString());
@@ -280,7 +280,7 @@ public class ProjectController implements ApplicationContextAware
 				
 				try
 				{
-					FileUtils.writeStringToFile(dataSourceFile, content);
+					FileUtils.writeStringToFile(dataSourceFile, content, "utf-8");
 				}
 				catch (IOException e)
 				{
@@ -300,7 +300,7 @@ public class ProjectController implements ApplicationContextAware
 				
 				try
 				{
-					FileUtils.writeStringToFile(suiteFile, content);
+					FileUtils.writeStringToFile(suiteFile, content, "utf-8");
 				}
 				catch (IOException e)
 				{
