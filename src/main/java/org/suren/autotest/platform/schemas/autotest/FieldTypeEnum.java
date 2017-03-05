@@ -37,35 +37,35 @@ public enum FieldTypeEnum {
 
 
     /**
-     * ÎÄ±¾¿ò¡¢ÎÄ±¾ÓòµÈÓÃÓÚÊäÈë×Ö·ûµÄÔªËØ
+     * ï¿½Ä±ï¿½ï¿½ï¿½ï¿½Ä±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö·ï¿½ï¿½Ôªï¿½ï¿½
      * 
      */
     @XmlEnumValue("input")
     INPUT("input"),
 
     /**
-     * °´Å¥ÀàÐèÒª´¥·¢µ¥»÷²Ù×÷µÄÔªËØ
+     * ï¿½ï¿½Å¥ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ôªï¿½ï¿½
      * 
      */
     @XmlEnumValue("button")
     BUTTON("button"),
 
     /**
-     * ÏÂÀ­ÁÐ±íÔªËØ
+     * ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½Ôªï¿½ï¿½
      * 
      */
     @XmlEnumValue("select")
     SELECT("select"),
 
     /**
-     * µã»÷ÁË»á´¥·¢ÎÄ¼þÉÏ´«µÄ°´Å¥
+     * ï¿½ï¿½ï¿½ï¿½Ë»á´¥ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½Ï´ï¿½ï¿½Ä°ï¿½Å¥
      * 
      */
     @XmlEnumValue("file_upload")
     FILE_UPLOAD("file_upload"),
 
     /**
-     * µ¥£¨¶à£©Ñ¡°´Å¥×éËùÔÚµÄ¸¸£¨parent£©ÔªËØ
+     * ï¿½ï¿½ï¿½ï¿½ï¿½à£©Ñ¡ï¿½ï¿½Å¥ï¿½ï¿½ï¿½ï¿½ï¿½ÚµÄ¸ï¿½ï¿½ï¿½parentï¿½ï¿½Ôªï¿½ï¿½
      * 
      */
     @XmlEnumValue("check_box_group")
@@ -88,5 +88,13 @@ public enum FieldTypeEnum {
         }
         throw new IllegalArgumentException(v);
     }
+
+	/**
+	 * @return the value
+	 */
+	public String getValue()
+	{
+		return value;
+	}
 
 }

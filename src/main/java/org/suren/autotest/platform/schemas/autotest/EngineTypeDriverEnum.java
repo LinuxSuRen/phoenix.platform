@@ -48,6 +48,7 @@ public enum EngineTypeDriverEnum {
 
     @XmlEnumValue("safari")
     SAFARI("safari");
+	
     private final String value;
 
     EngineTypeDriverEnum(String v) {
@@ -66,5 +67,13 @@ public enum EngineTypeDriverEnum {
         }
         throw new IllegalArgumentException(v);
     }
+
+	/**
+	 * @return the value
+	 */
+	public String getValue()
+	{
+		return value;
+	}
 
 }

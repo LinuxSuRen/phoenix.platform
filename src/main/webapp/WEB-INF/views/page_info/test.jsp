@@ -93,7 +93,7 @@
 				<div class="col-sm-3" data-step="7" data-intro="选择你要测试的浏览器类型，我们支持IE、谷歌、火狐等等哦" data-position="down">
 					<select name="autotest.engine.driver" class="form-control">
 						<c:forEach items="${engineType }" var="type">
-						<option value="${type.value() }" <c:if test="${pageInfo.autotest.engine.driver.value()==type.value() }">selected="true"</c:if>>${type }</option>
+						<option value="${type.value }" <c:if test="${pageInfo.autotest.engine.driver.value==type.value }">selected="true"</c:if>>${type }</option>
 						</c:forEach>
 					</select>
 				</div>
@@ -144,7 +144,7 @@
 				<div class="col-sm-2">
 					<select name="autotest.dataSources.dataSource[${dsi.index }].type" class="form-control">
 						<c:forEach items="${dataSourceType }" var="type">
-						<option value="${type.value() }" <c:if test="${dataSource.type.value()==type.value() }">selected="true"</c:if>>${type }</option>
+						<option value="${type.value }" <c:if test="${dataSource.type.value==type.value }">selected="true"</c:if>>${type }</option>
 						</c:forEach>
 					</select>
 				</div>
@@ -203,7 +203,7 @@
 							<div class="col-sm-2">
 								<select name="autotest.pages.page[${i.index }].field[${j.index }].type" class="form-control">
 									<c:forEach items="${fieldType }" var="type">
-									<option value="${type.value() }" <c:if test="${field.type.value()==type.value() }">selected="true"</c:if>>${type }</option>
+									<option value="${type.value }" <c:if test="${field.type.value==type.value }">selected="true"</c:if>>${type }</option>
 									</c:forEach>
 								</select>
 							</div>
@@ -211,7 +211,7 @@
 							<div class="col-sm-2">
 								<select name="autotest.pages.page[${i.index }].field[${j.index }].strategy" class="form-control">
 									<c:forEach items="${strategyType }" var="type">
-									<option value="${type.value() }" <c:if test="${field.strategy.value()==type.value() }">selected="true"</c:if>>${type }</option>
+									<option value="${type.value }" <c:if test="${field.strategy.value==type.value }">selected="true"</c:if>>${type }</option>
 									</c:forEach>
 								</select>
 							</div>
@@ -252,13 +252,13 @@
 							</div>
 						</div>
 						
-						<c:forEach items="${field.locators.getLocator()}" varStatus="x" var="locator" >
+						<c:forEach items="${field.locators.getLocator}" varStatus="x" var="locator" >
 						<div class="form-group">
 							<label class="col-sm-1 control-label">定位方法</label>
 							<div class="col-sm-2">
 								<select name="autotest.pages.page[${i.index }].field[${j.index }].locators.locator[${x.index }].name" class="form-control">
 									<c:forEach items="${locatorType }" var="type">
-									<option value="${type.value() }" <c:if test="${locator.name.value()==type.value() }">selected="true"</c:if>>${type }</option>
+									<option value="${type.value }" <c:if test="${locator.name.value==type.value }">selected="true"</c:if>>${type }</option>
 									</c:forEach>
 								</select>
 							</div>
@@ -295,9 +295,6 @@ function sysHelp(){
 function fortest(){
 	var tabIndex = $('#engine_tabs .active').index()
 	var content = "tabIndex=" + tabIndex;
-	$('input').each(function(){
-		$(this).val($(this).val().trim());
-	});
 	$('form').each(function(){
 		var bv = $(this).data('bootstrapValidator');
 		bv.validate();
@@ -313,6 +310,7 @@ function fortest(){
 	});
 	
 	if(content != ""){
+		//content = window.encodeURI(content);
 		$.post('updatePage.su', content, function(data){
 			if(data.id){
 				tip('保存成功！', function(){

@@ -35,7 +35,7 @@ public enum LackLinesEnum {
 
     /**
      * 
-     * 						当前缺少指定数据组时报错。
+     * 						锟斤拷前缺锟斤拷指锟斤拷锟斤拷锟斤拷锟绞憋拷锟斤拷?
      * 					
      * 
      */
@@ -44,7 +44,7 @@ public enum LackLinesEnum {
 
     /**
      * 
-     * 						当前缺少指定数据组时使用最近的数据组。
+     * 						锟斤拷前缺锟斤拷指锟斤拷锟斤拷锟斤拷锟绞笔癸拷锟斤拷锟斤拷锟斤拷锟斤拷锟介。
      * 					
      * 
      */
@@ -68,5 +68,13 @@ public enum LackLinesEnum {
         }
         throw new IllegalArgumentException(v);
     }
+
+	/**
+	 * @return the value
+	 */
+	public String getValue()
+	{
+		return value;
+	}
 
 }

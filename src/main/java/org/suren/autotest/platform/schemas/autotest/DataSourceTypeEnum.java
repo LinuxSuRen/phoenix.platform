@@ -34,7 +34,7 @@ public enum DataSourceTypeEnum {
 
 
     /**
-     * XML¸ñÊ½µÄÊý¾ÝÔ´
+     * XMLï¿½ï¿½Ê½ï¿½ï¿½ï¿½ï¿½ï¿½Ô´
      * 
      */
     @XmlEnumValue("xml_data_source")
@@ -59,5 +59,13 @@ public enum DataSourceTypeEnum {
         }
         throw new IllegalArgumentException(v);
     }
+
+	/**
+	 * @return the value
+	 */
+	public String getValue()
+	{
+		return value;
+	}
 
 }

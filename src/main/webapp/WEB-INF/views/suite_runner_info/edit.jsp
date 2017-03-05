@@ -145,7 +145,7 @@
 							<div class="col-sm-2">
 								<select name="suite.page[${i.index }].actions.action[${j.index }].name" class="form-control">
 									<c:forEach items="${actionType }" var="type">
-									<option value="${type.value() }" <c:if test="${action.name.value()==type.value() }">selected="true"</c:if>>${type }</option>
+									<option value="${type.value }" <c:if test="${action.name.value==type.value }">selected="true"</c:if>>${type }</option>
 									</c:forEach>
 								</select>
 							</div>

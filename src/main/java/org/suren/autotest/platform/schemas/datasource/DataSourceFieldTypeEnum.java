@@ -37,7 +37,7 @@ public enum DataSourceFieldTypeEnum {
 
     /**
      * 
-     * 						ÊôÐÔÃûÎªtext¡£
+     * 						ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªtextï¿½ï¿½
      * 					
      * 
      */
@@ -46,7 +46,7 @@ public enum DataSourceFieldTypeEnum {
 
     /**
      * 
-     * 						ÊôÐÔÃûÎªindex¡£
+     * 						ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªindexï¿½ï¿½
      * 					
      * 
      */
@@ -55,7 +55,7 @@ public enum DataSourceFieldTypeEnum {
 
     /**
      * 
-     * 						ÊôÐÔÃûÎªvalue¡£
+     * 						ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªvalueï¿½ï¿½
      * 					
      * 
      */
@@ -64,7 +64,7 @@ public enum DataSourceFieldTypeEnum {
 
     /**
      * 
-     * 						ÊôÐÔÃûÎªcallback¡£
+     * 						ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªcallbackï¿½ï¿½
      * 					
      * 
      */
@@ -88,5 +88,13 @@ public enum DataSourceFieldTypeEnum {
         }
         throw new IllegalArgumentException(v);
     }
+
+	/**
+	 * @return the value
+	 */
+	public String getValue()
+	{
+		return value;
+	}
 
 }

@@ -40,7 +40,7 @@ public enum DataTypeEnum {
 
     /**
      * 
-     * 						¼òµ¥µÄÊý¾ÝÀàÐÍ£¬¿ÉÒÔÊÇ¾²Ì¬Êý¾Ý»òÕßÊÇ¸ù¾Ý¿ò¼ÜÌá¹©µÄ¶¯Ì¬Êý¾Ý¡£
+     * 						ï¿½òµ¥µï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç¾ï¿½Ì¬ï¿½ï¿½Ý»ï¿½ï¿½ï¿½ï¿½Ç¸ï¿½Ý¿ï¿½ï¿½ï¿½á¹©ï¿½Ä¶ï¿½Ì¬ï¿½ï¿½Ý¡ï¿½
      * 					
      * 
      */
@@ -49,7 +49,7 @@ public enum DataTypeEnum {
 
     /**
      * 
-     * 						PageÀàÖ®¼äµÄÊý¾ÝÒýÓÃ£¬ÀýÈç£ºUser.name¡£
+     * 						Pageï¿½ï¿½Ö®ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã£ï¿½ï¿½ï¿½ï¿½ç£ºUser.nameï¿½ï¿½
      * 					
      * 
      */
@@ -58,7 +58,7 @@ public enum DataTypeEnum {
 
     /**
      * 
-     * 						groovy¶¯Ì¬Êý¾Ý£¬¸ü¶àÇë²Î¿¼http://surenpi.com/?s=groovy¡£
+     * 						groovyï¿½ï¿½Ì¬ï¿½ï¿½Ý£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î¿ï¿½http://surenpi.com/?s=groovyï¿½ï¿½
      * 					
      * 
      */
@@ -67,7 +67,7 @@ public enum DataTypeEnum {
 
     /**
      * 
-     * 						javascript¶¯Ì¬Êý¾Ý£¬¸ü¶àÇë²Î¿¼http://surenpi.com/?s=javascript¡£
+     * 						javascriptï¿½ï¿½Ì¬ï¿½ï¿½Ý£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î¿ï¿½http://surenpi.com/?s=javascriptï¿½ï¿½
      * 					
      * 
      */
@@ -76,7 +76,7 @@ public enum DataTypeEnum {
 
     /**
      * 
-     * 						ÃÜÎÄ£¬ÃÜÔ¿ÔÚ¿ò¼ÜÅäÖÃÎÄ¼þencrypt.propertiesÖÐ¡£
+     * 						ï¿½ï¿½ï¿½Ä£ï¿½ï¿½ï¿½Ô¿ï¿½Ú¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½encrypt.propertiesï¿½Ð¡ï¿½
      * 					
      * 
      */
@@ -85,7 +85,7 @@ public enum DataTypeEnum {
 
     /**
      * 
-     * 						»Øµ÷º¯Êý£¬Òª¸ø¶¨Ò»¸öÀàÃû+·½·¨Ãû£¨¿ÉÑ¡£©£¬ÀýÈç£ºorg.suren.autotest.CallBack!test¡£ÆäÖÐCallBackÎªÀàÃû£¬testÎª·½·¨Ãû£¬Èç¹û²»Ð´·½·¨ÃûµÄ»°Ä¬ÈÏÎªexecute¡£·½·¨ÒªÇó·µ»Ø×Ö·û´®ÀàÐÍ£¬²ÎÊýÎªÒ»¸ö×Ö·û´®ÀàÐÍ»òÕßÊÇSettingUtilÀàÐÍºÍ×Ö·û´®ÀàÐÍ£¬ÀýÈç£ºexecute(String),execute(SettingUtil, String)
+     * 						ï¿½Øµï¿½ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½+ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ç£ºorg.suren.autotest.CallBack!testï¿½ï¿½ï¿½ï¿½ï¿½ï¿½CallBackÎªï¿½ï¿½ï¿½ï¿½testÎªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä»ï¿½Ä¬ï¿½ï¿½Îªexecuteï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Òªï¿½ó·µ»ï¿½ï¿½Ö·ï¿½ï¿½ï¿½ï¿½Í£ï¿½ï¿½ï¿½ï¿½ï¿½ÎªÒ»ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½ï¿½Í»ï¿½ï¿½ï¿½ï¿½ï¿½SettingUtilï¿½ï¿½ï¿½Íºï¿½ï¿½Ö·ï¿½ï¿½ï¿½ï¿½Í£ï¿½ï¿½ï¿½ï¿½ç£ºexecute(String),execute(SettingUtil, String)
      * 					
      * 
      */
@@ -94,13 +94,13 @@ public enum DataTypeEnum {
 
     /**
      * 
-     * 						ÃÜÎÄ£¬ÃÜÔ¿ÔÚ¿ò¼ÜÅäÖÃÎÄ¼þencrypt.propertiesÖÐ¡£
+     * 						ï¿½ï¿½ï¿½Ä£ï¿½ï¿½ï¿½Ô¿ï¿½Ú¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½encrypt.propertiesï¿½Ð¡ï¿½
      * 					
      * 
      */
     @XmlEnumValue("sequence")
     SEQUENCE("sequence");
-    private final String value;
+    public final String value;
 
     DataTypeEnum(String v) {
         value = v;
@@ -118,5 +118,13 @@ public enum DataTypeEnum {
         }
         throw new IllegalArgumentException(v);
     }
+
+	/**
+	 * @return the value
+	 */
+	public String getValue()
+	{
+		return value;
+	}
 
 }

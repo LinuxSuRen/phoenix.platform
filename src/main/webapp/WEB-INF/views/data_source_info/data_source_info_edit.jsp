@@ -137,7 +137,7 @@
 								<select name="dataSources.dataSource[${i.index }].page[0].field[${j.index }].type"
 									class="form-control" onchange="dataTypeChange(this);">
 									<c:forEach items="${dataType }" var="type">
-									<option value="${type.value() }" <c:if test="${field.type.value()==type.value() }">selected="true"</c:if>>${type }</option>
+									<option value="${type.value }" <c:if test="${field.type.value==type.value }">selected="true"</c:if>>${type }</option>
 									</c:forEach>
 								</select>
 							</div>
@@ -149,7 +149,7 @@
 							<div class="col-sm-2">
 								<select name="dataSources.dataSource[${i.index }].page[0].field[${j.index }].field" class="form-control">
 									<c:forEach items="${fieldType }" var="type">
-									<option value="${type.value() }" <c:if test="${field.field.value()==type.value() }">selected="true"</c:if>>${type }</option>
+									<option value="${type.value }" <c:if test="${field.field.value==type.value }">selected="true"</c:if>>${type }</option>
 									</c:forEach>
 								</select>
 							</div>

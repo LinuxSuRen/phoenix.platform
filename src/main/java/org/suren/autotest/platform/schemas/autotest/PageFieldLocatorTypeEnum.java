@@ -43,63 +43,63 @@ public enum PageFieldLocatorTypeEnum {
 
 
     /**
-     * ¸ù¾ÝÔªËØÊôÐÔidÖµ¶¨Î»£¬È«¾ÖÎ¨Ò»
+     * ï¿½ï¿½ï¿½Ôªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½idÖµï¿½ï¿½Î»ï¿½ï¿½È«ï¿½ï¿½Î¨Ò»
      * 
      */
     @XmlEnumValue("byId")
     BY_ID("byId"),
 
     /**
-     * ¸ù¾ÝÔªËØÊôÐÔclassÖµ¶¨Î»£¬Í¨³£ÓÃÓÚ¶¨Î»Ò»ÀàÔªËØ
+     * ï¿½ï¿½ï¿½Ôªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½classÖµï¿½ï¿½Î»ï¿½ï¿½Í¨ï¿½ï¿½ï¿½ï¿½ï¿½Ú¶ï¿½Î»Ò»ï¿½ï¿½Ôªï¿½ï¿½
      * 
      */
     @XmlEnumValue("byCss")
     BY_CSS("byCss"),
 
     /**
-     * ¸ù¾ÝÔªËØÊôÐÔnameÖµ¶¨Î»£¬Í¨³£ÔÚÒ»¸ö±íµ¥ÖÐÎ¨Ò»
+     * ï¿½ï¿½ï¿½Ôªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½nameÖµï¿½ï¿½Î»ï¿½ï¿½Í¨ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½?ï¿½ï¿½Î¨Ò»
      * 
      */
     @XmlEnumValue("byName")
     BY_NAME("byName"),
 
     /**
-     * ¸ù¾ÝÔªËØÂ·¾¶£¨xpath£©¶¨Î»
+     * ï¿½ï¿½ï¿½Ôªï¿½ï¿½Â·ï¿½ï¿½ï¿½ï¿½xpathï¿½ï¿½ï¿½ï¿½Î»
      * 
      */
     @XmlEnumValue("byXpath")
     BY_XPATH("byXpath"),
 
     /**
-     * ¸ù¾ÝaÔªËØµÄÎÄ±¾Öµ¶¨Î»
+     * ï¿½ï¿½ï¿½aÔªï¿½Øµï¿½ï¿½Ä±ï¿½Öµï¿½ï¿½Î»
      * 
      */
     @XmlEnumValue("byLinkText")
     BY_LINK_TEXT("byLinkText"),
 
     /**
-     * ¸ù¾ÝaÔªËØµÄ²¿·ÖÎÄ±¾Öµ¶¨Î»
+     * ï¿½ï¿½ï¿½aÔªï¿½ØµÄ²ï¿½ï¿½ï¿½ï¿½Ä±ï¿½Öµï¿½ï¿½Î»
      * 
      */
     @XmlEnumValue("byPartialLinkText")
     BY_PARTIAL_LINK_TEXT("byPartialLinkText"),
 
     /**
-     * ¸ù¾ÝÔªËØµÄÃû³Æ¶¨Î»£¬Í¨³£ÓÃÓÚ¶¨Î»Ò»ÀàÔªËØ
+     * ï¿½ï¿½ï¿½Ôªï¿½Øµï¿½ï¿½ï¿½Æ¶ï¿½Î»ï¿½ï¿½Í¨ï¿½ï¿½ï¿½ï¿½ï¿½Ú¶ï¿½Î»Ò»ï¿½ï¿½Ôªï¿½ï¿½
      * 
      */
     @XmlEnumValue("byTagName")
     BY_TAG_NAME("byTagName"),
 
     /**
-     * ¸ù¾ÝÔªËØiframeµÄÃû³Æ»òÕßidÖµ¶¨Î»
+     * ï¿½ï¿½ï¿½Ôªï¿½ï¿½iframeï¿½ï¿½ï¿½ï¿½Æ»ï¿½ï¿½ï¿½idÖµï¿½ï¿½Î»
      * 
      */
     @XmlEnumValue("byIFrame")
     BY_I_FRAME("byIFrame"),
 
     /**
-     * ¸ù¾ÝÔªËØiframeµÄÐòºÅÀ´¶¨Î»£¬´Ó1¿ªÊ¼
+     * ï¿½ï¿½ï¿½Ôªï¿½ï¿½iframeï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î»ï¿½ï¿½ï¿½ï¿½1ï¿½ï¿½Ê¼
      * 
      */
     @XmlEnumValue("byIFrameIndex")
@@ -126,5 +126,13 @@ public enum PageFieldLocatorTypeEnum {
         }
         throw new IllegalArgumentException(v);
     }
+
+	/**
+	 * @return the value
+	 */
+	public String getValue()
+	{
+		return value;
+	}
 
 }

@@ -35,21 +35,21 @@ public enum StrategyEnum {
 
 
     /**
-     * ÓÅÏÈ¼¶²ßÂÔ
+     * ï¿½ï¿½ï¿½È¼ï¿½ï¿½ï¿½ï¿½ï¿½
      * 
      */
     @XmlEnumValue("priority")
     PRIORITY("priority"),
 
     /**
-     * Ñ­»·²ßÂÔ
+     * Ñ­ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
      * 
      */
     @XmlEnumValue("cyle")
     CYLE("cyle"),
 
     /**
-     * ÇøÓò²ßÂÔ
+     * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
      * 
      */
     @XmlEnumValue("zone")
@@ -72,5 +72,13 @@ public enum StrategyEnum {
         }
         throw new IllegalArgumentException(v);
     }
+
+	/**
+	 * @return the value
+	 */
+	public String getValue()
+	{
+		return value;
+	}
 
 }

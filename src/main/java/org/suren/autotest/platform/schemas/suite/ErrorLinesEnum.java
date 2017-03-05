@@ -35,7 +35,7 @@ public enum ErrorLinesEnum {
 
     /**
      * 
-     * 						µ±Ê¹ÓÃµ±Ç°Êý¾Ý×éÔËÐÐ±¨´íÊ±Í£Ö¹³ÌÐò¡£
+     * 						ï¿½ï¿½Ê¹ï¿½Ãµï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½ï¿½ï¿½Ê±Í£Ö¹ï¿½ï¿½ï¿½ï¿½
      * 					
      * 
      */
@@ -44,7 +44,7 @@ public enum ErrorLinesEnum {
 
     /**
      * 
-     * 						µ±Ê¹ÓÃµ±Ç°Êý¾Ý×éÔËÐÐ±¨´íÊ±ºöÂÔ²¢¼ÌÐø³ÌÐò¡£
+     * 						ï¿½ï¿½Ê¹ï¿½Ãµï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½Ô²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
      * 					
      * 
      */
@@ -68,5 +68,13 @@ public enum ErrorLinesEnum {
         }
         throw new IllegalArgumentException(v);
     }
+
+	/**
+	 * @return the value
+	 */
+	public String getValue()
+	{
+		return value;
+	}
 
 }
