@@ -53,8 +53,10 @@
 			<c:if test="${!empty suiteRunnerInfo.id }">
 			<ul class="nav navbar-nav navbar-right">
 				<li><a href="#" data-href="${suiteRunnerInfo.id }" data-toggle="modal"
-					data-target="#debugRunDialogId">调试</a></li>
+					data-target="#debugRunDialogId" data-step="1" data-intro="调试当前测试套件"
+            	data-position="left">调试</a></li>
 				<li><a href="download.su?id=${suiteRunnerInfo.id }">下载</a></li>
+				<li><a href="#" onclick="sysHelp();">帮助</a></li>
 			</ul>
 			</c:if>
 		</div>
@@ -321,11 +323,17 @@ function fortest(){
 	}
 }
 
+function sysHelp(){
+	introJs().setOption('done', 'next').start().oncomplete(function(){
+	});
+}
+
 $(document).ready(function() {
     $('form').bootstrapValidator();
     
 	$('#engine_tabs li:eq(${suiteRunnerInfo.tabIndex}) a').tab('show');
 });
 </script>
+
 </body>
 </html>

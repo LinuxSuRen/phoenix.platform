@@ -27,12 +27,14 @@
         <ul class="nav navbar-nav">
             <li><a href="add.su?projectId=${projectId }">新增</a></li>
 			<li>
-				<a data-toggle="modal" data-target="#autotestUploadDialogId" href="#">导入</a>
+				<a data-toggle="modal" data-target="#autotestUploadDialogId" href="#" data-step="1" data-intro="导入.xml格式的元素定位"
+            		data-position="right">导入</a>
 			</li>
         </ul>
 		<ul class="nav navbar-nav navbar-right">
 			<li><a href="<%=basePath%>/project/edit.su?id=${projectId}">当前项目</a></li>
 			<li><a href="<%=basePath%>/project/list.su">项目列表</a></li>
+			<li><a href="#" onclick="sysHelp();">帮助</a></li>
 		</ul>
     </div>
     </div>
@@ -91,5 +93,12 @@
 </div>
 
 <su:dialog dialogId="pageInfoDelDialogId"></su:dialog>
+
+<script type="text/javascript">
+function sysHelp(){
+	introJs().setOption('done', 'next').start().oncomplete(function(){
+	});
+}
+</script>
 
 </body>

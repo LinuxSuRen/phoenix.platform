@@ -9,6 +9,8 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="application-name" content="PhoenixPlatform">
+<meta name="author" content="https://github.com/LinuxSuRen">
 <title><sitemesh:write property='title'/></title>
 <su:link href="/static/bootstrap/css/bootstrap.min.css"></su:link>
 <su:link href="/static/intro/introjs.css"></su:link>
@@ -21,4 +23,15 @@
 	<%@ include file="header.jsp"%>
 	<sitemesh:write property='body' />
 	<%@ include file="footer.jsp"%>
+<script type="text/javascript">
+$(function(){
+	if(typeof sysHelp == 'function'){
+		var pathname = location.pathname;
+		if(!localStorage.getItem(pathname)){
+			sysHelp();
+			localStorage.setItem(pathname, 'http://surenpi.com');
+		}
+	}
+});
+</script>
 </body>

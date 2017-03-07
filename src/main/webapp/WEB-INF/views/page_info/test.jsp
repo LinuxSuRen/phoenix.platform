@@ -252,7 +252,7 @@
 							</div>
 						</div>
 						
-						<c:forEach items="${field.locators.getLocator}" varStatus="x" var="locator" >
+						<c:forEach items="${field.locators.locator}" varStatus="x" var="locator" >
 						<div class="form-group">
 							<label class="col-sm-1 control-label">定位方法</label>
 							<div class="col-sm-2">

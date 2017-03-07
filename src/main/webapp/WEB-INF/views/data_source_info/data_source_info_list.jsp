@@ -27,12 +27,15 @@
         <ul class="nav navbar-nav">
             <li><a href="add.su?projectId=${projectId }">新增</a></li>
 			<li>
-				<a data-toggle="modal" data-target="#dataSourceUploadDialogId" href="#">导入</a>
+				<a data-toggle="modal" data-target="#dataSourceUploadDialogId" href="#" data-step="1" data-intro="从这里可以导入.xml格式的数据源文件"
+            	data-position="right">导入</a>
 			</li>
         </ul>
 		<ul class="nav navbar-nav navbar-right">
-			<li><a href="<%=basePath%>/project/edit.su?id=${projectId}">当前项目</a></li>
+			<li><a href="<%=basePath%>/project/edit.su?id=${projectId}" data-step="2" data-intro="查看当前项目信息"
+            	data-position="right">当前项目</a></li>
 			<li><a href="<%=basePath%>/project/list.su">项目列表</a></li>
+			<li><a href="#" onclick="sysHelp();">帮助</a></li>
 		</ul>
     </div>
     </div>
@@ -116,6 +119,11 @@
 $('#delDialogId').on('show.bs.modal', function(e) {
 	$(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
 });
+
+function sysHelp(){
+	introJs().setOption('done', 'next').start().oncomplete(function(){
+	});
+}
 </script>
 
 </body>

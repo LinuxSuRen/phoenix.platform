@@ -54,7 +54,9 @@
 			</form>
 			<c:if test="${!empty dataSourceInfo.id }">
 			<ul class="nav navbar-nav navbar-right">
-				<li><a href="download.su?id=${dataSourceInfo.id }">下载</a></li>
+				<li><a href="download.su?id=${dataSourceInfo.id }" data-step="1" data-intro="把当前数据源配置转为.xml格式并下载"
+            	data-position="left">下载</a></li>
+				<li><a href="#" onclick="sysHelp();">帮助</a></li>
 			</ul>
 			</c:if>
 		</div>
@@ -68,7 +70,8 @@
 		<a href="#basicInfo" data-toggle="tab">基本信息</a>
 	</li>
 	<c:forEach items="${dataSourceInfo.dataSources.dataSource}" varStatus="i" var="item" >
-	<li>
+	<li data-step="2" data-intro="数据源的配置"
+            	data-position="right">
 		<a href="#${item.pageClass }" data-toggle="tab" item-id="${item.pageClass }">${item.pageClass }</a>
 	</li>
 	</c:forEach>
@@ -237,6 +240,11 @@ function dataEncrypt(obj){
 		tip('加密完成，请及时保存！', function(){
 			pass.val(data);
 		});
+	});
+}
+
+function sysHelp(){
+	introJs().setOption('done', 'next').start().oncomplete(function(){
 	});
 }
 

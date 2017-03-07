@@ -29,7 +29,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="project/list.su" data-step="1" data-intro="查看项目列表，这里是平台的入口" data-position="right">查看项目列表</a>
+        <a class="navbar-brand" href="project/list.su" data-step="1" data-intro="查看项目列表，这里是平台的入口！当您第一次访问页面时，会自动弹出帮助信息，之后可以通过右上角的帮助按钮来触发。" data-position="right">查看项目列表</a>
     </div>
     <div class="collapse navbar-collapse" id="example-navbar-collapse">
         <ul class="nav navbar-nav">
@@ -70,6 +70,14 @@ $(function(){
 			$('a:contains("在线用户")').find('.badge').html(count);
 		}
 	});
+
+	if(typeof sysHelp == 'function'){
+		var pathname = location.pathname;
+		if(!localStorage.getItem(pathname)){
+			sysHelp();
+			localStorage.setItem(pathname, 'http://surenpi.com');
+		}
+	}
 });
 </script>
 
