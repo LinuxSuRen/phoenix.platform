@@ -94,6 +94,11 @@ public class SuiteRunnerInfoController
 		String id = suiteRunnerInfo.getId();
 		int tabIndex = suiteRunnerInfo.getTabIndex();
 		suiteRunnerInfo = suiteRunnerInfoMapper.getById(id);
+		if(suiteRunnerInfo == null)
+		{
+			return "redirect:/";
+		}
+		
 		suiteRunnerInfo.setTabIndex(tabIndex);
 		
 		try
@@ -368,6 +373,11 @@ public class SuiteRunnerInfoController
 		}
 		
 		return new ResponseEntity<byte[]>("not supported encoding.".getBytes(), headers, HttpStatus.CREATED);
+	}
+	
+	public String turnToPageInfo()
+	{
+		return "";
 	}
 	
 	@ResponseBody
