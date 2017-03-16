@@ -22,6 +22,8 @@ import javax.xml.bind.annotation.XmlType;
  * &lt;simpleType name="actionEnum">
  *   &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string">
  *     &lt;enumeration value="fillValue"/>
+ *     &lt;enumeration value="appendValue"/>
+ *     &lt;enumeration value="fillNotBlankValue"/>
  *     &lt;enumeration value="click"/>
  *     &lt;enumeration value="enter"/>
  *     &lt;enumeration value="upload"/>
@@ -44,142 +46,57 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "actionEnum")
 @XmlEnum
 public enum ActionEnum {
-
-
-    /**
-     * 
-     * 						�����ı���
-     * 					
-     * 
-     */
-    @XmlEnumValue("fillValue")
+	@XmlEnumValue("fillValue")
     FILL_VALUE("fillValue"),
-
-    /**
-     * 
-     * 						������
-     * 					
-     * 
-     */
+    
+	@XmlEnumValue("appendValue")
+	APPEND_VALUE("appendValue"),
+    
+	@XmlEnumValue("fillNotBlankValue")
+	FILL_NOT_BLANK_VALUE("fillNotBlankValue"),
+    
     @XmlEnumValue("click")
     CLICK("click"),
 
-    /**
-     * 
-     * 						�س���
-     * 					
-     * 
-     */
     @XmlEnumValue("enter")
     ENTER("enter"),
 
-    /**
-     * 
-     * 						�ϴ��ļ���
-     * 					
-     * 
-     */
     @XmlEnumValue("upload")
     UPLOAD("upload"),
 
-    /**
-     * 
-     * 						�ϴ������ɵ��ļ���
-     * 					
-     * 
-     */
     @XmlEnumValue("randomUpload")
     RANDOM_UPLOAD("randomUpload"),
 
-    /**
-     * 
-     * 						���Option��valueѡ�������б?
-     * 					
-     * 
-     */
     @XmlEnumValue("selectByValue")
     SELECT_BY_VALUE("selectByValue"),
 
-    /**
-     * 
-     * 						������ѡ�񣬴�0��ʼ�����б?
-     * 					
-     * 
-     */
     @XmlEnumValue("selectByIndex")
     SELECT_BY_INDEX("selectByIndex"),
 
-    /**
-     * 
-     * 						����ı�ѡ�������б?
-     * 					
-     * 
-     */
     @XmlEnumValue("selectByText")
     SELECT_BY_TEXT("selectByText"),
 
-    /**
-     * 
-     * 						����ı�ѡ�������б?��selectByText��ͬ��
-     * 					
-     * 
-     */
     @XmlEnumValue("select")
     SELECT("select"),
 
-    /**
-     * 
-     * 						�������б������ѡ��һ����
-     * 					
-     * 
-     */
     @XmlEnumValue("randomSelect")
     RANDOM_SELECT("randomSelect"),
 
-    /**
-     * 
-     * 						���ֵѡ�񵥣��ࣩѡ��
-     * 					
-     * 
-     */
     @XmlEnumValue("checkByValue")
     CHECK_BY_VALUE("checkByValue"),
 
-    /**
-     * 
-     * 						����ı�ѡ�񵥣��ࣩѡ��Ŀǰ��ѡ���checkByValueһ��
-     * 					
-     * 
-     */
     @XmlEnumValue("checkByText")
     CHECK_BY_TEXT("checkByText"),
 
-    /**
-     * 
-     * 						�����ͣ��
-     * 					
-     * 
-     */
     @XmlEnumValue("hover")
     HOVER("hover"),
 
-    /**
-     * 
-     * 						ִ�о�̬������
-     * 					
-     * 
-     */
     @XmlEnumValue("invoke")
     INVOKE("invoke"),
 
-    /**
-     * 
-     * 						ִ�о�̬������
-     * 					
-     * 
-     */
     @XmlEnumValue("sequence")
     SEQUENCE("sequence");
+	
     private final String value;
 
     ActionEnum(String v) {
