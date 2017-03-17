@@ -5,7 +5,9 @@ $(function(){
 		var form = dialog.find('form');
 		form.find('[name="id"]').val(itemId);
 		form.find('input').removeAttr('readonly');
-		form.find('[name="currentIndex"]').attr('readonly', 'readonly');
+		form.find('[name="currentIndex"]').val('0').attr('readonly', 'readonly');
+		form.find('[name="successTimes"]').val('0').attr('readonly', 'readonly');
+		form.find('[name="failureTimes"]').val('0').attr('readonly', 'readonly');
 		$('#messageBody').html('');
 		
 		dialog.find('.btn-ok').unbind('click').click(function(){
@@ -34,16 +36,34 @@ function suiteRun(form, url, formData, maxTimes, clearId){
 			if(data.message && data.message != ''){
 				$('#messageBody').html(data.message);
 				form.find('[name="currentIndex"]').attr('style', 'background-color: read;');
-			}else{
-				var index = form.find('[name="currentIndex"]').val();
-				index = Number(index);
-				if(index < Number(maxTimes)){
-					form.find('[name="currentIndex"]').val(index + 1);
-					
-					suiteRun(form, url, formData, maxTimes, null);
-				}else{
+				
+				var retryTime = form.find('[name="retryTimes"]').val();
+				retryTime = Number(retryTime);
+				var currentfailureTimes = form.find('[name="failureTimes"]').val();
+				currentfailureTimes = Number(currentfailureTimes);
+				
+				form.find('[name="failureTimes"]').val(currentfailureTimes + 1);
+				
+				if(currentfailureTimes >= retryTime) {
 					clearInterval(clearId);
-					
+					return;
+				}
+			}else{
+				var currentSuccessTimes = form.find('[name="successTimes"]').val();
+				form.find('[name="successTimes"]').val(Number(currentSuccessTimes) + 1);
+			}
+			
+			var index = form.find('[name="currentIndex"]').val();
+			index = Number(index);
+			
+			if(index < Number(maxTimes)){
+				form.find('[name="currentIndex"]').val(index + 1);
+				
+				suiteRun(form, url, formData, maxTimes, null);
+			}else{
+				clearInterval(clearId);
+				
+				if(data.message && data.message == ''){
 					if($('#messageBody').html() == ''){
 						$('#messageBody').html('成功！');
 					}
