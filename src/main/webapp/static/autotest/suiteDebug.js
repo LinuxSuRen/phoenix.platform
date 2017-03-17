@@ -8,8 +8,6 @@ $(function(){
 		form.find('[name="currentIndex"]').attr('readonly', 'readonly');
 		$('#messageBody').html('');
 		
-		var normalTimes = form.find('[name="normalTimes"]').val();
-		
 		dialog.find('.btn-ok').unbind('click').click(function(){
 			form.find('input').attr('readonly', 'readonly');
 			dialog.find('.btn-close').unbind('click').html('关闭并查看结果').click(function(){
@@ -17,6 +15,8 @@ $(function(){
 			});
 			
 			$(this).attr('disabled', true);
+			
+			var normalTimes = form.find('[name="normalTimes"]').val();
 			
 			debugRun(form, Number(normalTimes));
 		}).attr('disabled', false);
