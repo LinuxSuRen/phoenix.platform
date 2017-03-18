@@ -137,12 +137,16 @@
 	</tag>
 	
 	<tag>
-		<description>sd</description>
+		<description>确认对话框</description>
 		<tag-class>org.suren.autotest.platform.servlet.DialogTag</tag-class>
 		<name>dialog</name>
 		<attribute>
 			<name>dialogId</name>
 			<required>true</required>
+		</attribute>
+		<attribute>
+			<name>ajaxDel</name>
+			<required>false</required>
 		</attribute>
 	</tag>
 </taglib>

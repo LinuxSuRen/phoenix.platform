@@ -1,4 +1,5 @@
-<div class="modal fade" id="${dialogId}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="${dialogId}" tabindex="-1" role="dialog"
+	aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -22,6 +23,14 @@
 
 <script type="text/javascript">
 $('#${dialogId}').on('show.bs.modal', function(e) {
-	$(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
+	if('${ajaxDel?c}' == 'true'){
+		$(this).find('.btn-ok').click(function(){
+			$.get($(e.relatedTarget).data('href'), function(){
+				window.location.reload();
+			});
+		});
+	}else{
+		$(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
+	}
 });
 </script>

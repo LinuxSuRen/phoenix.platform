@@ -35,6 +35,7 @@ import freemarker.template.Template;
 import freemarker.template.TemplateException;
 
 /**
+ * 确认对话框
  * @author suren
  * @date 2017年2月2日 下午2:39:31
  */
@@ -45,6 +46,7 @@ public class DialogTag extends TagSupport
 	private static final long	serialVersionUID	= 1L;
 	
 	private String dialogId;
+	private boolean ajaxDel;
 
 	@Override
 	public int doStartTag() throws JspException
@@ -63,6 +65,7 @@ public class DialogTag extends TagSupport
 			
 			Map<String, Object> paramMap = new HashMap<String, Object>();
 			paramMap.put("dialogId", dialogId);
+			paramMap.put("ajaxDel", ajaxDel);
 
 			Writer writer = new OutputStreamWriter(byteOut, "UTF-8"); 
 			template.process(paramMap, writer);
@@ -86,6 +89,22 @@ public class DialogTag extends TagSupport
 	public void setDialogId(String dialogId)
 	{
 		this.dialogId = dialogId;
+	}
+
+	/**
+	 * @return the ajaxDel
+	 */
+	public boolean isAjaxDel()
+	{
+		return ajaxDel;
+	}
+
+	/**
+	 * @param ajaxDel the ajaxDel to set
+	 */
+	public void setAjaxDel(boolean ajaxDel)
+	{
+		this.ajaxDel = ajaxDel;
 	}
 
 }
