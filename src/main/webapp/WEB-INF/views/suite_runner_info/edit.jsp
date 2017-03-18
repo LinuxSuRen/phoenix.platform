@@ -263,14 +263,26 @@
 						</div>
 					</div>
 					<div class="form-group">
+						<label class="col-sm-2 control-label">成功数</label>
+						<div class="col-sm-3">
+					    	<input name="successTimes" class="form-control" type="number" value="0"
+					    		 readonly="readonly" />
+						</div>
+						<label class="col-sm-3 control-label">失败数</label>
+						<div class="col-sm-2">
+					    	<input name="failureTimes" class="form-control" type="number" value="0"
+					    		 readonly="readonly" />
+						</div>
+					</div>
+					<div class="form-group">
 						<label class="col-sm-2 control-label">备注</label>
-						<div class="col-sm-6">
+						<div class="col-sm-8">
 					    	<input name="remark" class="form-control" type="text" />
 						</div>
 					</div>
 					<div class="form-group">
 						<label class="col-sm-2 control-label">进度信息</label>
-						<div class="col-sm-6">
+						<div class="col-sm-8">
 							<div class="progress progress-striped active" style="height: 34px;">
 								<div class="progress-bar progress-bar-success" role="progressbar"
 	         aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"
