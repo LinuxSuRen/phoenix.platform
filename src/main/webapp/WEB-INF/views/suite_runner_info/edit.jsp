@@ -235,7 +235,7 @@
 			</div>
 			<form class="form-horizontal" role="form" method="post" action="<%=basePath%>/suite_runner_info/run.su">
 				<input name="id" type="hidden" />
-				<input name="deployUrl" type="hidden" value="<%=basePath %>/project/deploy.su?id=${projectId }" />
+				<input name="deployUrl" type="hidden" value="<%=basePath %>/project/deploy.su?id=${suiteRunnerInfo.projectId }" />
 				<input name="progressUrl" type="hidden" value="<%=basePath %>/progress/info.su" />
 				<input name="progress_key" type="hidden" />
 				<div class="modal-body">
