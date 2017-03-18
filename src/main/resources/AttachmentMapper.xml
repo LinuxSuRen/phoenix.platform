@@ -11,6 +11,10 @@
 		)
 	</insert>
 	
+	<delete id="delById">
+		delete from attachment where id = #{id}
+	</delete>
+	
 	<select id="getByBelongId" resultType="Attachment" resultMap="attachmentMap">
 		select * from attachment where belong_id = #{belongId}
 	</select>

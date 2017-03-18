@@ -103,6 +103,19 @@ public class AttachmentController
 		return "redirect:" + redirectPath;
 	}
 	
+	/**
+	 * 删除附件
+	 * @param id
+	 * @return
+	 */
+	@RequestMapping("del")
+	@ResponseBody
+	public boolean del(String id)
+	{
+		attachmentMapper.delById(id);
+		return true;
+	}
+	
 	@RequestMapping("count")
 	@ResponseBody
 	public int count(String belongId)

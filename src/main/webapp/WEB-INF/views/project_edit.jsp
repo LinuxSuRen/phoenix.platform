@@ -115,8 +115,7 @@
 					<td>${attach.fileName }</td>
 					<td>${attach.remark }</td>
 					<td>
-						<a href="edit.su?id=${attach.id }">编辑</a>
-						<a href="#" data-href="del.su?id=${attach.id }" data-toggle="modal" data-target="#projectDelDialogId">删除</a>
+						<a href="#" data-href="${pageContext.request.contextPath }/attachment/del.su?id=${attach.id }" data-toggle="modal" data-target="#attachDelDialogId">删除</a>
 					</td>
 				</tr>
 				</c:forEach>
@@ -124,6 +123,8 @@
 		</table>
 	</div>
 </div>
+
+<su:dialog dialogId="attachDelDialogId" ajaxDel="true"></su:dialog>
 
 <div class="modal fade" id="attachUploadDialogId" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
