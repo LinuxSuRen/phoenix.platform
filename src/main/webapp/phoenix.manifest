@@ -1,0 +1,17 @@
+CACHE MANIFEST
+#name sdf
+#version 0.2.0
+#date: Nov 24 2013
+
+CACHE:
+/phoenix/static/intro/introjs.css
+/phoenix/static/bootstrap/css/bootstrap.min.css
+/phoenix/static/jquery/jquery.min.js
+/phoenix/static/bootstrap/js/bootstrap.min.js
+/phoenix/static/intro/intro.js
+
+NETWORK:
+*.su
+*
+
+FALLBACK:
