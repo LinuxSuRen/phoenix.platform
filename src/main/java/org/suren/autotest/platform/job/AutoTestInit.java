@@ -18,7 +18,7 @@ package org.suren.autotest.platform.job;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
-import org.suren.autotest.platform.model.TestPlanMapper;
+import org.suren.autotest.platform.mapping.TestPlanMapper;
 
 
 /**
