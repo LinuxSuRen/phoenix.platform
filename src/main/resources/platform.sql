@@ -132,8 +132,10 @@ create table suite_runner_info (
 create table test_plan (
 	id varchar(36) not null,
 	name varchar(100) not null,
+	owner_id varchar(36) not null,
 	suite_runner_id varchar(36) not null,
 	cron_exp varchar(300),
+	create_time timestamp not null,
 	remark varchar(300),
 	primary key(id),
 	constraint test_plan_2_suite_runner foreign key (suite_runner_id)

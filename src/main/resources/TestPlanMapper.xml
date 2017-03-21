@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="org.suren.autotest.platform.mapping.ProjectMapper">
+<mapper namespace="org.suren.autotest.platform.mapping.TestPlanMapper">
 	<resultMap type="org.suren.autotest.platform.model.TestPlan" id="testPlanMap">
-		<result property="suiteRunnerId" column="owner_id"/>
-		<result property="cronExp" column="pkg_name"/>
+		<result property="suiteRunnerId" column="suite_runner_id"/>
+		<result property="cronExp" column="cron_exp"/>
 		<result property="createTime" column="create_time"/>
-		<result property="ownerId" column=""/>
+		<result property="ownerId" column="owner_id"/>
 	</resultMap>
 	
-	<select id="getById" resultType="Project" resultMap="projectMap">
-		select * from project where id = #{id}
+	<select id="getById" resultType="TestPlan" resultMap="testPlanMap">
+		select * from test_plan where id = #{id}
 	</select>
 	
-	<select id="getAll" resultMap="projectMap">
+	<select id="getAll" resultMap="testPlanMap">
 		select * from test_plan
 	</select>
 	
@@ -21,8 +21,8 @@
 			SELECT UUID()
 		</selectKey>
 		
-		insert into project (id, owner_id, name, pkg_name, remark, create_time) values (
-			#{id}, #{ownerId}, #{name}, #{pkgName}, #{remark}, #{createTime}
+		insert into test_plan (id, owner_id, name, suite_runner_id, cron_exp, remark, create_time) values (
+			#{id}, #{ownerId}, #{name}, #{suiteRunnerId}, #{cronExp}, #{remark}, #{createTime}
 		)
 	</insert>
 </mapper>
