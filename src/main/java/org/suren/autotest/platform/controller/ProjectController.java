@@ -368,21 +368,7 @@ public class ProjectController implements ApplicationContextAware
 								
 								Autotest autotest = (Autotest) unmarshaller.unmarshal(
 										new ByteArrayInputStream(doc.asXML().getBytes()));
-								
-								List<PageType> pageList = autotest.getPages().getPage();
-								for(PageType page : pageList)
-								{
-									String clazz = page.getClazz();
-									int index = clazz.lastIndexOf(".");
-									if(index > 0)
-									{
-										String pkg = clazz.substring(0, index);
-										String name = clazz.substring(index + 1);
-										
-										autotest.getPages().setPagePackage(pkg);
-										page.setClazz(name);
-									}
-								}
+								JAXBUtils.autotestTransfer(autotest);
 								
 								ByteArrayOutputStream autoTestByteOut = new ByteArrayOutputStream();
 								context.createMarshaller().marshal(autotest, autoTestByteOut);
@@ -411,22 +397,7 @@ public class ProjectController implements ApplicationContextAware
 								
 								DataSources dataSources = (DataSources) unmarshaller.unmarshal(
 										new ByteArrayInputStream(doc.asXML().getBytes()));
-								JAXBUtils.clearEncryptData(dataSources);
-								
-								List<DataSource> dataSourcesList = dataSources.getDataSource();
-								for(DataSource dataSource : dataSourcesList)
-								{
-									String clazz = dataSource.getPageClass();
-									int index = clazz.lastIndexOf(".");
-									if(index > 0)
-									{
-										String pkg = clazz.substring(0, index);
-										String name = clazz.substring(index + 1);
-										
-										dataSources.setPagePackage(pkg);
-										dataSource.setPageClass(name);
-									}
-								}
+								JAXBUtils.dataSourcesTransfer(dataSources);
 								
 								ByteArrayOutputStream dataSourceByteOut = new ByteArrayOutputStream();
 								context.createMarshaller().marshal(dataSources, dataSourceByteOut);
@@ -455,21 +426,7 @@ public class ProjectController implements ApplicationContextAware
 								
 								Suite suite = (Suite) unmarshaller.unmarshal(
 										new ByteArrayInputStream(doc.asXML().getBytes()));
-								
-								List<SuitePageType> suitePageTypeList = suite.getPage();
-								for(SuitePageType suitePageType : suitePageTypeList)
-								{
-									String clazz = suitePageType.getClazz();
-									int index = clazz.lastIndexOf(".");
-									if(index > 0)
-									{
-										String pkg = clazz.substring(0, index);
-										String name = clazz.substring(index + 1);
-										
-										suite.setPagePackage(pkg);
-										suitePageType.setClazz(name);
-									}
-								}
+								JAXBUtils.suiteTransfer(suite);
 								
 								ByteArrayOutputStream suiteByteOut = new ByteArrayOutputStream();
 								context.createMarshaller().marshal(suite, suiteByteOut);

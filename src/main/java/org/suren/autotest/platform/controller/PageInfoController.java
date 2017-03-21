@@ -16,6 +16,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.xml.bind.JAXB;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
@@ -56,6 +57,7 @@ import org.suren.autotest.platform.schemas.autotest.PageType;
 import org.suren.autotest.platform.schemas.autotest.StrategyEnum;
 import org.suren.autotest.platform.schemas.suite.Suite;
 import org.suren.autotest.platform.util.DomUtils;
+import org.suren.autotest.platform.util.JAXBUtils;
 import org.suren.autotest.web.framework.code.Generator;
 import org.suren.autotest.web.framework.core.Callback;
 import org.suren.autotest.web.framework.util.PathUtil;
@@ -133,6 +135,7 @@ public class PageInfoController
 			Unmarshaller unmarshaller = context.createUnmarshaller();
 
 			Autotest autotest = (Autotest) unmarshaller.unmarshal(file.getInputStream());
+			JAXBUtils.autotestTransfer(autotest);
 			
 			pageInfo.setAutotest(autotest);
 		}

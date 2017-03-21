@@ -98,7 +98,7 @@ public class DataSourceInfoController
 		return "data_source_info/data_source_info_edit";
 	}
 	
-	@RequestMapping("edit.su")
+	@RequestMapping("edit")
 	public String dataSourceInfoEdit(Model model, DataSourceInfo dataSourceInfo)
 	{
 		String resultPath = "data_source_info/data_source_info_edit";
@@ -117,9 +117,6 @@ public class DataSourceInfoController
 
 		try
 		{
-			JAXBContext context = JAXBContext.newInstance(DataSources.class);
-			Unmarshaller unmarshaller = context.createUnmarshaller();
-			
 			DataSources dataSources = null;
 			String content = dataSourceInfo.getContent();
 			if(StringUtils.isBlank(content))
@@ -127,6 +124,9 @@ public class DataSourceInfoController
 			}
 			else
 			{
+				JAXBContext context = JAXBContext.newInstance(DataSources.class);
+				Unmarshaller unmarshaller = context.createUnmarshaller();
+				
 				ByteArrayInputStream input = new ByteArrayInputStream(dataSourceInfo.getContent().getBytes("utf-8"));
 				dataSources = (DataSources) unmarshaller.unmarshal(input);
 			}
@@ -209,8 +209,8 @@ public class DataSourceInfoController
 			Unmarshaller unmarshaller = context.createUnmarshaller();
 
 			DataSources dataSources = (DataSources) unmarshaller.unmarshal(file.getInputStream());
+			JAXBUtils.dataSourcesTransfer(dataSources);
 			
-			JAXBUtils.clearEncryptData(dataSources);
 			dataSourceInfo.setDataSources(dataSources);
 		}
 		catch (JAXBException e)

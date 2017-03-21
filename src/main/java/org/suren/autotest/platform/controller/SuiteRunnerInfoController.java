@@ -57,6 +57,7 @@ import org.suren.autotest.platform.schemas.suite.Suite;
 import org.suren.autotest.platform.schemas.suite.SuitePageType;
 import org.suren.autotest.platform.security.UserDetail;
 import org.suren.autotest.platform.util.DomUtils;
+import org.suren.autotest.platform.util.JAXBUtils;
 import org.suren.autotest.web.framework.core.SuiteProgressInfo;
 import org.suren.autotest.web.framework.core.suite.SuiteRunner;
 import org.suren.autotest.web.framework.util.StringUtils;
@@ -256,6 +257,7 @@ public class SuiteRunnerInfoController
 			Unmarshaller unmarshaller = context.createUnmarshaller();
 			
 			Suite suite = (Suite) unmarshaller.unmarshal(file.getInputStream());
+			JAXBUtils.suiteTransfer(suite);
 			suiteRunnerInfo.setSuite(suite);
 		}
 		catch (JAXBException e)
