@@ -16,6 +16,8 @@
 
 package org.suren.autotest.platform.model;
 
+import java.util.Date;
+
 /**
  * 测试计划
  * @author suren
@@ -25,8 +27,10 @@ public class TestPlan
 {
 	private String id;
 	private String name;
+	private String ownerId;
 	private String suiteRunnerId;
 	private String cronExp;
+	private Date createTime;
 	private String remark;
 	/**
 	 * @return the id
@@ -56,6 +60,14 @@ public class TestPlan
 	{
 		this.name = name;
 	}
+	public String getOwnerId()
+	{
+		return ownerId;
+	}
+	public void setOwnerId(String ownerId)
+	{
+		this.ownerId = ownerId;
+	}
 	/**
 	 * @return the suiteRunnerId
 	 */
@@ -83,6 +95,14 @@ public class TestPlan
 	public void setCronExp(String cronExp)
 	{
 		this.cronExp = cronExp;
+	}
+	public Date getCreateTime()
+	{
+		return createTime;
+	}
+	public void setCreateTime(Date createTime)
+	{
+		this.createTime = createTime;
 	}
 	/**
 	 * @return the remark
