@@ -162,15 +162,15 @@
 							</div>
 						</div>
 						
-						<c:forEach items="${field.param}" varStatus="x" var="param" >
+						<c:forEach items="${field.param}" varStatus="x" var="fParam" >
 						<div class="form-group">
 							<label class="col-sm-1 control-label">参数名</label>
 							<div class="col-sm-2">
-								<input name="dataSources.dataSource[${i.index }].page[0].field[${j.index }].param[${x.index}].name" value="${param.name}" class="form-control" type="text" />
+								<input name="dataSources.dataSource[${i.index }].page[0].field[${j.index }].param[${x.index}].name" value="${fParam.name}" class="form-control" type="text" />
 							</div>
 							<label class="col-sm-1 control-label">参数值</label>
 							<div class="col-sm-2">
-								<input name="dataSources.dataSource[${i.index }].page[0].field[${j.index }].param[${x.index}].value" value="${param.value}" class="form-control" type="text" />
+								<input name="dataSources.dataSource[${i.index }].page[0].field[${j.index }].param[${x.index}].value" value="${fParam.value}" class="form-control" type="text" />
 							</div>
 						</div>
 						</c:forEach>
