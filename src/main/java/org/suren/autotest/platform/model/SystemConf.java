@@ -31,6 +31,8 @@ public class SystemConf
 	private String attachRoot;
 	/** 谷歌浏览器版本号 */
 	private String chromeVer;
+	/** autoit3路径 */
+	private String autoIt;
 	/**
 	 * @return the gifPath
 	 */
@@ -86,5 +88,13 @@ public class SystemConf
 	public void setChromeVer(String chromeVer)
 	{
 		this.chromeVer = chromeVer;
+	}
+	public String getAutoIt()
+	{
+		return autoIt;
+	}
+	public void setAutoIt(String autoIt)
+	{
+		this.autoIt = autoIt;
 	}
 }

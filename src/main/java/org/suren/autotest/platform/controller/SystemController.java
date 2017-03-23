@@ -34,6 +34,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.suren.autotest.platform.mapping.OptionsMapper;
 import org.suren.autotest.platform.model.Options;
 import org.suren.autotest.platform.model.SystemConf;
+import org.suren.autotest.web.framework.autoit3.AutoItCmd;
 import org.suren.autotest.web.framework.log.Image4SearchLog;
 import org.suren.autotest.web.framework.log.LoggerConstants;
 import org.suren.autotest.web.framework.selenium.SeleniumEngine;
@@ -73,6 +74,17 @@ public class SystemController
 		if(StringUtils.isBlank(sysConf.getAttachRoot()))
 		{
 			sysConf.setAttachRoot(request.getServletContext().getRealPath("/"));
+		}
+		
+		try(InputStream autoItInput = SystemConf.class.getResourceAsStream("/" + AutoItCmd.AUTO_IT3_PATH))
+		{
+			Properties pro = new Properties();
+			pro.load(autoItInput);
+			sysConf.setAutoIt(pro.getProperty(AutoItCmd.PRO_PATH));
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
 		}
 		
 		//浏览器配置
@@ -139,6 +151,25 @@ public class SystemController
 		{
 			options.setOptValue(sysConf.getAttachRoot());
 			optionsMapper.update(options);
+		}
+		
+		URL autoItUrl = SystemConf.class.getResource("/" + AutoItCmd.AUTO_IT3_PATH);
+		if(autoItUrl != null)
+		{
+			try(InputStream autoItInput = autoItUrl.openStream();
+					OutputStream out = new FileOutputStream(
+					new File(URLDecoder.decode(autoItUrl.getFile(), "utf-8"))))
+			{
+				Properties pro = new Properties();
+				pro.load(autoItInput);
+				pro.setProperty(AutoItCmd.PRO_PATH, sysConf.getAutoIt());
+				
+				pro.store(out, "");
+			}
+			catch (IOException e)
+			{
+				e.printStackTrace();
+			}
 		}
 		
 		seleniumEngine.setDriverStr("chrome");
