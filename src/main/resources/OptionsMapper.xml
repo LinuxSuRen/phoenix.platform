@@ -19,7 +19,7 @@
 		)
 	</insert>
 	
-	<update id="update">
-		update options set opt_value = '${optValue}', remark = '${remark}' where id = ${id}
+	<update id="update" parameterType="Options">
+		update options set opt_value = #{optValue}, remark = #{remark} where id = #{id}
 	</update>
 </mapper>
