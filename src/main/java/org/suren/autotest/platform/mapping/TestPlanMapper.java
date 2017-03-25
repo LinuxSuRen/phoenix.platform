@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package org.suren.autotest.platform.model;
+package org.suren.autotest.platform.mapping;
 
-import org.suren.autotest.platform.mapping.BaseMapper;
+import org.suren.autotest.platform.model.TestPlan;
 
 /**
  * @author suren
