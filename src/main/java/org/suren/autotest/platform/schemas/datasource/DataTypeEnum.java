@@ -48,6 +48,8 @@ public enum DataTypeEnum {
     SIMPLE("simple"),
     @XmlEnumValue("freemarker")
     FREEMARKER("freemarker"),
+    @XmlEnumValue("properties")
+    PROPERTIES("properties"),
 
     /**
      * 
