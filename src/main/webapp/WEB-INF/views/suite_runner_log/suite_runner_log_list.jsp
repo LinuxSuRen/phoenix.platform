@@ -10,7 +10,7 @@
 </head>
 <body>
 
-<table class="table">
+<table class="table" style="margin-bottom: 70px;">
 	<thead>
 		<tr>
 			<th>序号</th>
