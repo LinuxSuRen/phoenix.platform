@@ -7,7 +7,7 @@ http://phoenix.surenpi.com/
 默认的用户名和密码都是demo
 
 # 兼容性
-JRE1.7+
+JRE1.8+
 
 Tomcat6
 

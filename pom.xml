@@ -58,7 +58,7 @@
 		<dependency>
 			<groupId>org.suren.autotest</groupId>
 			<artifactId>autotest.web.framework</artifactId>
-			<version>1.0.1-20160114</version>
+			<version>1.0.1-20170325</version>
 			<exclusions>
 				<exclusion>
 					<groupId>commons-lang</groupId>
