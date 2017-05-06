@@ -16,7 +16,6 @@ import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
-import javax.xml.bind.JAXB;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
@@ -60,8 +59,8 @@ import org.suren.autotest.platform.util.DomUtils;
 import org.suren.autotest.platform.util.JAXBUtils;
 import org.suren.autotest.web.framework.code.Generator;
 import org.suren.autotest.web.framework.core.Callback;
-import org.suren.autotest.web.framework.util.PathUtil;
 import org.suren.autotest.web.framework.util.StringUtils;
+import org.suren.autotest.webdriver.downloader.PathUtil;
 import org.xml.sax.SAXException;
 
 /**

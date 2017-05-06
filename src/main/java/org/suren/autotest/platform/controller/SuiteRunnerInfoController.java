@@ -59,8 +59,9 @@ import org.suren.autotest.platform.security.UserDetail;
 import org.suren.autotest.platform.util.DomUtils;
 import org.suren.autotest.platform.util.JAXBUtils;
 import org.suren.autotest.web.framework.core.SuiteProgressInfo;
-import org.suren.autotest.web.framework.core.suite.SuiteRunner;
 import org.suren.autotest.web.framework.util.StringUtils;
+
+import com.surenpi.autotest.suite.runner.SuiteRunner;
 
 /**
  * 测试套件管理
