@@ -50,6 +50,30 @@
 					<encoding>UTF-8</encoding>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>org.apache.tomcat.maven</groupId>
+				<artifactId>tomcat7-maven-plugin</artifactId>
+				<version>2.2</version>
+				<configuration>
+					<path>/phoenix</path>
+					<port>80</port>
+					<uriEncoding>UTF-8</uriEncoding>
+				</configuration>
+			</plugin>
+            <plugin>
+				<groupId>org.eclipse.jetty</groupId>
+                <artifactId>jetty-maven-plugin</artifactId>
+				<version>9.3.8.v20160314</version>
+				<configuration>
+					<webAppConfig>
+						<contextPath>/phoenix</contextPath>
+						<defaultsDescriptor>src/main/webapp/WEB-INF/web.xml</defaultsDescriptor>
+					</webAppConfig>
+					<httpConnector>
+						<port>80</port>
+					</httpConnector>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 
@@ -70,6 +94,12 @@
 			<groupId>com.surenpi.autotest</groupId>
 			<artifactId>autotest.suite.runner</artifactId>
 			<version>1.0.0-20170504</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.springframework.shell</groupId>
+					<artifactId>spring-shell</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		
 		<dependency>
