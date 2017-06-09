@@ -1,17 +1,17 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	
+
 	<groupId>com.surenpi.autotest</groupId>
 	<artifactId>autotest.platform</artifactId>
 	<packaging>war</packaging>
 	<version>0.0.1-SNAPSHOT</version>
-	
+
 	<name>Autotest Platform</name>
 	<url>http://surenpi.com</url>
-	
+
 	<description>自动化测试平台</description>
-	
+
 	<licenses>
 		<license>
 			<name>The Apache Software License, Version 2.0</name>
@@ -19,7 +19,7 @@
 			<distribution>repo</distribution>
 		</license>
 	</licenses>
-	
+
 	<developers>
 		<developer>
 			<id>suren</id>
@@ -28,7 +28,7 @@
 			<url>http://surenpi.com</url>
 		</developer>
 	</developers>
-	
+
 	<properties>
 		<spring.version>4.1.9.RELEASE</spring.version>
 		<spring.security.version>4.1.0.RELEASE</spring.security.version>
@@ -36,7 +36,7 @@
 		<maven.compiler.encoding>UTF-8</maven.compiler.encoding>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
-	
+
 	<build>
 		<finalName>phoenix</finalName>
 		<plugins>
@@ -60,9 +60,9 @@
 					<uriEncoding>UTF-8</uriEncoding>
 				</configuration>
 			</plugin>
-            <plugin>
+			<plugin>
 				<groupId>org.eclipse.jetty</groupId>
-                <artifactId>jetty-maven-plugin</artifactId>
+				<artifactId>jetty-maven-plugin</artifactId>
 				<version>9.3.8.v20160314</version>
 				<configuration>
 					<webAppConfig>
@@ -101,14 +101,14 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.8.1</version>
 			<scope>test</scope>
 		</dependency>
-		
+
 		<!-- spring -->
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -125,69 +125,64 @@
 			<artifactId>spring-webmvc</artifactId>
 			<version>${spring.version}</version>
 		</dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-jdbc</artifactId>
-			<version>${spring.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-oxm</artifactId>
-			<version>${spring.version}</version>
-        </dependency>
-        <dependency>
-        	<groupId>org.springframework.security</groupId>
-        	<artifactId>spring-security-web</artifactId>
-        	<version>${spring.security.version}</version>
-        </dependency>
-        <dependency>
-        	<groupId>org.springframework.security</groupId>
-        	<artifactId>spring-security-config</artifactId>
-        	<version>${spring.security.version}</version>
-        </dependency>
-        <dependency>
-        	<groupId>org.springframework.security.oauth</groupId>
-        	<artifactId>spring-security-oauth2</artifactId>
-        	<version>2.0.12.RELEASE</version>
-        </dependency>
-        <!-- 
-        <dependency>
-        	<groupId>org.springframework.security</groupId>
-        	<artifactId>spring-security-tablibs</artifactId>
-        	<version>${spring.security.version}</version>
-        </dependency>
-         -->
-        
-        <!-- servlet -->
-        <dependency>
-        	<groupId>javax.servlet</groupId>
-        	<artifactId>javax.servlet-api</artifactId>
-        	<version>3.1.0</version>
-        </dependency>
-        <dependency>  
-             <groupId>javax.servlet</groupId>  
-             <artifactId>jstl</artifactId>  
-             <version>1.2</version>  
-             <scope>runtime</scope>  
-        </dependency>
-        <dependency>
-        	<groupId>javax.servlet.jsp</groupId>
-        	<artifactId>jsp-api</artifactId>
-        	<version>2.1</version>
-        	<scope>provided</scope>
-        </dependency>
 		<dependency>
-            <groupId>taglibs</groupId>
-            <artifactId>standard</artifactId>
-            <version>1.1.2</version>
-        </dependency>
-        
-        <dependency>
-        	<groupId>org.sitemesh</groupId>
-        	<artifactId>sitemesh</artifactId>
-        	<version>3.0.0</version>
-        </dependency>
-		
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-oxm</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-web</artifactId>
+			<version>${spring.security.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-config</artifactId>
+			<version>${spring.security.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security.oauth</groupId>
+			<artifactId>spring-security-oauth2</artifactId>
+			<version>2.0.12.RELEASE</version>
+		</dependency>
+		<!-- <dependency> <groupId>org.springframework.security</groupId> <artifactId>spring-security-tablibs</artifactId> 
+			<version>${spring.security.version}</version> </dependency> -->
+
+		<!-- servlet -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>3.1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jstl</artifactId>
+			<version>1.2</version>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet.jsp</groupId>
+			<artifactId>jsp-api</artifactId>
+			<version>2.1</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>taglibs</groupId>
+			<artifactId>standard</artifactId>
+			<version>1.1.2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.sitemesh</groupId>
+			<artifactId>sitemesh</artifactId>
+			<version>3.0.0</version>
+		</dependency>
+
 		<!-- database -->
 		<dependency>
 			<groupId>org.xerial</groupId>
@@ -205,15 +200,15 @@
 			<artifactId>mybatis</artifactId>
 			<version>3.4.1</version>
 		</dependency>
-        <dependency>
-            <groupId>org.mybatis</groupId>
-            <artifactId>mybatis-spring</artifactId>
-            <version>1.3.0</version>
-        </dependency>
-        <dependency>
-		     <groupId>com.alibaba</groupId>
-		     <artifactId>druid</artifactId>
-		     <version>1.0.28</version>
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis-spring</artifactId>
+			<version>1.3.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>druid</artifactId>
+			<version>1.0.28</version>
 		</dependency>
 
 		<dependency>
@@ -228,7 +223,7 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-		
+
 		<!-- xml -->
 		<dependency>
 			<groupId>dom4j</groupId>
@@ -236,26 +231,26 @@
 			<version>1.6.1</version>
 		</dependency>
 		<dependency>
-		    <groupId>xom</groupId>
-		    <artifactId>xom</artifactId>
-		    <version>1.2.5</version>
+			<groupId>xom</groupId>
+			<artifactId>xom</artifactId>
+			<version>1.2.5</version>
 		</dependency>
-		
+
 		<!-- json -->
 		<dependency>
-		    <groupId>com.fasterxml.jackson.core</groupId>
-		    <artifactId>jackson-core</artifactId>
-		    <version>${fasterxml.version}</version>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-core</artifactId>
+			<version>${fasterxml.version}</version>
 		</dependency>
 		<dependency>
-		    <groupId>com.fasterxml.jackson.core</groupId>
-		    <artifactId>jackson-databind</artifactId>
-		    <version>${fasterxml.version}</version>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>${fasterxml.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-annotations</artifactId>
-		    <version>${fasterxml.version}</version>
+			<version>${fasterxml.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.fasterxml</groupId>
@@ -265,44 +260,47 @@
 
 		<!-- commons -->
 		<dependency>
-		    <groupId>commons-fileupload</groupId>
-		    <artifactId>commons-fileupload</artifactId>
-		    <version>1.3.1</version>
+			<groupId>commons-fileupload</groupId>
+			<artifactId>commons-fileupload</artifactId>
+			<version>1.3.1</version>
 		</dependency>
-		
+
 		<dependency>
-		    <groupId>org.apache.xmlrpc</groupId>
-		    <artifactId>xmlrpc-client</artifactId>
-		    <version>3.1.3</version>
+			<groupId>org.apache.xmlrpc</groupId>
+			<artifactId>xmlrpc-client</artifactId>
+			<version>3.1.3</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.quartz-scheduler</groupId>
 			<artifactId>quartz</artifactId>
 			<version>2.2.1</version>
 		</dependency>
-		
+
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger2</artifactId>
+			<version>2.4.0</version>
+		</dependency>
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger-ui</artifactId>
+			<version>2.4.0</version>
+		</dependency>
 		<!-- 
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-petstore</artifactId>
+			<version>2.6.1</version>
+        </dependency>
+       	 -->
+
+		<!-- <dependency> <groupId>com.google.guava</groupId> <artifactId>guava</artifactId> 
+			<version>15.0</version> </dependency> -->
 		<dependency>
-			<groupId>com.mangofactory</groupId>
-			<artifactId>swagger-springmvc</artifactId>
-			<version>1.0.2</version>
+			<groupId>javax.validation</groupId>
+			<artifactId>validation-api</artifactId>
+			<version>1.1.0.Final</version>
 		</dependency>
-		<dependency>
-			<groupId>com.mangofactory</groupId>
-			<artifactId>swagger-models</artifactId>
-			<version>1.0.2</version>
-		</dependency>
-		<dependency>
-			<groupId>com.wordnik</groupId>
-			<artifactId>swagger-annotations</artifactId>
-			<version>1.3.11</version>
-		</dependency>
-		<dependency>
-			<groupId>com.google.guava</groupId>
-			<artifactId>guava</artifactId>
-			<version>15.0</version>
-		</dependency>
-		 -->
 	</dependencies>
 </project>
