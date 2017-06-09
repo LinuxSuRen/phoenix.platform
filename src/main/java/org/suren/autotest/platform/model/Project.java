@@ -6,6 +6,8 @@ package org.suren.autotest.platform.model;
 import java.util.Date;
 import java.util.List;
 
+import javax.validation.constraints.NotNull;
+
 /**
  * @author suren
  * @date 2017年1月20日 下午7:46:46
@@ -14,6 +16,7 @@ public class Project
 {
 	private String id;
 	private String ownerId;
+	@NotNull
 	private String name;
 	private String pkgName;
 	private String remark;
