@@ -3,6 +3,9 @@
  */
 package org.suren.autotest.platform.controller;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -22,6 +25,7 @@ import java.util.zip.ZipInputStream;
 
 import javax.annotation.Resource;
 import javax.servlet.ServletContext;
+import javax.validation.Valid;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
@@ -67,6 +71,8 @@ import org.suren.autotest.web.framework.code.Generator;
 import org.suren.autotest.web.framework.jdt.JDTUtils;
 import org.suren.autotest.web.framework.util.StringUtils;
 
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
+
 /**
  * 项目管理
  * @author suren
@@ -74,6 +80,7 @@ import org.suren.autotest.web.framework.util.StringUtils;
  */
 @Controller
 @RequestMapping("/project")
+@Api("项目管理")
 public class ProjectController implements ApplicationContextAware
 {
 	@Autowired
@@ -94,6 +101,7 @@ public class ProjectController implements ApplicationContextAware
 	@Resource(name = "xml_to_java")
 	private Generator codeGenerator;
 	
+	@ApiOperation("项目列表")
 	@RequestMapping("/list")
 	public String list(Model model)
 	{
@@ -128,7 +136,7 @@ public class ProjectController implements ApplicationContextAware
 	}
 	
 	@RequestMapping("/save")
-	public String save(Model model, Project project)
+	public String save(Model model, @Valid Project project)
 	{
 		if(StringUtils.isBlank(project.getId()))
 		{
