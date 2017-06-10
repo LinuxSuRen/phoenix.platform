@@ -19,6 +19,10 @@
 		<param-name>contextConfigLocation</param-name>
 		<param-value>/WEB-INF/application*.xml,classpath:autoTestContext.xml</param-value>
 	</context-param>
+	<context-param>
+		<param-name>defaultHtmlEscape</param-name>
+		<param-value>true</param-value>
+	</context-param>
 	
 	<filter>
 		<filter-name>springSecurityFilterChain</filter-name>
@@ -53,6 +57,15 @@
 	<filter-mapping>
 		<filter-name>sitemesh</filter-name>
 		<url-pattern>*.su</url-pattern>
+	</filter-mapping>
+	
+	<filter>
+		<filter-name>xssFilter</filter-name>
+		<filter-class>org.suren.autotest.platform.filter.XssFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>xssFilter</filter-name>
+		<url-pattern>*</url-pattern>
 	</filter-mapping>
 
 	<servlet>
