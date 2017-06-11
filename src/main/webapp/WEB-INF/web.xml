@@ -85,6 +85,22 @@
 		<servlet-name>dispatcher</servlet-name>
 		<url-pattern>*.json</url-pattern>
 	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>dispatcher</servlet-name>
+		<url-pattern>/swagger-resources</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>dispatcher</servlet-name>
+		<url-pattern>/swagger-resources/configuration/ui</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>dispatcher</servlet-name>
+		<url-pattern>/swagger-resources/configuration/security</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>dispatcher</servlet-name>
+		<url-pattern>/v2/api-docs</url-pattern>
+	</servlet-mapping>
 	
 	<taglib>
 		<taglib-uri>/META-INF/suren.tld</taglib-uri>

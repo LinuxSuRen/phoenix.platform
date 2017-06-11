@@ -19,6 +19,8 @@ package org.suren.autotest.platform.controller;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -33,11 +35,13 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  * @date 2017年6月9日 上午8:52:35
  */
 @Configuration
+@EnableWebMvc
 @EnableSwagger2
-public class SwaggerConfig {
-
+public class SwaggerConfig extends WebMvcConfigurerAdapter
+{
     @Bean
-    public Docket buildDocket(){
+    public Docket buildDocket()
+    {
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(buildApiInf())
                 .select().apis(RequestHandlerSelectors.basePackage("org.suren.autotest.platform.controller"))//controller路径
@@ -45,13 +49,13 @@ public class SwaggerConfig {
                 .build();
     }
 
-    private ApiInfo buildApiInf(){
+    private ApiInfo buildApiInf()
+    {
         return new ApiInfoBuilder()
-                .title("xingguo大标题")
-                .termsOfServiceUrl("http://blog.csdn.net/u014231523网址链接")
-                .description("springmvc swagger2")
-                .contact(new Contact("diaoxingguo", "http://blog.csdn.net/u014231523", "diaoxingguo@163.com"))
+                .title("WebUI自动化测试Phoenix平台")
+                .termsOfServiceUrl("https://github.com/LinuxSuRen/phoenix.platform")
+                .description("WebUI自动化测试Phoenix平台")
+                .contact(new Contact("suren", "http://surenpi.com", "zxjlwt@126.com"))
                 .build();
-
     }
 }

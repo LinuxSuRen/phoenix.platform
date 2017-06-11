@@ -30,6 +30,7 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 
+import io.swagger.annotations.ApiParam;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.poi.util.IOUtils;
@@ -103,7 +104,7 @@ public class ProjectController implements ApplicationContextAware
 	
 	@ApiOperation("项目列表")
 	@RequestMapping("/list")
-	public String list(Model model)
+	public String list(@ApiParam(name = "model") Model model)
 	{
 		List<Project> projects = projectMapper.getAll();
 		
