@@ -4,8 +4,15 @@
 
 	<groupId>com.surenpi.autotest</groupId>
 	<artifactId>autotest.platform</artifactId>
-	<packaging>war</packaging>
 	<version>0.0.1-SNAPSHOT</version>
+
+	<parent>
+		<groupId>com.surenpi.autotest</groupId>
+		<artifactId>autotest.parent</artifactId>
+		<version>1.0.1-20170618</version>
+	</parent>
+
+	<packaging>war</packaging>
 
 	<name>Autotest Platform</name>
 	<url>http://surenpi.com</url>

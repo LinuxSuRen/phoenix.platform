@@ -7,7 +7,7 @@
 		<result property="pkgName" column="pkg_name"/>
 	</resultMap>
 	
-	<select id="getById" resultType="Project" resultMap="projectMap">
+	<select id="getById" resultMap="projectMap">
 		select * from project where id = #{id}
 	</select>
 	

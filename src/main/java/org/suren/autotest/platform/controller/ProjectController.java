@@ -51,6 +51,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.suren.autotest.platform.AutoTestClassloader;
 import org.suren.autotest.platform.mapping.AttachmentMapper;
@@ -103,7 +105,7 @@ public class ProjectController implements ApplicationContextAware
 	private Generator codeGenerator;
 	
 	@ApiOperation("项目列表")
-	@RequestMapping("/list")
+	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public String list(@ApiParam(name = "model") Model model)
 	{
 		List<Project> projects = projectMapper.getAll();
@@ -113,7 +115,7 @@ public class ProjectController implements ApplicationContextAware
 		return "project_list";
 	}
 	
-	@RequestMapping("/edit")
+	@RequestMapping(value = "/edit", method = RequestMethod.GET)
 	public String edit(Model model, String id)
 	{
 		Project proForModel = projectMapper.getById(id);
@@ -151,17 +153,19 @@ public class ProjectController implements ApplicationContextAware
 		
 		return "redirect:/project/edit.su?id=" + project.getId();
 	}
-	
-	@RequestMapping("/del")
-	public String del(Model model, String id)
+
+	@ApiOperation("项目删除")
+	@RequestMapping(value = "/del", method = RequestMethod.DELETE)
+	public String del(@RequestParam String id)
 	{
 		projectMapper.delById(id);
 		
 		return "redirect:/project/list.su";
 	}
-	
-	@RequestMapping("/deploy")
-	public String projectDeploy(String id)
+
+	@ApiOperation("项目部署")
+	@RequestMapping(value = "/deploy", method = RequestMethod.GET)
+	public String projectDeploy(@RequestParam String id)
 	{
 		UserDetail userDetail = (UserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		String ownerId = userDetail.getId();
