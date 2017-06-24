@@ -3,9 +3,6 @@
  */
 package org.suren.autotest.platform.controller;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -30,7 +27,6 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 
-import io.swagger.annotations.ApiParam;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.poi.util.IOUtils;
@@ -48,11 +44,11 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.suren.autotest.platform.AutoTestClassloader;
 import org.suren.autotest.platform.mapping.AttachmentMapper;
@@ -74,15 +70,16 @@ import org.suren.autotest.web.framework.code.Generator;
 import org.suren.autotest.web.framework.jdt.JDTUtils;
 import org.suren.autotest.web.framework.util.StringUtils;
 
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 /**
  * 项目管理
  * @author suren
  * @date 2017年1月20日 下午7:43:05
  */
-@Controller
-@RequestMapping("/project")
+@RestController
+@RequestMapping("/projects")
 @Api("项目管理")
 public class ProjectController implements ApplicationContextAware
 {
@@ -105,41 +102,34 @@ public class ProjectController implements ApplicationContextAware
 	private Generator codeGenerator;
 	
 	@ApiOperation("项目列表")
-	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public String list(@ApiParam(name = "model") Model model)
+	@RequestMapping(method = RequestMethod.GET)
+	public List<Project> list()
 	{
-		List<Project> projects = projectMapper.getAll();
-		
-		model.addAttribute("projects", projects);
-		
-		return "project_list";
+		return projectMapper.getAll();
 	}
 	
-	@RequestMapping(value = "/edit", method = RequestMethod.GET)
-	public String edit(Model model, String id)
+	@ApiOperation("项目信息")
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
+	public Project getInfo(@PathVariable String id)
 	{
-		Project proForModel = projectMapper.getById(id);
-		if(proForModel == null)
-		{
-			UserDetail userDetail = (UserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-			String ownerId = userDetail.getId();
-			
-			proForModel = new Project();
-			proForModel.setOwnerId(ownerId);
-		}
-		else
-		{
-			List<Attachment> attachList = attachmentMapper.getByBelongId(id);
-			proForModel.setAttachList(attachList);
-		}
-		
-		model.addAttribute("project", proForModel);
-		
-		return "project_edit";
+		return projectMapper.getById(id);
 	}
 	
-	@RequestMapping("/save")
-	public String save(Model model, @Valid Project project)
+	@ApiOperation("项目模板")
+	@RequestMapping(value = "/model", method = RequestMethod.POST)
+	public Project edit()
+	{
+		Project proForModel = new Project();
+		UserDetail userDetail = (UserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		String ownerId = userDetail.getId();
+		proForModel.setOwnerId(ownerId);
+		
+		return proForModel;
+	}
+
+	@ApiOperation("新增项目")
+	@RequestMapping(method = RequestMethod.POST)
+	public String save(@Valid Project project)
 	{
 		if(StringUtils.isBlank(project.getId()))
 		{
@@ -151,21 +141,19 @@ public class ProjectController implements ApplicationContextAware
 			projectMapper.update(project);
 		}
 		
-		return "redirect:/project/edit.su?id=" + project.getId();
+		return project.getId();
 	}
 
 	@ApiOperation("项目删除")
-	@RequestMapping(value = "/del", method = RequestMethod.DELETE)
-	public String del(@RequestParam String id)
+	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+	public void del(@PathVariable String id)
 	{
 		projectMapper.delById(id);
-		
-		return "redirect:/project/list.su";
 	}
 
 	@ApiOperation("项目部署")
-	@RequestMapping(value = "/deploy", method = RequestMethod.GET)
-	public String projectDeploy(@RequestParam String id)
+	@RequestMapping(value = "/deploy/{id}", method = RequestMethod.GET)
+	public String projectDeploy(@PathVariable String id)
 	{
 		UserDetail userDetail = (UserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		String ownerId = userDetail.getId();
@@ -322,7 +310,7 @@ public class ProjectController implements ApplicationContextAware
 		return "redirect:/project/list.su";
 	}
 	
-	@RequestMapping("import.su")
+	@RequestMapping(value = "import.su", method = RequestMethod.POST)
 	public String projectImport(Model model, MultipartFile file, final String id) throws IOException
 	{
 		final File tmpFile = File.createTempFile("autotest", "platform");
