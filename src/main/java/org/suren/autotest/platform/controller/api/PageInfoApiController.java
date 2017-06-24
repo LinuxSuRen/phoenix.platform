@@ -163,58 +163,58 @@ public class PageInfoApiController
 		pageInfoMapper.delById(id);
 	}
 	
-	@RequestMapping(method = RequestMethod.POST)
-	public String save(@Valid PageInfo pageInfo)
-	{
-		String id = pageInfo.getId();
-		int tabIndex = pageInfo.getTabIndex();
-		pageInfo = pageInfoMapper.getById(id);
-		if(pageInfo == null)
-		{
-			pageInfo = new PageInfo();
-		}
-		else
-		{
-			pageInfo.setTabIndex(tabIndex);
-		}
-		
-		try
-		{
-			JAXBContext context = JAXBContext.newInstance(Autotest.class);
-			Unmarshaller unmarshaller = context.createUnmarshaller();
-
-			Autotest autotest;
-			String content = pageInfo.getContent();
-			if(content == null)
-			{
-				autotest = initAutotest();
-			}
-			else
-			{
-				ByteArrayInputStream input = new ByteArrayInputStream(content.getBytes("utf-8"));
-				
-				try
-				{
-					autotest = (Autotest) unmarshaller.unmarshal(input);
-				}
-				catch(UnmarshalException e)
-				{
-					autotest = initAutotest();
-					e.printStackTrace();
-				}
-			}
-
-			pageInfo.setAutotest(autotest);
-		}
-		catch (JAXBException e)
-		{
-			e.printStackTrace();
-		}
-		catch (UnsupportedEncodingException e1)
-		{
-			e1.printStackTrace();
-		}
-	}
+//	@RequestMapping(method = RequestMethod.POST)
+//	public String save(@Valid PageInfo pageInfo)
+//	{
+//		String id = pageInfo.getId();
+//		int tabIndex = pageInfo.getTabIndex();
+//		pageInfo = pageInfoMapper.getById(id);
+//		if(pageInfo == null)
+//		{
+//			pageInfo = new PageInfo();
+//		}
+//		else
+//		{
+//			pageInfo.setTabIndex(tabIndex);
+//		}
+//		
+//		try
+//		{
+//			JAXBContext context = JAXBContext.newInstance(Autotest.class);
+//			Unmarshaller unmarshaller = context.createUnmarshaller();
+//
+//			Autotest autotest;
+//			String content = pageInfo.getContent();
+//			if(content == null)
+//			{
+//				autotest = initAutotest();
+//			}
+//			else
+//			{
+//				ByteArrayInputStream input = new ByteArrayInputStream(content.getBytes("utf-8"));
+//				
+//				try
+//				{
+//					autotest = (Autotest) unmarshaller.unmarshal(input);
+//				}
+//				catch(UnmarshalException e)
+//				{
+//					autotest = initAutotest();
+//					e.printStackTrace();
+//				}
+//			}
+//
+//			pageInfo.setAutotest(autotest);
+//		}
+//		catch (JAXBException e)
+//		{
+//			e.printStackTrace();
+//		}
+//		catch (UnsupportedEncodingException e1)
+//		{
+//			e1.printStackTrace();
+//		}
+//	}
 
 	@RequestMapping("hello.su")
 	public void hello(Model model, @RequestParam(defaultValue = "qwe") String id,
