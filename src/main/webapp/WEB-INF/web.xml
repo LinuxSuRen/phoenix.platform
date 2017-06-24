@@ -79,12 +79,18 @@
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>dispatcher</servlet-name>
+		<url-pattern>/</url-pattern>
+	</servlet-mapping>
+	<!-- 
+	<servlet-mapping>
+		<servlet-name>dispatcher</servlet-name>
 		<url-pattern>*.su</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>dispatcher</servlet-name>
 		<url-pattern>*.json</url-pattern>
 	</servlet-mapping>
+	 -->
 	<servlet-mapping>
 		<servlet-name>dispatcher</servlet-name>
 		<url-pattern>/swagger-resources</url-pattern>
