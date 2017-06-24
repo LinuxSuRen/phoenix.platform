@@ -1,7 +1,7 @@
 /**
  * http://surenpi.com
  */
-package org.suren.autotest.platform.controller;
+package org.suren.autotest.platform.controller.api;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -16,6 +16,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.validation.Valid;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
@@ -28,11 +29,13 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.suren.autotest.platform.mapping.DataSourceInfoMapper;
 import org.suren.autotest.platform.mapping.PageInfoMapper;
@@ -63,14 +66,16 @@ import org.suren.autotest.web.framework.util.StringUtils;
 import org.suren.autotest.webdriver.downloader.PathUtil;
 import org.xml.sax.SAXException;
 
+import io.swagger.annotations.ApiOperation;
+
 /**
  * 项目集
  * @author suren
  * @date 2017年1月17日 下午8:40:45
  */
-@Controller
-@RequestMapping("page_info")
-public class PageInfoController
+@RestController
+@RequestMapping("/api/pages_info/{projectId}")
+public class PageInfoApiController
 {
 	@Autowired
 	private UserInfoMapper userMapper;
@@ -88,7 +93,7 @@ public class PageInfoController
 	@Resource(name = "xml_to_suite_runner")
 	private Generator suiteRunnerGenerator;
 
-	@RequestMapping("add.su")
+	@RequestMapping(value = "add.su", method = RequestMethod.GET)
 	public String pageInfoAdd(Model model, String projectId)
 	{
 		PageInfo pageInfo = new PageInfo();
@@ -111,8 +116,9 @@ public class PageInfoController
 		return "/page_info/test";
 	}
 	
-	@RequestMapping("import.su")
-	public String autotestImport(Model model, MultipartFile file, String projectId)
+	@ApiOperation("导入")
+	@RequestMapping(value = "/import", method = RequestMethod.POST)
+	public void autotestImport(MultipartFile file, @PathVariable String projectId)
 	{
 		String originalFileName = file.getOriginalFilename();
 		if(originalFileName.endsWith(".xml"))
@@ -124,9 +130,6 @@ public class PageInfoController
 		pageInfo.setProjectId(projectId);
 		pageInfo.setName(originalFileName);
 		pageInfo.setCreateTime(new Date());
-		
-		model.addAttribute("pageInfo", pageInfo);
-		initEnums(model);
 		
 		try
 		{
@@ -146,31 +149,22 @@ public class PageInfoController
 		{
 			e.printStackTrace();
 		}
-
-		return "/page_info/test";
 	}
 	
-	@RequestMapping("list.su")
-	public String list(Model model, String projectId)
+	@RequestMapping(method = RequestMethod.GET)
+	public List<PageInfo> list(@PathVariable String projectId)
 	{
-		List<PageInfo> pageInfoList = pageInfoMapper.getAllByProjectId(projectId);
-		model.addAttribute("pageInfoList", pageInfoList);
-		model.addAttribute("projectId", projectId);
-		
-		return "page_info_list";
+		return pageInfoMapper.getAllByProjectId(projectId);
 	}
 	
-	@RequestMapping("/del")
-	public String del(Model model, String id)
+	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+	public void del(@PathVariable String id)
 	{
-		PageInfo pageInfo = pageInfoMapper.getById(id);
 		pageInfoMapper.delById(id);
-		
-		return "redirect:/page_info/list.su?projectId=" + pageInfo.getProjectId();
 	}
 	
-	@RequestMapping("test.su")
-	public void test(Model model, PageInfo pageInfo)
+	@RequestMapping(method = RequestMethod.POST)
+	public String save(@Valid PageInfo pageInfo)
 	{
 		String id = pageInfo.getId();
 		int tabIndex = pageInfo.getTabIndex();
@@ -183,8 +177,6 @@ public class PageInfoController
 		{
 			pageInfo.setTabIndex(tabIndex);
 		}
-		
-		model.addAttribute("pageInfo", pageInfo);
 		
 		try
 		{
@@ -213,7 +205,6 @@ public class PageInfoController
 			}
 
 			pageInfo.setAutotest(autotest);
-			initEnums(model);
 		}
 		catch (JAXBException e)
 		{

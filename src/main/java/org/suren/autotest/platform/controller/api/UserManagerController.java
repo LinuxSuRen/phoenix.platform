@@ -14,22 +14,39 @@
  * limitations under the License.
  */
 
-package org.suren.autotest.platform.controller;
+package org.suren.autotest.platform.controller.api;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * @author suren
- * @date 2017年2月14日 下午9:37:16
+ * @date 2017年2月11日 下午9:29:18
  */
-@RequestMapping("errors")
 @Controller
-public class ErrorController
+@RequestMapping("user_manager")
+public class UserManagerController
 {
-	@RequestMapping("404")
-	public String error404()
+	@Autowired
+	private SessionRegistry sessionRegistry;
+	
+	@ResponseBody
+	@RequestMapping("onLineCount")
+	public int onLineCount()
 	{
-		return "errors/404";
+		return sessionRegistry.getAllPrincipals().size();
 	}
+	
+	@ResponseBody
+	@RequestMapping("onLineUser")
+	public List<Object> onLineUser()
+	{
+		return sessionRegistry.getAllPrincipals();
+	}
+
 }

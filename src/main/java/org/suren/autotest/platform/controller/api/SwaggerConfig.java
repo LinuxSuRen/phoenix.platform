@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.suren.autotest.platform.controller;
+package org.suren.autotest.platform.controller.api;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

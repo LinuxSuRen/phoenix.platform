@@ -1,7 +1,7 @@
 /**
  * http://surenpi.com
  */
-package org.suren.autotest.platform.controller;
+package org.suren.autotest.platform.controller.api;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -79,7 +79,7 @@ import io.swagger.annotations.ApiOperation;
  * @date 2017年1月20日 下午7:43:05
  */
 @RestController
-@RequestMapping("/projects")
+@RequestMapping("/api/projects")
 @Api("项目管理")
 public class ProjectController implements ApplicationContextAware
 {
