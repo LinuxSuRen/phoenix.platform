@@ -244,7 +244,7 @@ public class PageInfoApiController
 	}
 
 	@ApiOperation("根据页面名称删除页面")
-	@RequestMapping("/{id}")
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public void delPage(@PathVariable String id, @RequestParam String pageName)
 	{
 		PageInfo pageInfo = pageInfoMapper.getById(id);
