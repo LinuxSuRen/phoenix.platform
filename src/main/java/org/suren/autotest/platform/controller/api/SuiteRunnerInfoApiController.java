@@ -69,8 +69,8 @@ import com.surenpi.autotest.suite.runner.SuiteRunner;
  * @date 2017年1月23日 上午7:38:33
  */
 @Controller
-@RequestMapping("suite_runner_info")
-public class SuiteRunnerInfoController
+@RequestMapping("/api/suite_runner_info")
+public class SuiteRunnerInfoApiController
 {
 	@Autowired
 	private SuiteRunnerInfoMapper suiteRunnerInfoMapper;

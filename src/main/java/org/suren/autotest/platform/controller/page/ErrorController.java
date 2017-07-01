@@ -14,32 +14,22 @@
  * limitations under the License.
  */
 
-package org.suren.autotest.platform;
+package org.suren.autotest.platform.controller.page;
 
-import java.net.URL;
-import java.net.URLClassLoader;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
  * @author suren
- * @date 2017年1月24日 下午1:59:53
+ * @date 2017年2月14日 下午9:37:16
  */
-public class AutoTestClassloader extends URLClassLoader
+@RequestMapping("errors")
+@Controller
+public class ErrorController
 {
-	private URL[] urls;
-
-	/**
-	 * @param urls
-	 * @param parent
-	 */
-	public AutoTestClassloader(URL[] urls, ClassLoader parent)
+	@RequestMapping("404")
+	public String error404()
 	{
-		super(urls, parent);
-		this.urls = urls;
-	}
-
-	@Override
-	protected Class<?> findClass(String name) throws ClassNotFoundException
-	{
-		return super.findClass(name);
+		return "errors/404";
 	}
 }

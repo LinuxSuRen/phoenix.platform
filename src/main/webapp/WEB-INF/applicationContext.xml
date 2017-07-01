@@ -17,6 +17,7 @@
         <property name="basePackage" value="org.suren.autotest.platform.mapping"/>
     </bean>
     
+    <!-- 
     <bean class="org.springframework.beans.factory.config.CustomScopeConfigurer">
     	<property name="scopes">
     		<map>
@@ -24,6 +25,7 @@
     		</map>
     	</property>
     </bean>
+     -->
     
     <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter" />
 

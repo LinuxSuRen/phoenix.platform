@@ -41,9 +41,9 @@ import org.suren.autotest.web.framework.log.Image4SearchLog;
  * @author suren
  * @date 2017年2月3日 下午6:54:30
  */
-@RequestMapping("suite_runner_log")
+@RequestMapping("/api/suite_runner_log")
 @Controller
-public class SuiteRunnerLogController
+public class SuiteRunnerLogApiController
 {
 	@Autowired
 	private SuiteRunnerLogMapper suiteRunnerLogMapper;

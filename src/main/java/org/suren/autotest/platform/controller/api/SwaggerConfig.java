@@ -18,9 +18,9 @@ package org.suren.autotest.platform.controller.api;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -44,7 +44,7 @@ public class SwaggerConfig extends WebMvcConfigurerAdapter
     {
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(buildApiInf())
-                .select().apis(RequestHandlerSelectors.basePackage("org.suren.autotest.platform.controller"))//controller路径
+                .select().apis(RequestHandlerSelectors.basePackage("org.suren.autotest.platform.controller.api"))//controller路径
                 .paths(PathSelectors.any())
                 .build();
     }

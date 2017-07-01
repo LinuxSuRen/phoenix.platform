@@ -11,6 +11,7 @@ package org.suren.autotest.platform.schemas.suite;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -21,7 +22,7 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * 
- * 				²Ù×÷¼¯ºÏ£¬±ØÌî¡£
+ * 				ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï£ï¿½ï¿½ï¿½ï¿½î¡£
  * 			
  * 
  * <p>Java class for actionsType complex type.

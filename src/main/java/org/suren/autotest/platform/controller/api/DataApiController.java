@@ -18,18 +18,23 @@ package org.suren.autotest.platform.controller.api;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.suren.autotest.web.framework.util.EncryptorUtil;
 
 /**
  * @author suren
- * @date 2017年2月14日 下午9:37:16
+ * @date 2017年2月4日 下午12:22:47
  */
-@RequestMapping("errors")
 @Controller
-public class ErrorController
+@RequestMapping("/api/data")
+public class DataApiController
 {
-	@RequestMapping("404")
-	public String error404()
+	@RequestMapping("encrypt")
+	@ResponseBody
+	public String encrypt(String plainText)
 	{
-		return "errors/404";
+		String encryptText = EncryptorUtil.encryptWithBase64(plainText);
+		
+		return encryptText;
 	}
 }

@@ -44,8 +44,8 @@ import org.suren.autotest.web.framework.util.StringUtils;
  * @date 2017年2月16日 下午7:40:37
  */
 @Controller
-@RequestMapping("data_base")
-public class DataBaseController
+@RequestMapping("/api/data_base")
+public class DataBaseApiController
 {
 	@RequestMapping("init_schema")
 	public String initSchema(Model model)

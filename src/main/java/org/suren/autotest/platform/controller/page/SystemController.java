@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.suren.autotest.platform.controller.api;
+package org.suren.autotest.platform.controller.page;
 
 import java.io.File;
 import java.io.FileOutputStream;

@@ -16,13 +16,11 @@
 
 package org.suren.autotest.platform.db;
 
-import java.lang.reflect.Proxy;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.UUID;
 
 import org.sqlite.Function;
-import org.sqlite.SQLiteConnection;
 
 import com.alibaba.druid.pool.DruidDataSource;
 import com.alibaba.druid.pool.DruidPooledConnection;

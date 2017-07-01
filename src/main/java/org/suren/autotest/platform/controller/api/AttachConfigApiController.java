@@ -19,59 +19,45 @@ package org.suren.autotest.platform.controller.api;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 import org.suren.autotest.platform.mapping.AttachConfigMapper;
 import org.suren.autotest.platform.model.AttachConfig;
-import org.suren.autotest.web.framework.util.StringUtils;
 
 /**
  * @author suren
  * @date 2017年2月14日 上午8:20:38
  */
-@Controller
-@RequestMapping("attach_config")
-public class AttachConfigController
+@RestController
+@RequestMapping("/api/attach_configs")
+public class AttachConfigApiController
 {
 	@Autowired
 	private AttachConfigMapper attachConfigMapper;
 	
-	@RequestMapping("list")
-	public String list(Model model)
+	@RequestMapping(method = RequestMethod.GET)
+	public List<AttachConfig> list()
 	{
-		List<AttachConfig> attachConfigList = attachConfigMapper.getAll();
-		model.addAttribute("attachConfigList", attachConfigList);
-		
-		return "attach_config/attach_config_list";
+		return attachConfigMapper.getAll();
+	}
+
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
+	public AttachConfig edit(@PathVariable String id)
+	{
+		return attachConfigMapper.getById(id);
 	}
 	
-	@RequestMapping("edit")
-	public String edit(AttachConfig attachConfig, Model model)
-	{
-		if(StringUtils.isNotBlank(attachConfig.getId()))
-		{
-			attachConfig = attachConfigMapper.getById(attachConfig.getId());
-			
-			model.addAttribute("attachConfig", attachConfig);
-		}
-		
-		return "attach_config/attach_config_edit";
-	}
-	
-	@RequestMapping("save")
-	public String save(AttachConfig attachConfig)
+	@RequestMapping(method = RequestMethod.POST)
+	public void save(AttachConfig attachConfig)
 	{
 		attachConfigMapper.save(attachConfig);
-		
-		return "redirect:/attach_config/list.su";
 	}
 	
-	@RequestMapping("del")
-	public String del(String id)
+	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+	public void del(@PathVariable String id)
 	{
 		attachConfigMapper.delById(id);
-		
-		return "redirect:/attach_config/list.su";
 	}
 }

@@ -14,27 +14,39 @@
  * limitations under the License.
  */
 
-package org.suren.autotest.platform.controller.api;
+package org.suren.autotest.platform.controller.page;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.suren.autotest.web.framework.util.EncryptorUtil;
 
 /**
  * @author suren
- * @date 2017年2月4日 下午12:22:47
+ * @date 2017年2月11日 下午9:29:18
  */
 @Controller
-@RequestMapping("data")
-public class DataController
+@RequestMapping("user_manager")
+public class UserManagerController
 {
-	@RequestMapping("encrypt")
+	@Autowired
+	private SessionRegistry sessionRegistry;
+	
 	@ResponseBody
-	public String encrypt(String plainText)
+	@RequestMapping("onLineCount")
+	public int onLineCount()
 	{
-		String encryptText = EncryptorUtil.encryptWithBase64(plainText);
-		
-		return encryptText;
+		return sessionRegistry.getAllPrincipals().size();
 	}
+	
+	@ResponseBody
+	@RequestMapping("onLineUser")
+	public List<Object> onLineUser()
+	{
+		return sessionRegistry.getAllPrincipals();
+	}
+
 }

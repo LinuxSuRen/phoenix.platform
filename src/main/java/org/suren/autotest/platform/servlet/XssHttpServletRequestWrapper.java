@@ -1,9 +1,9 @@
 package org.suren.autotest.platform.servlet;
 
-import org.apache.commons.lang3.StringUtils;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
+
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * @author suren

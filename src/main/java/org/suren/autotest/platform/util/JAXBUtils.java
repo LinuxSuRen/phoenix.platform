@@ -10,7 +10,6 @@ import java.util.List;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 
-import org.suren.autotest.platform.model.PageInfo;
 import org.suren.autotest.platform.schemas.autotest.Autotest;
 import org.suren.autotest.platform.schemas.autotest.PageType;
 import org.suren.autotest.platform.schemas.datasource.DataSourcePageFieldType;

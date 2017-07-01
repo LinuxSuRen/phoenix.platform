@@ -81,7 +81,7 @@ import io.swagger.annotations.ApiOperation;
 @RestController
 @RequestMapping("/api/projects")
 @Api("项目管理")
-public class ProjectController implements ApplicationContextAware
+public class ProjectApiController implements ApplicationContextAware
 {
 	@Autowired
 	private ProjectMapper projectMapper;
@@ -116,7 +116,7 @@ public class ProjectController implements ApplicationContextAware
 	}
 	
 	@ApiOperation("项目模板")
-	@RequestMapping(value = "/model", method = RequestMethod.POST)
+	@RequestMapping(value = "/model", method = RequestMethod.GET)
 	public Project edit()
 	{
 		Project proForModel = new Project();
@@ -310,7 +310,7 @@ public class ProjectController implements ApplicationContextAware
 		return "redirect:/project/list.su";
 	}
 	
-	@RequestMapping(value = "import.su", method = RequestMethod.POST)
+	@RequestMapping(value = "/import", method = RequestMethod.POST)
 	public String projectImport(Model model, MultipartFile file, final String id) throws IOException
 	{
 		final File tmpFile = File.createTempFile("autotest", "platform");
