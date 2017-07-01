@@ -16,25 +16,16 @@
 
 package org.suren.autotest.platform.controller.api;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.List;
 
-import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.suren.autotest.platform.mapping.SuiteRunnerLogMapper;
 import org.suren.autotest.platform.model.SuiteRunnerLog;
-import org.suren.autotest.web.framework.log.Image4SearchLog;
 
 /**
  * 运行日志
@@ -47,66 +38,22 @@ public class SuiteRunnerLogApiController
 {
 	@Autowired
 	private SuiteRunnerLogMapper suiteRunnerLogMapper;
-	@Autowired
-	private Image4SearchLog image4SearchLog;
 	
-	@RequestMapping("list")
-	public String list(String runnerId, Model model)
+	@RequestMapping(value = "/{runnerId}", method = RequestMethod.GET)
+	public List<SuiteRunnerLog> list(@PathVariable String runnerId)
 	{
-		List<SuiteRunnerLog> logList = suiteRunnerLogMapper.findByRunnerId(runnerId);
-		
-		for(SuiteRunnerLog log : logList)
-		{
-			if(log.getMessage() != null && log.getMessage().length() > 20)
-			{
-				log.setMessage(log.getMessage().substring(0, 20));
-			}
-		}
-		
-		model.addAttribute("logList", logList);
-		
-		return "suite_runner_log/suite_runner_log_list";
+		return suiteRunnerLogMapper.findByRunnerId(runnerId);
 	}
 	
-	@RequestMapping("detail")
-	public String detail(String id, Model model)
+	@RequestMapping(method = RequestMethod.GET)
+	public SuiteRunnerLog detail(@RequestParam String id)
 	{
-		SuiteRunnerLog log = suiteRunnerLogMapper.findById(id);
-		
-		model.addAttribute("log", log);
-		
-		return "suite_runner_log/suite_runner_log_detail";
+		return suiteRunnerLogMapper.findById(id);
 	}
 	
-	@RequestMapping("gifDetail")
-	public ResponseEntity<byte[]> gifDetail(String id)
+	@RequestMapping(method = RequestMethod.DELETE)
+	public void del(@RequestParam String id)
 	{
-		File file = image4SearchLog.getOutputFile();
-		ByteArrayOutputStream out = new ByteArrayOutputStream();
-		
-		try(InputStream input = new FileInputStream(new File(file, id + ".gif")))
-		{
-			IOUtils.copy(input, out);
-		}
-		catch (IOException e)
-		{
-			e.printStackTrace();
-		}
-		
-		HttpHeaders headers = new HttpHeaders();
-		headers.setContentType(MediaType.IMAGE_GIF);
-		
-		return new ResponseEntity<byte[]>(out.toByteArray(), headers, HttpStatus.CREATED);
-	}
-	
-	@RequestMapping("del")
-	public String del(String id)
-	{
-		SuiteRunnerLog log = suiteRunnerLogMapper.findById(id);
-		String suiteRunnerId = log.getSuiteRunnerInfoId();
-		
 		suiteRunnerLogMapper.delById(id);
-		
-		return "redirect:/suite_runner_log/list.su?runnerId=" + suiteRunnerId;
 	}
 }
