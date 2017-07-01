@@ -16,22 +16,22 @@
 
 package org.suren.autotest.platform.controller.api;
 
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.suren.autotest.web.framework.util.EncryptorUtil;
 
 /**
  * @author suren
  * @date 2017年2月4日 下午12:22:47
  */
-@Controller
+@RestController
 @RequestMapping("/api/data")
 public class DataApiController
 {
-	@RequestMapping("encrypt")
-	@ResponseBody
-	public String encrypt(String plainText)
+	@RequestMapping(value = "/encrypt", method = RequestMethod.GET)
+	public String encrypt(@RequestParam String plainText)
 	{
 		String encryptText = EncryptorUtil.encryptWithBase64(plainText);
 		

@@ -28,9 +28,9 @@ import java.util.Properties;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.suren.autotest.platform.mapping.OptionsMapper;
 import org.suren.autotest.platform.model.Options;
 import org.suren.autotest.platform.model.SystemConf;
@@ -45,7 +45,7 @@ import org.suren.autotest.web.framework.util.StringUtils;
  * @author suren
  * @date 2017年2月3日 上午10:42:53
  */
-@Controller
+@RestController
 @RequestMapping("/api/sys")
 public class SystemApiController
 {

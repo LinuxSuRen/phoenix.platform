@@ -34,10 +34,12 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.suren.autotest.platform.mapping.DataSourceInfoMapper;
 import org.suren.autotest.platform.model.DataSourceInfo;
@@ -56,98 +58,21 @@ import org.suren.autotest.web.framework.util.StringUtils;
  * @author suren
  * @date 2017年1月22日 下午6:31:17
  */
-@Controller
+@RestController
 @RequestMapping("/api/data_source_info")
 public class DataSourceInfoApiController
 {
 	@Autowired
 	private DataSourceInfoMapper dataSourceInfoMapper;
 	
-	@RequestMapping("list.su")
-	public String dataSourceInfoList(Model model, String projectId)
+	@RequestMapping(value = "/{projectId}", method = RequestMethod.GET)
+	public List<DataSourceInfo> dataSourceInfoList(@PathVariable String projectId)
 	{
-		List<DataSourceInfo> dataSourceInfoList = dataSourceInfoMapper.getAllByProjectId(projectId);
-		model.addAttribute("dataSourceInfoList", dataSourceInfoList);
-		model.addAttribute("projectId", projectId);
-		
-		return "data_source_info/data_source_info_list";
+		return dataSourceInfoMapper.getAllByProjectId(projectId);
 	}
 	
-	@RequestMapping("add.su")
-	public String dataSourceInfoAdd(String projectId, Model model)
-	{
-		DataSourceInfo dataSourceInfo = new DataSourceInfo();
-		dataSourceInfo.setProjectId(projectId);
-		model.addAttribute("dataSourceInfo", dataSourceInfo);
-		initEnums(model);
-		
-		DataSources dataSources = new DataSources();
-		dataSourceInfo.setDataSources(dataSources);
-		
-		DataSource dataSource = new DataSource();
-		dataSources.getDataSource().add(dataSource);
-		dataSource.setPageClass("data_clazz");
-		
-		DataSourcePageType dataSourcePageType = new DataSourcePageType();
-		dataSource.getPage().add(dataSourcePageType);
-		
-		DataSourcePageFieldType dataSourcePageFieldType = new DataSourcePageFieldType();
-		dataSourcePageType.getField().add(dataSourcePageFieldType);
-		dataSourcePageFieldType.setName("test");
-
-		return "data_source_info/data_source_info_edit";
-	}
-	
-	@RequestMapping("edit")
-	public String dataSourceInfoEdit(Model model, DataSourceInfo dataSourceInfo)
-	{
-		String resultPath = "data_source_info/data_source_info_edit";
-		
-		String id = dataSourceInfo.getId();
-		int tabIndex = dataSourceInfo.getTabIndex();
-		dataSourceInfo = dataSourceInfoMapper.getById(id);
-		if(dataSourceInfo == null)
-		{
-			return resultPath;
-		}
-		
-		dataSourceInfo.setTabIndex(tabIndex);
-		model.addAttribute("dataSourceInfo", dataSourceInfo);
-		initEnums(model);
-
-		try
-		{
-			DataSources dataSources = null;
-			String content = dataSourceInfo.getContent();
-			if(StringUtils.isBlank(content))
-			{
-			}
-			else
-			{
-				JAXBContext context = JAXBContext.newInstance(DataSources.class);
-				Unmarshaller unmarshaller = context.createUnmarshaller();
-				
-				ByteArrayInputStream input = new ByteArrayInputStream(dataSourceInfo.getContent().getBytes("utf-8"));
-				dataSources = (DataSources) unmarshaller.unmarshal(input);
-			}
-			
-			dataSourceInfo.setDataSources(dataSources);
-		}
-		catch (JAXBException e)
-		{
-			e.printStackTrace();
-		}
-		catch (UnsupportedEncodingException e)
-		{
-			e.printStackTrace();
-		}
-		
-		return resultPath;
-	}
-	
-	@ResponseBody
-	@RequestMapping("save.su")
-	public DataSourceInfo dataSourceInfoSave(Model model, DataSourceInfo dataSourceInfo)
+	@RequestMapping( method = RequestMethod.POST)
+	public void dataSourceInfoSave(DataSourceInfo dataSourceInfo)
 	{
 		DataSources dataSources = dataSourceInfo.getDataSources();
 		
@@ -182,12 +107,10 @@ public class DataSourceInfoApiController
 		{
 			e.printStackTrace();
 		}
-
-		return dataSourceInfo;
 	}
 	
-	@RequestMapping("import.su")
-	public String dataSourceInfoImport(Model model, MultipartFile file, String projectId)
+	@RequestMapping(value = "/{projectId}/import", method = RequestMethod.POST)
+	public DataSourceInfo dataSourceInfoImport(MultipartFile file, @PathVariable String projectId)
 	{
 		String originalFileName = file.getOriginalFilename();
 		if(originalFileName.endsWith(".xml"))
@@ -199,9 +122,6 @@ public class DataSourceInfoApiController
 		dataSourceInfo.setProjectId(projectId);
 		dataSourceInfo.setName(originalFileName);
 		dataSourceInfo.setCreateTime(new Date());
-		
-		model.addAttribute("dataSourceInfo", dataSourceInfo);
-		initEnums(model);
 		
 		try
 		{
@@ -221,21 +141,18 @@ public class DataSourceInfoApiController
 		{
 			e.printStackTrace();
 		}
-
-		return "/data_source_info/data_source_info_edit";
+		
+		return dataSourceInfo;
 	}
 
-	@RequestMapping("del.su")
-	public String dataSourceInfoDel(String id)
+	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+	public void dataSourceInfoDel(@PathVariable String id)
 	{
-		DataSourceInfo dataSourceInfo = dataSourceInfoMapper.getById(id);
-		
 		dataSourceInfoMapper.delById(id);
-		return "redirect:/data_source_info/list.su?projectId=" + dataSourceInfo.getProjectId();
 	}
 	
-	@RequestMapping(value = "/download.su")
-	public ResponseEntity<byte[]> download(String id)
+	@RequestMapping(value = "/{id}/download", method = RequestMethod.GET)
+	public ResponseEntity<byte[]> download(@PathVariable String id)
 	{
 		DataSourceInfo sataSourceInfo = dataSourceInfoMapper.getById(id);
 		
@@ -268,19 +185,9 @@ public class DataSourceInfoApiController
 		return new ResponseEntity<byte[]>("not supported encoding.".getBytes(), headers, HttpStatus.CREATED);
 	}
 	
-	@ResponseBody
-	@RequestMapping("count")
-	public int getCountByProjectId(String projectId)
+	@RequestMapping(value = "/{projectId}/count", method = RequestMethod.GET)
+	public int getCountByProjectId(@PathVariable String projectId)
 	{
 		return dataSourceInfoMapper.getCountByProjectId(projectId);
-	}
-	
-	/**
-	 * @param model
-	 */
-	private void initEnums(Model model)
-	{
-		model.addAttribute("dataType", DataTypeEnum.values());
-		model.addAttribute("fieldType", DataSourceFieldTypeEnum.values());
 	}
 }

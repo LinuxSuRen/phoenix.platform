@@ -20,15 +20,15 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.session.SessionRegistry;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * @author suren
  * @date 2017年2月11日 下午9:29:18
  */
-@Controller
+@RestController
 @RequestMapping("/api/user_manager")
 public class UserManagerApiController
 {

@@ -19,9 +19,9 @@ package org.suren.autotest.platform.controller.api;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.suren.autotest.platform.mapping.UserInfoMapper;
 import org.suren.autotest.platform.model.UserInfo;
 
@@ -30,7 +30,7 @@ import org.suren.autotest.platform.model.UserInfo;
  * @author suren
  * @date 2017年1月29日 下午1:45:38
  */
-@Controller
+@RestController
 @RequestMapping("/api/user_info")
 public class UserInfoApiController
 {

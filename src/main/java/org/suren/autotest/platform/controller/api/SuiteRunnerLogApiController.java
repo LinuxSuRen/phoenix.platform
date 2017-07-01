@@ -29,9 +29,9 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.suren.autotest.platform.mapping.SuiteRunnerLogMapper;
 import org.suren.autotest.platform.model.SuiteRunnerLog;
 import org.suren.autotest.web.framework.log.Image4SearchLog;
@@ -41,8 +41,8 @@ import org.suren.autotest.web.framework.log.Image4SearchLog;
  * @author suren
  * @date 2017年2月3日 下午6:54:30
  */
+@RestController
 @RequestMapping("/api/suite_runner_log")
-@Controller
 public class SuiteRunnerLogApiController
 {
 	@Autowired

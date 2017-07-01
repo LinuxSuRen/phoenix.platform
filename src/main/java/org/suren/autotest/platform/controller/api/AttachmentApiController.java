@@ -28,10 +28,10 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.poi.util.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.suren.autotest.platform.mapping.AttachConfigMapper;
 import org.suren.autotest.platform.mapping.AttachmentMapper;
@@ -45,8 +45,8 @@ import org.suren.autotest.platform.security.UserDetail;
  * @author suren
  * @date 2017年2月14日 上午8:20:47
  */
-@Controller
-@RequestMapping("/api/attachment")
+@RestController
+@RequestMapping("/api/attachments")
 public class AttachmentApiController
 {
 	@Autowired
@@ -56,9 +56,8 @@ public class AttachmentApiController
 	@Autowired
 	private OptionsMapper optionsMapper;
 	
-	@RequestMapping("upload")
-	public String upload(MultipartFile file, Attachment attachment,
-			@RequestParam(value = "redirectPath") String redirectPath)
+	@RequestMapping(value = "/upload", method = RequestMethod.POST)
+	public void upload(MultipartFile file, Attachment attachment)
 	{
 		UserDetail userDetail = (UserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		String ownerId = userDetail.getId();
@@ -99,8 +98,6 @@ public class AttachmentApiController
 		attachment.setConfigId(configId);
 		
 		attachmentMapper.save(attachment);
-		
-		return "redirect:" + redirectPath;
 	}
 	
 	/**
@@ -108,17 +105,14 @@ public class AttachmentApiController
 	 * @param id
 	 * @return
 	 */
-	@RequestMapping("del")
-	@ResponseBody
-	public boolean del(String id)
+	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+	public void del(@PathVariable String id)
 	{
 		attachmentMapper.delById(id);
-		return true;
 	}
 	
-	@RequestMapping("count")
-	@ResponseBody
-	public int count(String belongId)
+	@RequestMapping(value = "/count/{belongId}", method = RequestMethod.GET)
+	public int count(@PathVariable String belongId)
 	{
 		return attachmentMapper.countByBelongId(belongId);
 	}

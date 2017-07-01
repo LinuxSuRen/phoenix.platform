@@ -31,10 +31,10 @@ import java.util.List;
 import java.util.Properties;
 
 import org.apache.commons.io.IOUtils;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.suren.autotest.platform.model.DataBase;
 import org.suren.autotest.web.framework.util.StringUtils;
 
@@ -43,7 +43,7 @@ import org.suren.autotest.web.framework.util.StringUtils;
  * @author suren
  * @date 2017年2月16日 下午7:40:37
  */
-@Controller
+@RestController
 @RequestMapping("/api/data_base")
 public class DataBaseApiController
 {
