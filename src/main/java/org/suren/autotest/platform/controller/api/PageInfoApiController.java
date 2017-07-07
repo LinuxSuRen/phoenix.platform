@@ -28,6 +28,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -115,21 +116,21 @@ public class PageInfoApiController
 
 	@ApiOperation("删除Page信息")
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-	public void del(@PathVariable String id)
+	public void del(@PathVariable String id,  @PathVariable String projectId)
 	{
 		pageInfoMapper.delById(id);
 	}
 
 	@ApiOperation("获取Page信息")
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public PageInfo getPageInfo(@PathVariable String id)
+	public PageInfo getPageInfo(@PathVariable String id,  @PathVariable String projectId)
 	{
 		return pageInfoMapper.getById(id);
 	}
 
 	@ApiOperation("更新Page信息")
 	@RequestMapping(method = RequestMethod.PUT)
-	public void updatePage(PageInfo pageInfo)
+	public void updatePage(@RequestBody PageInfo pageInfo,  @PathVariable String projectId)
 	{
 		try
 		{
@@ -221,7 +222,7 @@ public class PageInfoApiController
 
 	@ApiOperation("根据页面名称删除页面")
 	@RequestMapping(value = "/page/{id}", method = RequestMethod.DELETE)
-	public void delPage(@PathVariable String id, @RequestParam String pageName)
+	public void delPage(@PathVariable String id, @RequestParam String pageName,  @PathVariable String projectId)
 	{
 		PageInfo pageInfo = pageInfoMapper.getById(id);
 
@@ -266,7 +267,7 @@ public class PageInfoApiController
 
 	@ApiOperation("下载页面")
 	@RequestMapping(value = "/{id}/download", method = RequestMethod.GET)
-	public ResponseEntity<byte[]> download(@PathVariable String id)
+	public ResponseEntity<byte[]> download(@PathVariable String id,  @PathVariable String projectId)
 	{
 		PageInfo pageInfo = pageInfoMapper.getById(id);
 		
@@ -306,13 +307,11 @@ public class PageInfoApiController
 	 */
 	@ApiOperation("生成数据源")
 	@RequestMapping(value = "/{id}/generateDataSource", method = RequestMethod.GET)
-	public DataSourceInfo generateDataSource(@PathVariable String id)
+	public DataSourceInfo generateDataSource(@PathVariable String id,  @PathVariable String projectId)
 	{
 		final PageInfo pageInfo = pageInfoMapper.getById(id);
 		if(pageInfo != null && StringUtils.isNotBlank(pageInfo.getContent()))
 		{
-			final String projectId = pageInfo.getProjectId();
-			
 			File outputDir = PathUtil.getRootDir();
 			try
 			{
@@ -366,13 +365,11 @@ public class PageInfoApiController
 
 	@ApiOperation("生成套件信息")
 	@RequestMapping(value = "/{id}/generateSuiteRunner", method = RequestMethod.GET)
-	public SuiteRunnerInfo generateSuiteRunner(@PathVariable String id)
+	public SuiteRunnerInfo generateSuiteRunner(@PathVariable String id,  @PathVariable String projectId)
 	{
 		PageInfo pageInfo = pageInfoMapper.getById(id);
 		if(pageInfo != null && StringUtils.isNotBlank(pageInfo.getContent()))
 		{
-			final String projectId = pageInfo.getProjectId();
-
 			File outputDir = PathUtil.getRootDir();
 			try
 			{
