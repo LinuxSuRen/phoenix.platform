@@ -28,6 +28,7 @@
 		<property name="username" value="${jdbc.username}" />
 		<property name="password" value="${jdbc.password}" />
 
+		<!-- 
 		<property name="initialSize" value="1" />
 		<property name="minIdle" value="1" />
 		<property name="maxActive" value="20" />
@@ -44,9 +45,10 @@
 		<property name="testOnReturn" value="false" />
 
 		<property name="poolPreparedStatements" value="false" />
-		<property name="maxPoolPreparedStatementPerConnectionSize"
-			value="20" />
+		<property name="maxOpenPreparedStatements" value="0"></property>
+		<property name="maxPoolPreparedStatementPerConnectionSize" value="20" />
 
 		<property name="filters" value="stat" />
+		 -->
 	</bean>
 </beans>

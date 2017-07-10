@@ -3,10 +3,27 @@
 <%@ page isELIgnored="false"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="/META-INF/suren.tld" prefix="su" %>
+<%String basePath=request.getContextPath(); %>
 <!DOCTYPE html>
 <html lang="zh-cn">
 <head>
 <title>项目列表</title>
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.1/bootstrap-table.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.1/bootstrap-table.min.js"></script>
+<script type="text/javascript">
+function timeFormatter(data){
+	return new Date(data);	
+}
+
+function operationEdit(data){
+	return '<a href="edit?id=' + data + '" class="glyphicon glyphicon-edit"></a>';
+}
+
+function operationDel(data){
+	return '<a href="#" data-href="del?id=' + data + '" data-toggle="modal"' + 
+		'data-target="#projectDelDialogId" class="glyphicon glyphicon-trash"></a>';
+}
+</script>
 </head>
 <body>
 
@@ -21,7 +38,6 @@
             <span class="icon-bar"></span>
         </button>
         <su:anchor cssClass="navbar-brand" href="/" innerHtml="首页"></su:anchor>
-        <a class="navbar-brand" href="list" data-step="1" data-intro="刷新当前页面" data-position="right">刷新</a>
         <su:anchor cssClass="navbar-brand" href="/user_info/logout" innerHtml="退出"></su:anchor>
     </div>
     <div class="collapse navbar-collapse" id="example-navbar-collapse">
@@ -42,32 +58,15 @@
     </div>
 </nav>
 
-<table class="table">
-	<thead>
-		<tr>
-			<th>序号</th>
-			<th>名称</th>
-			<th>拥有者</th>
-			<th>创建时间</th>
-			<th>备注</th>
-			<th>操作</th>
-		</tr>
-	</thead>
-	<tbody>
-		<c:forEach items="${projects }" var="project" varStatus="status">
-		<tr>
-			<td>${status.index+1 }</td>
-			<td><a href="edit?id=${project.id }">${project.name }</a></td>
-			<td>${project.ownerId }</td>
-			<td>${project.createTime }</td>
-			<td>${project.remark }</td>
-			<td>
-				<a href="#" data-href="del?id=${project.id }" data-toggle="modal"
-					data-target="#projectDelDialogId" class="glyphicon glyphicon-trash"></a>
-			</td>
-		</tr>
-		</c:forEach>
-	</tbody>
+<table data-toggle="table" data-url="<%=basePath %>/api/projects" data-show-refresh="true">
+    <thead>
+        <tr>
+            <th data-field="name">名称</th>
+            <th data-field="createTime" data-formatter="timeFormatter">创建时间</th>
+            <th data-field="id" data-formatter="operationEdit">编辑</th>
+            <th data-field="id" data-formatter="operationDel">删除</th>
+        </tr>
+    </thead>
 </table>
 
 <su:dialog dialogId="projectDelDialogId"></su:dialog>

@@ -129,7 +129,7 @@ public class PageInfoApiController
 	}
 
 	@ApiOperation("更新Page信息")
-	@RequestMapping(method = RequestMethod.PUT)
+	@RequestMapping(method = RequestMethod.POST)
 	public void updatePage(@RequestBody PageInfo pageInfo,  @PathVariable String projectId)
 	{
 		try

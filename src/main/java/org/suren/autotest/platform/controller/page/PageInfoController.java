@@ -16,11 +16,9 @@ import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
-import javax.validation.Valid;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
-import javax.xml.bind.UnmarshalException;
 import javax.xml.bind.Unmarshaller;
 
 import org.dom4j.DocumentException;
@@ -29,12 +27,12 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.suren.autotest.platform.mapping.DataSourceInfoMapper;
 import org.suren.autotest.platform.mapping.PageInfoMapper;
@@ -70,8 +68,8 @@ import org.xml.sax.SAXException;
  * @author suren
  * @date 2017年1月17日 下午8:40:45
  */
-@RestController
-@RequestMapping("/pages_info")
+@Controller
+@RequestMapping("/page_info")
 public class PageInfoController
 {
 	@Autowired
@@ -89,19 +87,37 @@ public class PageInfoController
 	private Generator dataSourceGenerator;
 	@Resource(name = "xml_to_suite_runner")
 	private Generator suiteRunnerGenerator;
-
-	@RequestMapping(value = "add.su", method = RequestMethod.GET)
-	public String pageInfoAdd(Model model, String projectId)
+	
+	@RequestMapping(value = "/list")
+	public String list(@RequestParam String projectId, Model model)
 	{
-		PageInfo pageInfo = new PageInfo();
-		pageInfo.setAutotest(initAutotest());
-		pageInfo.setCreateTime(new Date());
+		model.addAttribute("projectId", projectId);
+		return "page_info/page_info_list";
+	}
+
+	@RequestMapping(value = "/edit")
+	public String pageInfoAdd(Model model,
+			@RequestParam("projectId") String projectId,
+			@RequestParam(value = "id", required = false) String id)
+	{
+		PageInfo pageInfo = null;
 		
-		Project project = projectMapper.getById(projectId);
-		if(project != null)
+		if(StringUtils.isNotBlank(id))
 		{
-			pageInfo.setProjectId(projectId);
-			pageInfo.getAutotest().getPages().setPagePackage(project.getPkgName());
+			pageInfo = pageInfoMapper.getById(id);
+		}
+		else
+		{
+			pageInfo = new PageInfo();
+			pageInfo.setAutotest(initAutotest());
+			pageInfo.setCreateTime(new Date());
+			
+			Project project = projectMapper.getById(projectId);
+			if(project != null)
+			{
+				pageInfo.setProjectId(projectId);
+				pageInfo.getAutotest().getPages().setPagePackage(project.getPkgName());
+			}
 		}
 		
 		model.addAttribute("pageInfo", pageInfo);
@@ -110,10 +126,10 @@ public class PageInfoController
 		model.addAttribute("locatorType", PageFieldLocatorTypeEnum.values());
 		model.addAttribute("engineType", EngineTypeDriverEnum.values());
 		
-		return "/page_info/test";
+		return "/page_info/page_info_edit";
 	}
 	
-	@RequestMapping(value = "import.su", method = RequestMethod.POST)
+	@RequestMapping(value = "import", method = RequestMethod.POST)
 	public String autotestImport(Model model, MultipartFile file, String projectId)
 	{
 		String originalFileName = file.getOriginalFilename();
@@ -205,7 +221,7 @@ public class PageInfoController
 //		}
 //	}
 
-	@RequestMapping("hello.su")
+	@RequestMapping("hello")
 	public void hello(Model model, @RequestParam(defaultValue = "qwe") String id,
 			String name)
 	{
@@ -266,7 +282,7 @@ public class PageInfoController
 		}
 	}
 	
-	@RequestMapping("addPage.su")
+	@RequestMapping("addPage")
 	public String addPage(Model model, String id)
 	{
 		PageInfo pageInfo = pageInfoMapper.getById(id);
@@ -357,7 +373,7 @@ public class PageInfoController
 	}
 	
 	@ResponseBody
-	@RequestMapping(value = "updatePage.su")
+	@RequestMapping(value = "updatePage")
 	public PageInfo updatePage(Model model, PageInfo pageInfo)
 	{
 		try
@@ -450,7 +466,7 @@ public class PageInfoController
 		return pageInfo;
 	}
 	
-	@RequestMapping("delPage.su")
+	@RequestMapping("delPage")
 	public String delPage(String id, String pageName)
 	{
 		PageInfo pageInfo = pageInfoMapper.getById(id);
@@ -493,10 +509,10 @@ public class PageInfoController
 			e.printStackTrace();
 		}
 		
-		return "redirect:/page_info/test.su";
+		return "redirect:/page_info/test";
 	}
 	
-	@RequestMapping(value = "/download.su")
+	@RequestMapping(value = "/download")
 	public ResponseEntity<byte[]> download(String id)
 	{
 		PageInfo pageInfo = pageInfoMapper.getById(id);
@@ -592,11 +608,11 @@ public class PageInfoController
 				e1.printStackTrace();
 			}
 			
-			return "redirect:/data_source_info/list.su?projectId=" + projectId;
+			return "redirect:/data_source_info/list?projectId=" + projectId;
 		}
 		else
 		{
-			return "redirect:/project/list.su";
+			return "redirect:/project/list";
 		}
 	}
 
@@ -682,11 +698,11 @@ public class PageInfoController
 				e1.printStackTrace();
 			}
 			
-			return "redirect:/suite_runner_info/list.su?projectId=" + projectId;
+			return "redirect:/suite_runner_info/list?projectId=" + projectId;
 		}
 		else
 		{
-			return "redirect:/project/list.su";
+			return "redirect:/project/list";
 		}
 	}
 	

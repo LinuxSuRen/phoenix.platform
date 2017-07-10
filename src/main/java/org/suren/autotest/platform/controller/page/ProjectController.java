@@ -3,8 +3,13 @@
  */
 package org.suren.autotest.platform.controller.page;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.suren.autotest.platform.mapping.ProjectMapper;
+import org.suren.autotest.platform.model.Project;
 
 /**
  * 项目管理
@@ -15,15 +20,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/project")
 public class ProjectController
 {
-	@RequestMapping("list")
+	@Autowired
+	private ProjectMapper projectMapper;
+	
+	@RequestMapping("/list")
 	public String list()
 	{
 		return "project_list";
 	}
 	
-	@RequestMapping("edit")
-	public String edit()
+	@RequestMapping("/edit")
+	public String edit(@RequestParam(required = false) String id, Model model)
 	{
+		Project project = projectMapper.getById(id);
+		model.addAttribute("project", project);
+		
 		return "project_edit";
 	}
 }

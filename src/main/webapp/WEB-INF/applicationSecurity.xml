@@ -46,6 +46,10 @@
 		authentication-manager-ref="authenticationManager">
 		<intercept-url pattern="/oauth/**" access="ROLE_USER" />  
 		<intercept-url pattern="/**" access="ROLE_USER" />
+		
+		<headers>
+			<frame-options policy="SAMEORIGIN" />
+		</headers>
 
 		<session-management>
 			<concurrency-control max-sessions="400"

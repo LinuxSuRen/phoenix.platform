@@ -21,6 +21,7 @@ import java.sql.SQLException;
 import java.util.UUID;
 
 import org.sqlite.Function;
+import org.sqlite.SQLiteConnection;
 
 import com.alibaba.druid.pool.DruidDataSource;
 import com.alibaba.druid.pool.DruidPooledConnection;
@@ -45,6 +46,10 @@ public class SuRenDruidDataSource extends DruidDataSource
 		if(conn instanceof ConnectionProxy)
 		{
 			createUserDefFunc4SQLite(((ConnectionProxy) conn).getRawObject());
+		}
+		else if(conn instanceof SQLiteConnection)
+		{
+			createUserDefFunc4SQLite(conn);
 		}
 		
 		return druidPooledConnection;

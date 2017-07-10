@@ -9,6 +9,14 @@
 <head>
 <title>项目编辑</title>
 <su:script src="/static/autotest/msgTip.js"></su:script>
+<script type="text/javascript">
+function projectSave(){
+	var data = $('#projectForm').serialize();
+	$.post('<%=basePath%>/api/projects', data, function(){
+		window.location = 'list';
+	})
+}
+</script>
 </head>
 <body>
 
@@ -22,21 +30,21 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="list.su">项目列表</a>
+        <a class="navbar-brand" href="list">项目列表</a>
     </div>
     <div class="collapse navbar-collapse" id="example-navbar-collapse">
 		<c:if test="${!empty project.id }">
         <ul class="nav navbar-nav">
             <li>
-            	<a href="<%=basePath%>/page_info/list.su?projectId=${project.id}" data-step="3" data-intro="查看、添加元素定位信息"
+            	<a href="<%=basePath%>/page_info/list?projectId=${project.id}" data-step="3" data-intro="查看、添加元素定位信息"
             		data-position="right">查看页面集列表 <span class="badge"></span></a>
             </li>
             <li>
-            	<a href="<%=basePath%>/data_source_info/list.su?projectId=${project.id}" data-step="4" data-intro="查看、添加数据源信息"
+            	<a href="<%=basePath%>/data_source_info/list?projectId=${project.id}" data-step="4" data-intro="查看、添加数据源信息"
             		data-position="right">查看数据源列表 <span class="badge"></span></a>
             </li>
             <li>
-            	<a href="<%=basePath%>/suite_runner_info/list.su?projectId=${project.id}" data-step="5" data-intro="查看、添加测试套件信息，这里还可以对套件进行调试，查看套件的运行日志"
+            	<a href="<%=basePath%>/suite_runner_info/list?projectId=${project.id}" data-step="5" data-intro="查看、添加测试套件信息，这里还可以对套件进行调试，查看套件的运行日志"
             		data-position="right">查看运行套件列表 <span class="badge"></span></a>
             </li>
         </ul>
@@ -59,13 +67,13 @@
 		<a href="#project_basic" data-toggle="tab">基本信息</a>
 	</li>
 	<li>
-		<a href="#project_attach" data-toggle="tab">附件 <span class="badge"></a>
+		<a href="#project_attach" data-toggle="tab">附件 <span class="badge"></span></a>
 	</li>
 </ul>
 
 <div class="tab-content">
 	<div class="tab-pane fade in active" id="project_basic">
-		<form class="form-horizontal" action="save.su" role="form" method="post">
+		<form class="form-horizontal" role="form" method="post" id="projectForm">
 			<input type="hidden" name="id" value="${project.id }" />
 			<input type="hidden" name="ownerId" value="${project.ownerId }" />
 			<div class="form-group">
@@ -104,7 +112,7 @@
 			
 			<div class="form-group">
 				<span class="col-sm-12" style="text-align: center;">
-					<button type="submit" class="btn btn-primary" >保存</button>
+					<button type="submit" class="btn btn-primary" onclick="projectSave()">保存</button>
 				</span>
 			</div>
 		</form>
@@ -126,7 +134,7 @@
 					<td>${attach.fileName }</td>
 					<td>${attach.remark }</td>
 					<td>
-						<a href="#" data-href="${pageContext.request.contextPath }/attachment/del.su?id=${attach.id }" data-toggle="modal" data-target="#attachDelDialogId">删除</a>
+						<a href="#" data-href="${pageContext.request.contextPath }/attachment/del?id=${attach.id }" data-toggle="modal" data-target="#attachDelDialogId">删除</a>
 					</td>
 				</tr>
 				</c:forEach>
@@ -142,7 +150,7 @@
 		<div class="modal-content">
 			<form class="form-horizontal" role="form" action="<%=basePath%>/attachment/upload.su" method="post" enctype="multipart/form-data">
 			<input type="hidden" name="belongId" value="${project.id }" />
-			<input type="hidden" name="redirectPath" value="/project/edit.su?id=${project.id }" />
+			<input type="hidden" name="redirectPath" value="/project/edit?id=${project.id }" />
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
 					&times;
@@ -183,7 +191,7 @@
 <div class="modal fade" id="projectUploadDialogId" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
-			<form action="import.su?id=${project.id }" method="post" enctype="multipart/form-data">
+			<form action="import?id=${project.id }" method="post" enctype="multipart/form-data">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
 					&times;
@@ -206,7 +214,7 @@
 
 <script type="text/javascript">
 function deploy(){
-	$.post('deploy.su?id=${project.id }', function(){
+	$.post('deploy?id=${project.id }', function(){
 		tip('部署成功！');
 	});
 }
@@ -223,10 +231,10 @@ function updateBadge(url, text){
 
 $(function(){
 	if('${project.id}' != ''){
-		updateBadge('<%=basePath%>/page_info/count.su?projectId=${project.id}', '查看页面集列表');
-		updateBadge('<%=basePath%>/data_source_info/count.su?projectId=${project.id}', '查看数据源列表');
-		updateBadge('<%=basePath%>/suite_runner_info/count.su?projectId=${project.id}', '查看运行套件列表');
-		updateBadge('<%=basePath%>/attachment/count.su?belongId=${project.id}', '附件');
+		updateBadge('<%=basePath%>/page_info/count?projectId=${project.id}', '查看页面集列表');
+		updateBadge('<%=basePath%>/data_source_info/count?projectId=${project.id}', '查看数据源列表');
+		updateBadge('<%=basePath%>/suite_runner_info/count?projectId=${project.id}', '查看运行套件列表');
+		updateBadge('<%=basePath%>/attachment/count?belongId=${project.id}', '附件');
 	}
 });
 

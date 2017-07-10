@@ -311,7 +311,7 @@ function fortest(){
 	
 	if(content != ""){
 		//content = window.encodeURI(content);
-		$.post('updatePage.su', content, function(data){
+		$.post('<%=basePath%>/api/pages_info/${projectId}', content, function(data){
 			if(data.id){
 				tip('保存成功！', function(){
 					window.location = 'test.su?id=' + data.id + '&tabIndex=' + data.tabIndex;

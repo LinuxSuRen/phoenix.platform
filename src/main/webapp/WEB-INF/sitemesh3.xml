@@ -2,6 +2,7 @@
 	<mapping decorator="/decorators/default.jsp"/> 
   
 	<excludes>  
-		<pattern>/static/*</pattern>  
+		<pattern>/static/*</pattern>
+		<pattern>/demo/*</pattern>
 	</excludes> 
 </sitemesh>

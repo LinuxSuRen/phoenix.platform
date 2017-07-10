@@ -6,6 +6,7 @@
 <%String basePath=request.getContextPath(); %>
 <!DOCTYPE html>
 <html lang="zh-cn">
+<% response.setHeader("x-frame-options","SAMEORIGIN"); %>
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -45,6 +46,8 @@
     </div>
     </div>
 </nav>
+
+<iframe src="demo/demo"></iframe>
     
 <script src='http://git.oschina.net/arch2surenpi/autotest.platform/widget_preview'></script>
 
