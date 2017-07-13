@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.suren.autotest.platform.mapping.PageFieldMapper">
+	<resultMap type="org.suren.autotest.platform.entity.PageField"
+		id="pageField">
+		<result property="type" column="field_type"/>
+	</resultMap>
+	
+	<select id="getById" resultMap="pageField">
+		select * from page_field where id = #{id}
+	</select>
+	
+	<delete id="delById">
+		delete from page_field where id = #{id}
+	</delete>
+	
+	<select id="getAll" resultMap="pageField">
+		select * from page_field
+	</select>
+	
+	<insert id="save">
+		<selectKey keyProperty="id" resultType="String" order="BEFORE">
+			SELECT UUID()
+		</selectKey>
+		
+		insert into page_field (id, page_id, name, field_type, strategy, timeout) values (
+			#{id}, #{pageId}, #{name}, #{type}, #{strategy}, #{timeout}
+		)
+	</insert>
+</mapper>

@@ -34,9 +34,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import org.suren.autotest.platform.entity.PageInfo;
 import org.suren.autotest.platform.mapping.PageInfoMapper;
 import org.suren.autotest.platform.model.DataSourceInfo;
-import org.suren.autotest.platform.model.PageInfo;
 import org.suren.autotest.platform.model.SuiteRunnerInfo;
 import org.suren.autotest.platform.schemas.autotest.Autotest;
 import org.suren.autotest.platform.schemas.autotest.Autotest.DataSources;
@@ -94,7 +94,7 @@ public class PageInfoApiController
 			Autotest autotest = (Autotest) unmarshaller.unmarshal(file.getInputStream());
 			JAXBUtils.autotestTransfer(autotest);
 			
-			pageInfo.setAutotest(autotest);
+//			pageInfo.setAutotest(autotest);
 		}
 		catch (JAXBException e)
 		{
@@ -132,93 +132,101 @@ public class PageInfoApiController
 	@RequestMapping(method = RequestMethod.POST)
 	public void updatePage(@RequestBody PageInfo pageInfo,  @PathVariable String projectId)
 	{
-		try
-		{
-			Autotest autotest = pageInfo.getAutotest();
-			
-			List<DataSourceType> dataSourceList;
-			if(autotest.getDataSources() == null)
-			{
-				dataSourceList = new ArrayList<DataSourceType>();
-				
-				DataSources dataSources = new DataSources();
-				autotest.setDataSources(dataSources);
-				dataSources.setDataSource(dataSourceList);
-			}
-			else
-			{
-				dataSourceList = autotest.getDataSources().getDataSource();
-				for(int i = 0; i < dataSourceList.size();)
-				{
-					DataSourceType dataSourceType = dataSourceList.get(i);
-					
-					if(StringUtils.isBlank(dataSourceType.getName()))
-					{
-						dataSourceList.remove(i);
-					}
-					else
-					{
-						 i++;
-					}
-				}
-			}
-			
-			for(PageType pageType : autotest.getPages().getPage())
-			{
-				boolean notFound = true;
-				String dataSourceName = pageType.getDataSource();
-				for(DataSourceType dataSourceType : dataSourceList)
-				{
-					if(dataSourceName.equals(dataSourceType.getName()))
-					{
-						notFound = false;
-						break;
-					}
-				}
-				
-				if(notFound && StringUtils.isNotBlank(dataSourceName))
-				{
-					DataSourceType dataSourceType = new DataSourceType();
-					dataSourceType.setName(dataSourceName);
-					dataSourceType.setType(DataSourceTypeEnum.XML_DATA_SOURCE);
-					dataSourceType.setResource(dataSourceName + ".xml");
-					
-					dataSourceList.add(dataSourceType);
-				}
-			}
-			
-			JAXBContext context = JAXBContext.newInstance(Autotest.class);
-			Marshaller marshaller = context.createMarshaller();
-			
-			ByteArrayOutputStream out = new ByteArrayOutputStream();
-			marshaller.marshal(autotest, out);
-
-			try
-			{
-				pageInfo.setContent(out.toString("UTF-8"));
-			}
-			catch (UnsupportedEncodingException e)
-			{
-				e.printStackTrace();
-			}
-			
-			if(StringUtils.isNotBlank(pageInfo.getId()))
-			{
-				pageInfoMapper.update(pageInfo);
-			}
-			else
-			{
-				pageInfo.setCreateTime(new Date());
-				pageInfoMapper.save(pageInfo);
-			}
-			
-			pageInfo.setContent(null);
-		}
-		catch (JAXBException e)
-		{
-			e.printStackTrace();
-		}
+		pageInfo.setProjectId(projectId);
+		pageInfoMapper.save(pageInfo);
 	}
+
+//	@ApiOperation("更新Page信息")
+//	@RequestMapping(method = RequestMethod.POST)
+//	public void updatePage(@RequestBody PageInfo pageInfo,  @PathVariable String projectId)
+//	{
+//		try
+//		{
+//			Autotest autotest = pageInfo.getAutotest();
+//			
+//			List<DataSourceType> dataSourceList;
+//			if(autotest.getDataSources() == null)
+//			{
+//				dataSourceList = new ArrayList<DataSourceType>();
+//				
+//				DataSources dataSources = new DataSources();
+//				autotest.setDataSources(dataSources);
+//				dataSources.setDataSource(dataSourceList);
+//			}
+//			else
+//			{
+//				dataSourceList = autotest.getDataSources().getDataSource();
+//				for(int i = 0; i < dataSourceList.size();)
+//				{
+//					DataSourceType dataSourceType = dataSourceList.get(i);
+//					
+//					if(StringUtils.isBlank(dataSourceType.getName()))
+//					{
+//						dataSourceList.remove(i);
+//					}
+//					else
+//					{
+//						 i++;
+//					}
+//				}
+//			}
+//			
+//			for(PageType pageType : autotest.getPages().getPage())
+//			{
+//				boolean notFound = true;
+//				String dataSourceName = pageType.getDataSource();
+//				for(DataSourceType dataSourceType : dataSourceList)
+//				{
+//					if(dataSourceName.equals(dataSourceType.getName()))
+//					{
+//						notFound = false;
+//						break;
+//					}
+//				}
+//				
+//				if(notFound && StringUtils.isNotBlank(dataSourceName))
+//				{
+//					DataSourceType dataSourceType = new DataSourceType();
+//					dataSourceType.setName(dataSourceName);
+//					dataSourceType.setType(DataSourceTypeEnum.XML_DATA_SOURCE);
+//					dataSourceType.setResource(dataSourceName + ".xml");
+//					
+//					dataSourceList.add(dataSourceType);
+//				}
+//			}
+//			
+//			JAXBContext context = JAXBContext.newInstance(Autotest.class);
+//			Marshaller marshaller = context.createMarshaller();
+//			
+//			ByteArrayOutputStream out = new ByteArrayOutputStream();
+//			marshaller.marshal(autotest, out);
+//
+////			try
+////			{
+////				pageInfo.setContent(out.toString("UTF-8"));
+////			}
+////			catch (UnsupportedEncodingException e)
+////			{
+////				e.printStackTrace();
+////			}
+//			
+//			if(StringUtils.isNotBlank(pageInfo.getId()))
+//			{
+//				pageInfoMapper.update(pageInfo);
+//			}
+//			else
+//			{
+//				pageInfo.setCreateTime(new Date());
+//				pageInfoMapper.save(pageInfo);
+//			}
+//			
+////			pageInfo.setContent(null);
+//		}
+//		catch (JAXBException e)
+//		{
+//			e.printStackTrace();
+//		}
+//	}
 
 	@ApiOperation("根据页面名称删除页面")
 	@RequestMapping(value = "/page/{id}", method = RequestMethod.DELETE)
@@ -231,31 +239,31 @@ public class PageInfoApiController
 			JAXBContext context = JAXBContext.newInstance(Autotest.class);
 			Unmarshaller unmarshaller = context.createUnmarshaller();
 	        
-			String content = pageInfo.getContent();
-			if(content == null)
-			{
-				content = "";
-			}
+//			String content = pageInfo.getContent();
+//			if(content == null)
+//			{
+//				content = "";
+//			}
 			
-			ByteArrayInputStream input = new ByteArrayInputStream(content.getBytes("utf-8"));
-			Autotest autotest = (Autotest) unmarshaller.unmarshal(input);
-			
-			List<PageType> pages = autotest.getPages().getPage();
-			for(PageType page : pages)
-			{
-				if(page.getClazz().equals(pageName))
-				{
-					pages.remove(page);
-					break;
-				}
-			}
-			
-			Marshaller marshaller = context.createMarshaller();
-			
-			ByteArrayOutputStream out = new ByteArrayOutputStream();
-			marshaller.marshal(autotest, out);
-			
-			pageInfo.setContent(out.toString("UTF-8"));
+//			ByteArrayInputStream input = new ByteArrayInputStream(content.getBytes("utf-8"));
+//			Autotest autotest = (Autotest) unmarshaller.unmarshal(input);
+//			
+//			List<PageType> pages = autotest.getPages().getPage();
+//			for(PageType page : pages)
+//			{
+//				if(page.getClazz().equals(pageName))
+//				{
+//					pages.remove(page);
+//					break;
+//				}
+//			}
+//			
+//			Marshaller marshaller = context.createMarshaller();
+//			
+//			ByteArrayOutputStream out = new ByteArrayOutputStream();
+//			marshaller.marshal(autotest, out);
+//			
+//			pageInfo.setContent(out.toString("UTF-8"));
 			
 			pageInfoMapper.update(pageInfo);
 		}
@@ -271,8 +279,8 @@ public class PageInfoApiController
 	{
 		PageInfo pageInfo = pageInfoMapper.getById(id);
 		
-		String content = pageInfo.getContent();
-		content = (StringUtils.isBlank(content) ? "" : DomUtils.format(content));
+//		String content = pageInfo.getContent();
+//		content = (StringUtils.isBlank(content) ? "" : DomUtils.format(content));
 
 		String fileName = pageInfo.getName();
 		try
@@ -288,14 +296,14 @@ public class PageInfoApiController
 		headers.setContentType(MediaType.TEXT_XML);
 		headers.setContentDispositionFormData("filename", fileName + ".xml");
 		
-		try
-		{
-			return new ResponseEntity<byte[]>(content.getBytes("utf-8"), headers, HttpStatus.CREATED);
-		}
-		catch (UnsupportedEncodingException e)
-		{
-			e.printStackTrace();
-		}
+//		try
+//		{
+//			return new ResponseEntity<byte[]>(content.getBytes("utf-8"), headers, HttpStatus.CREATED);
+//		}
+//		catch (UnsupportedEncodingException e)
+//		{
+//			e.printStackTrace();
+//		}
 		
 		return new ResponseEntity<byte[]>("not supported encoding.".getBytes(), headers, HttpStatus.CREATED);
 	}
@@ -310,55 +318,55 @@ public class PageInfoApiController
 	public DataSourceInfo generateDataSource(@PathVariable String id,  @PathVariable String projectId)
 	{
 		final PageInfo pageInfo = pageInfoMapper.getById(id);
-		if(pageInfo != null && StringUtils.isNotBlank(pageInfo.getContent()))
-		{
-			File outputDir = PathUtil.getRootDir();
-			try
-			{
-				ByteArrayInputStream input = new ByteArrayInputStream(pageInfo.getContent().getBytes("utf-8"));
-				final DataSourceInfo dataSourceInfo = new DataSourceInfo();
-
-				dataSourceGenerator.generate(input, outputDir.toString(), new Callback<File>()
-				{
-					
-					@Override
-					public void callback(File data)
-					{
-						String name = data.getName();
-
-						dataSourceInfo.setName(name.replace(".xml", ""));
-						dataSourceInfo.setProjectId(projectId);
-						
-						try(InputStream input = new FileInputStream(data))
-						{
-							StringBuffer contentBuf = new StringBuffer();
-							
-							byte[] buf = new byte[1024];
-							int len = -1;
-							
-							while((len = input.read(buf)) != -1)
-							{
-								contentBuf.append(new String(buf, 0, len));
-							}
-							
-							dataSourceInfo.setContent(contentBuf.toString());
-						}
-						catch (IOException e)
-						{
-							e.printStackTrace();
-						}
-					}
-				});
-			}
-			catch (DocumentException | SAXException e)
-			{
-				e.printStackTrace();
-			}
-			catch (UnsupportedEncodingException e1)
-			{
-				e1.printStackTrace();
-			}
-		}
+//		if(pageInfo != null && StringUtils.isNotBlank(pageInfo.getContent()))
+//		{
+//			File outputDir = PathUtil.getRootDir();
+//			try
+//			{
+//				ByteArrayInputStream input = new ByteArrayInputStream(pageInfo.getContent().getBytes("utf-8"));
+//				final DataSourceInfo dataSourceInfo = new DataSourceInfo();
+//
+//				dataSourceGenerator.generate(input, outputDir.toString(), new Callback<File>()
+//				{
+//					
+//					@Override
+//					public void callback(File data)
+//					{
+//						String name = data.getName();
+//
+//						dataSourceInfo.setName(name.replace(".xml", ""));
+//						dataSourceInfo.setProjectId(projectId);
+//						
+//						try(InputStream input = new FileInputStream(data))
+//						{
+//							StringBuffer contentBuf = new StringBuffer();
+//							
+//							byte[] buf = new byte[1024];
+//							int len = -1;
+//							
+//							while((len = input.read(buf)) != -1)
+//							{
+//								contentBuf.append(new String(buf, 0, len));
+//							}
+//							
+//							dataSourceInfo.setContent(contentBuf.toString());
+//						}
+//						catch (IOException e)
+//						{
+//							e.printStackTrace();
+//						}
+//					}
+//				});
+//			}
+//			catch (DocumentException | SAXException e)
+//			{
+//				e.printStackTrace();
+//			}
+//			catch (UnsupportedEncodingException e1)
+//			{
+//				e1.printStackTrace();
+//			}
+//		}
 
 		return null;
 	}
@@ -368,82 +376,82 @@ public class PageInfoApiController
 	public SuiteRunnerInfo generateSuiteRunner(@PathVariable String id,  @PathVariable String projectId)
 	{
 		PageInfo pageInfo = pageInfoMapper.getById(id);
-		if(pageInfo != null && StringUtils.isNotBlank(pageInfo.getContent()))
-		{
-			File outputDir = PathUtil.getRootDir();
-			try
-			{
-				final String pageInfoName = pageInfo.getName();
-				SuiteRunnerInfo suiteRunnerInfo = new SuiteRunnerInfo();
-				
-				ByteArrayInputStream input = new ByteArrayInputStream(pageInfo.getContent().getBytes("utf-8"));
-				suiteRunnerGenerator.generate(input, outputDir.toString(), new Callback<File>()
-				{
-
-					@Override
-					public void callback(File data)
-					{
-						suiteRunnerInfo.setProjectId(projectId);
-						suiteRunnerInfo.setName(pageInfoName + "测试");
-						suiteRunnerInfo.setCreateTime(new Date());
-						suiteRunnerInfo.setRemark("Generate from " + pageInfoName);
-						
-						StringBuffer contentBuf = new StringBuffer();
-						try(InputStream input = new FileInputStream(data))
-						{
-							byte[] buf = new byte[1024];
-							int len = -1;
-							
-							while((len = input.read(buf)) != -1)
-							{
-								contentBuf.append(new String(buf, 0, len));
-							}
-						}
-						catch (IOException e)
-						{
-							e.printStackTrace();
-						}
-						
-						suiteRunnerInfo.setContent(contentBuf.toString());
-
-						try
-						{
-							JAXBContext context = JAXBContext.newInstance(Suite.class);
-							Unmarshaller unmarshaller = context.createUnmarshaller();
-							
-							Suite suite = (Suite) unmarshaller.unmarshal(
-									new ByteArrayInputStream(contentBuf.toString().getBytes()));
-							suite.setPageConfig(pageInfoName + ".xml");
-							
-							Marshaller marshaller = context.createMarshaller();
-							
-							ByteArrayOutputStream out = new ByteArrayOutputStream();
-							marshaller.marshal(suite, out);
-							
-							suiteRunnerInfo.setContent(out.toString("UTF-8"));
-						}
-						catch (JAXBException e)
-						{
-							e.printStackTrace();
-						}
-						catch (UnsupportedEncodingException e)
-						{
-							e.printStackTrace();
-						}
-					}
-				});
-
-				return suiteRunnerInfo;
-			}
-			catch (DocumentException | SAXException e)
-			{
-				e.printStackTrace();
-			}
-			catch (UnsupportedEncodingException e1)
-			{
-				e1.printStackTrace();
-			}
-		}
+//		if(pageInfo != null && StringUtils.isNotBlank(pageInfo.getContent()))
+//		{
+//			File outputDir = PathUtil.getRootDir();
+//			try
+//			{
+//				final String pageInfoName = pageInfo.getName();
+//				SuiteRunnerInfo suiteRunnerInfo = new SuiteRunnerInfo();
+//				
+//				ByteArrayInputStream input = new ByteArrayInputStream(pageInfo.getContent().getBytes("utf-8"));
+//				suiteRunnerGenerator.generate(input, outputDir.toString(), new Callback<File>()
+//				{
+//
+//					@Override
+//					public void callback(File data)
+//					{
+//						suiteRunnerInfo.setProjectId(projectId);
+//						suiteRunnerInfo.setName(pageInfoName + "测试");
+//						suiteRunnerInfo.setCreateTime(new Date());
+//						suiteRunnerInfo.setRemark("Generate from " + pageInfoName);
+//						
+//						StringBuffer contentBuf = new StringBuffer();
+//						try(InputStream input = new FileInputStream(data))
+//						{
+//							byte[] buf = new byte[1024];
+//							int len = -1;
+//							
+//							while((len = input.read(buf)) != -1)
+//							{
+//								contentBuf.append(new String(buf, 0, len));
+//							}
+//						}
+//						catch (IOException e)
+//						{
+//							e.printStackTrace();
+//						}
+//						
+//						suiteRunnerInfo.setContent(contentBuf.toString());
+//
+//						try
+//						{
+//							JAXBContext context = JAXBContext.newInstance(Suite.class);
+//							Unmarshaller unmarshaller = context.createUnmarshaller();
+//							
+//							Suite suite = (Suite) unmarshaller.unmarshal(
+//									new ByteArrayInputStream(contentBuf.toString().getBytes()));
+//							suite.setPageConfig(pageInfoName + ".xml");
+//							
+//							Marshaller marshaller = context.createMarshaller();
+//							
+//							ByteArrayOutputStream out = new ByteArrayOutputStream();
+//							marshaller.marshal(suite, out);
+//							
+//							suiteRunnerInfo.setContent(out.toString("UTF-8"));
+//						}
+//						catch (JAXBException e)
+//						{
+//							e.printStackTrace();
+//						}
+//						catch (UnsupportedEncodingException e)
+//						{
+//							e.printStackTrace();
+//						}
+//					}
+//				});
+//
+//				return suiteRunnerInfo;
+//			}
+//			catch (DocumentException | SAXException e)
+//			{
+//				e.printStackTrace();
+//			}
+//			catch (UnsupportedEncodingException e1)
+//			{
+//				e1.printStackTrace();
+//			}
+//		}
 
 		return null;
 	}

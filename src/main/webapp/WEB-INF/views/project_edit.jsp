@@ -14,7 +14,7 @@ function projectSave(){
 	var data = $('#projectForm').serialize();
 	$.post('<%=basePath%>/api/projects', data, function(){
 		window.location = 'list';
-	})
+	});
 }
 </script>
 </head>
@@ -36,7 +36,7 @@ function projectSave(){
 		<c:if test="${!empty project.id }">
         <ul class="nav navbar-nav">
             <li>
-            	<a href="<%=basePath%>/page_info/list?projectId=${project.id}" data-step="3" data-intro="查看、添加元素定位信息"
+            	<a href="<%=basePath%>/page_info/table?projectId=${project.id}" data-step="3" data-intro="查看、添加元素定位信息"
             		data-position="right">查看页面集列表 <span class="badge"></span></a>
             </li>
             <li>

@@ -34,13 +34,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.suren.autotest.platform.entity.PageInfo;
 import org.suren.autotest.platform.mapping.DataSourceInfoMapper;
 import org.suren.autotest.platform.mapping.PageInfoMapper;
 import org.suren.autotest.platform.mapping.ProjectMapper;
 import org.suren.autotest.platform.mapping.SuiteRunnerInfoMapper;
 import org.suren.autotest.platform.mapping.UserInfoMapper;
 import org.suren.autotest.platform.model.DataSourceInfo;
-import org.suren.autotest.platform.model.PageInfo;
 import org.suren.autotest.platform.model.Project;
 import org.suren.autotest.platform.model.SuiteRunnerInfo;
 import org.suren.autotest.platform.schemas.autotest.Autotest;
@@ -94,6 +94,22 @@ public class PageInfoController
 		model.addAttribute("projectId", projectId);
 		return "page_info/page_info_list";
 	}
+	
+	@RequestMapping(value = "/field/table")
+	public String fieldTable(@RequestParam String pageId, Model model)
+	{
+		model.addAttribute("fieldType", FieldTypeEnum.values());
+		model.addAttribute("strategyType", StrategyEnum.values());
+		model.addAttribute("pageId", pageId);
+		return "page_info/page_field_table";
+	}
+	
+	@RequestMapping(value = "/table")
+	public String table(@RequestParam String projectId, Model model)
+	{
+		model.addAttribute("projectId", projectId);
+		return "page_info/page_info_table";
+	}
 
 	@RequestMapping(value = "/edit")
 	public String pageInfoAdd(Model model,
@@ -109,14 +125,14 @@ public class PageInfoController
 		else
 		{
 			pageInfo = new PageInfo();
-			pageInfo.setAutotest(initAutotest());
+//			pageInfo.setAutotest(initAutotest());
 			pageInfo.setCreateTime(new Date());
 			
 			Project project = projectMapper.getById(projectId);
 			if(project != null)
 			{
 				pageInfo.setProjectId(projectId);
-				pageInfo.getAutotest().getPages().setPagePackage(project.getPkgName());
+//				pageInfo.getAutotest().getPages().setPagePackage(project.getPkgName());
 			}
 		}
 		
@@ -154,7 +170,7 @@ public class PageInfoController
 			Autotest autotest = (Autotest) unmarshaller.unmarshal(file.getInputStream());
 			JAXBUtils.autotestTransfer(autotest);
 			
-			pageInfo.setAutotest(autotest);
+//			pageInfo.setAutotest(autotest);
 		}
 		catch (JAXBException e)
 		{
@@ -235,30 +251,30 @@ public class PageInfoController
 			JAXBContext context = JAXBContext.newInstance(Autotest.class);
 			Unmarshaller unmarshaller = context.createUnmarshaller();
 	        
-			String content = pageInfo.getContent();
-			if(content == null)
-			{
-				content = "";
-			}
+//			String content = pageInfo.getContent();
+//			if(content == null)
+//			{
+//				content = "";
+//			}
 			
-			ByteArrayInputStream input = new ByteArrayInputStream(content.getBytes("utf-8"));
-			Autotest autotest = (Autotest) unmarshaller.unmarshal(input);
-
-			Pages pages = autotest.getPages();
-			PageType page = pages.getPage().get(1);
-			for(PageType pageT : pages.getPage())
-			{
-				if(pageT.getClazz().equals(name))
-				{
-					page = pageT;
-					break;
-				}
-			}
+//			ByteArrayInputStream input = new ByteArrayInputStream(content.getBytes("utf-8"));
+//			Autotest autotest = (Autotest) unmarshaller.unmarshal(input);
+//
+//			Pages pages = autotest.getPages();
+//			PageType page = pages.getPage().get(1);
+//			for(PageType pageT : pages.getPage())
+//			{
+//				if(pageT.getClazz().equals(name))
+//				{
+//					page = pageT;
+//					break;
+//				}
+//			}
 //			JAXBUtils.transform(page.getContent());
 
-			model.addAttribute("pages", pages);
-			model.addAttribute("page", page);
-			model.addAttribute("autotest", autotest);
+//			model.addAttribute("pages", pages);
+//			model.addAttribute("page", page);
+//			model.addAttribute("autotest", autotest);
 			model.addAttribute("fieldType", FieldTypeEnum.values());
 			model.addAttribute("strategyType", StrategyEnum.values());
 			model.addAttribute("locatorType", PageFieldLocatorTypeEnum.values());
@@ -276,10 +292,10 @@ public class PageInfoController
 		{
 			e.printStackTrace();
 		}
-		catch (UnsupportedEncodingException e)
-		{
-			e.printStackTrace();
-		}
+//		catch (UnsupportedEncodingException e)
+//		{
+//			e.printStackTrace();
+//		}
 	}
 	
 	@RequestMapping("addPage")
@@ -293,28 +309,28 @@ public class PageInfoController
 			JAXBContext context = JAXBContext.newInstance(Autotest.class);
 			Unmarshaller unmarshaller = context.createUnmarshaller();
 	        
-			String content = pageInfo.getContent();
-			Autotest autotest;
-			if(content != null)
-			{
-				ByteArrayInputStream input = new ByteArrayInputStream(content.getBytes("utf-8"));
-				autotest = (Autotest) unmarshaller.unmarshal(input);
-			}
-			else
-			{
-				autotest = initAutotest();
-			}
-			
-			pageInfo.setAutotest(autotest);
+//			String content = pageInfo.getContent();
+//			Autotest autotest;
+//			if(content != null)
+//			{
+//				ByteArrayInputStream input = new ByteArrayInputStream(content.getBytes("utf-8"));
+//				autotest = (Autotest) unmarshaller.unmarshal(input);
+//			}
+//			else
+//			{
+//				autotest = initAutotest();
+//			}
+//			
+//			pageInfo.setAutotest(autotest);
 			
 			PageType pageType = new PageType();
 			pageType.setClazz("PageStuff");
 			PageFieldType pageFieldType = new PageFieldType();
 			pageFieldType.setName("PageFieldName");
 			pageType.getField().add(pageFieldType);
-			autotest.getPages().getPage().add(pageType);
+//			autotest.getPages().getPage().add(pageType);
 
-			model.addAttribute("autotest", autotest);
+//			model.addAttribute("autotest", autotest);
 			model.addAttribute("fieldType", FieldTypeEnum.values());
 			model.addAttribute("strategyType", StrategyEnum.values());
 			model.addAttribute("locatorType", PageFieldLocatorTypeEnum.values());
@@ -324,10 +340,10 @@ public class PageInfoController
 		{
 			e.printStackTrace();
 		}
-		catch (UnsupportedEncodingException e)
-		{
-			e.printStackTrace();
-		}
+//		catch (UnsupportedEncodingException e)
+//		{
+//			e.printStackTrace();
+//		}
 		
 		return "page_info/test";
 	}
@@ -335,136 +351,136 @@ public class PageInfoController
 	@RequestMapping("addField")
 	public String addField(Model model, String id, String pageName, int tabIndex)
 	{
-		PageInfo pageInfo = pageInfoMapper.getById(id);
-		pageInfo.setTabIndex(tabIndex);
-		initEnums(model);
-		model.addAttribute("pageInfo", pageInfo);
+//		PageInfo pageInfo = pageInfoMapper.getById(id);
+//		pageInfo.setTabIndex(tabIndex);
+//		initEnums(model);
+//		model.addAttribute("pageInfo", pageInfo);
 		
 		try
 		{
 			JAXBContext context = JAXBContext.newInstance(Autotest.class);
-			ByteArrayInputStream input = new ByteArrayInputStream(pageInfo.getContent().getBytes("utf-8"));
+//			ByteArrayInputStream input = new ByteArrayInputStream(pageInfo.getContent().getBytes("utf-8"));
+//			
+//			Autotest autotest = (Autotest) context.createUnmarshaller().unmarshal(input);
+//			
+//			pageInfo.setAutotest(autotest);
 			
-			Autotest autotest = (Autotest) context.createUnmarshaller().unmarshal(input);
-			
-			pageInfo.setAutotest(autotest);
-			
-			for(PageType page : autotest.getPages().getPage())
-			{
-				if(page.getClazz().equals(pageName))
-				{
-					PageFieldType field = new PageFieldType();
-					field.setName(System.currentTimeMillis() + "_field");
-					page.getField().add(field );
-					break;
-				}
-			}
+//			for(PageType page : autotest.getPages().getPage())
+//			{
+//				if(page.getClazz().equals(pageName))
+//				{
+//					PageFieldType field = new PageFieldType();
+//					field.setName(System.currentTimeMillis() + "_field");
+//					page.getField().add(field );
+//					break;
+//				}
+//			}
 		}
 		catch (JAXBException e)
 		{
 			e.printStackTrace();
 		}
-		catch (UnsupportedEncodingException e)
-		{
-			e.printStackTrace();
-		}
+//		catch (UnsupportedEncodingException e)
+//		{
+//			e.printStackTrace();
+//		}
 		
 		return "page_info/test";
 	}
 	
-	@ResponseBody
-	@RequestMapping(value = "updatePage")
-	public PageInfo updatePage(Model model, PageInfo pageInfo)
-	{
-		try
-		{
-			Autotest autotest = pageInfo.getAutotest();
-			
-			List<DataSourceType> dataSourceList;
-			if(autotest.getDataSources() == null)
-			{
-				dataSourceList = new ArrayList<DataSourceType>();
-				
-				DataSources dataSources = new DataSources();
-				autotest.setDataSources(dataSources);
-				dataSources.setDataSource(dataSourceList);
-			}
-			else
-			{
-				dataSourceList = autotest.getDataSources().getDataSource();
-				for(int i = 0; i < dataSourceList.size();)
-				{
-					DataSourceType dataSourceType = dataSourceList.get(i);
-					
-					if(StringUtils.isBlank(dataSourceType.getName()))
-					{
-						dataSourceList.remove(i);
-					}
-					else
-					{
-						 i++;
-					}
-				}
-			}
-			
-			for(PageType pageType : autotest.getPages().getPage())
-			{
-				boolean notFound = true;
-				String dataSourceName = pageType.getDataSource();
-				for(DataSourceType dataSourceType : dataSourceList)
-				{
-					if(dataSourceName.equals(dataSourceType.getName()))
-					{
-						notFound = false;
-						break;
-					}
-				}
-				
-				if(notFound && StringUtils.isNotBlank(dataSourceName))
-				{
-					DataSourceType dataSourceType = new DataSourceType();
-					dataSourceType.setName(dataSourceName);
-					dataSourceType.setType(DataSourceTypeEnum.XML_DATA_SOURCE);
-					dataSourceType.setResource(dataSourceName + ".xml");
-					
-					dataSourceList.add(dataSourceType);
-				}
-			}
-			
-			JAXBContext context = JAXBContext.newInstance(Autotest.class);
-			Marshaller marshaller = context.createMarshaller();
-			
-			ByteArrayOutputStream out = new ByteArrayOutputStream();
-			marshaller.marshal(autotest, out);
-
-			try
-			{
-				pageInfo.setContent(out.toString("UTF-8"));
-			}
-			catch (UnsupportedEncodingException e)
-			{
-				e.printStackTrace();
-			}
-			
-			if(StringUtils.isNotBlank(pageInfo.getId()))
-			{
-				pageInfoMapper.update(pageInfo);
-			}
-			else
-			{
-				pageInfo.setCreateTime(new Date());
-				pageInfoMapper.save(pageInfo);
-			}
-			
-			pageInfo.setContent(null);
-		}
-		catch (JAXBException e)
-		{
-			e.printStackTrace();
-		}
-		
-		return pageInfo;
-	}
+//	@ResponseBody
+//	@RequestMapping(value = "updatePage")
+//	public PageInfo updatePage(Model model, PageInfo pageInfo)
+//	{
+//		try
+//		{
+//			Autotest autotest = pageInfo.getAutotest();
+//			
+//			List<DataSourceType> dataSourceList;
+//			if(autotest.getDataSources() == null)
+//			{
+//				dataSourceList = new ArrayList<DataSourceType>();
+//				
+//				DataSources dataSources = new DataSources();
+//				autotest.setDataSources(dataSources);
+//				dataSources.setDataSource(dataSourceList);
+//			}
+//			else
+//			{
+//				dataSourceList = autotest.getDataSources().getDataSource();
+//				for(int i = 0; i < dataSourceList.size();)
+//				{
+//					DataSourceType dataSourceType = dataSourceList.get(i);
+//					
+//					if(StringUtils.isBlank(dataSourceType.getName()))
+//					{
+//						dataSourceList.remove(i);
+//					}
+//					else
+//					{
+//						 i++;
+//					}
+//				}
+//			}
+//			
+//			for(PageType pageType : autotest.getPages().getPage())
+//			{
+//				boolean notFound = true;
+//				String dataSourceName = pageType.getDataSource();
+//				for(DataSourceType dataSourceType : dataSourceList)
+//				{
+//					if(dataSourceName.equals(dataSourceType.getName()))
+//					{
+//						notFound = false;
+//						break;
+//					}
+//				}
+//				
+//				if(notFound && StringUtils.isNotBlank(dataSourceName))
+//				{
+//					DataSourceType dataSourceType = new DataSourceType();
+//					dataSourceType.setName(dataSourceName);
+//					dataSourceType.setType(DataSourceTypeEnum.XML_DATA_SOURCE);
+//					dataSourceType.setResource(dataSourceName + ".xml");
+//					
+//					dataSourceList.add(dataSourceType);
+//				}
+//			}
+//			
+//			JAXBContext context = JAXBContext.newInstance(Autotest.class);
+//			Marshaller marshaller = context.createMarshaller();
+//			
+//			ByteArrayOutputStream out = new ByteArrayOutputStream();
+//			marshaller.marshal(autotest, out);
+//
+//			try
+//			{
+//				pageInfo.setContent(out.toString("UTF-8"));
+//			}
+//			catch (UnsupportedEncodingException e)
+//			{
+//				e.printStackTrace();
+//			}
+//			
+//			if(StringUtils.isNotBlank(pageInfo.getId()))
+//			{
+//				pageInfoMapper.update(pageInfo);
+//			}
+//			else
+//			{
+//				pageInfo.setCreateTime(new Date());
+//				pageInfoMapper.save(pageInfo);
+//			}
+//			
+//			pageInfo.setContent(null);
+//		}
+//		catch (JAXBException e)
+//		{
+//			e.printStackTrace();
+//		}
+//		
+//		return pageInfo;
+//	}
 	
 	@RequestMapping("delPage")
 	public String delPage(String id, String pageName)
@@ -476,31 +492,31 @@ public class PageInfoController
 			JAXBContext context = JAXBContext.newInstance(Autotest.class);
 			Unmarshaller unmarshaller = context.createUnmarshaller();
 	        
-			String content = pageInfo.getContent();
-			if(content == null)
-			{
-				content = "";
-			}
+//			String content = pageInfo.getContent();
+//			if(content == null)
+//			{
+//				content = "";
+//			}
 			
-			ByteArrayInputStream input = new ByteArrayInputStream(content.getBytes("utf-8"));
-			Autotest autotest = (Autotest) unmarshaller.unmarshal(input);
-			
-			List<PageType> pages = autotest.getPages().getPage();
-			for(PageType page : pages)
-			{
-				if(page.getClazz().equals(pageName))
-				{
-					pages.remove(page);
-					break;
-				}
-			}
-			
-			Marshaller marshaller = context.createMarshaller();
-			
-			ByteArrayOutputStream out = new ByteArrayOutputStream();
-			marshaller.marshal(autotest, out);
-			
-			pageInfo.setContent(out.toString("UTF-8"));
+//			ByteArrayInputStream input = new ByteArrayInputStream(content.getBytes("utf-8"));
+//			Autotest autotest = (Autotest) unmarshaller.unmarshal(input);
+//			
+//			List<PageType> pages = autotest.getPages().getPage();
+//			for(PageType page : pages)
+//			{
+//				if(page.getClazz().equals(pageName))
+//				{
+//					pages.remove(page);
+//					break;
+//				}
+//			}
+//			
+//			Marshaller marshaller = context.createMarshaller();
+//			
+//			ByteArrayOutputStream out = new ByteArrayOutputStream();
+//			marshaller.marshal(autotest, out);
+//			
+//			pageInfo.setContent(out.toString("UTF-8"));
 			
 			pageInfoMapper.update(pageInfo);
 		}
@@ -517,8 +533,8 @@ public class PageInfoController
 	{
 		PageInfo pageInfo = pageInfoMapper.getById(id);
 		
-		String content = pageInfo.getContent();
-		content = (StringUtils.isBlank(content) ? "" : DomUtils.format(content));
+//		String content = pageInfo.getContent();
+//		content = (StringUtils.isBlank(content) ? "" : DomUtils.format(content));
 
 		String fileName = pageInfo.getName();
 		try
@@ -534,14 +550,14 @@ public class PageInfoController
 		headers.setContentType(MediaType.TEXT_XML);
 		headers.setContentDispositionFormData("filename", fileName + ".xml");
 		
-		try
-		{
-			return new ResponseEntity<byte[]>(content.getBytes("utf-8"), headers, HttpStatus.CREATED);
-		}
-		catch (UnsupportedEncodingException e)
-		{
-			e.printStackTrace();
-		}
+//		try
+//		{
+//			return new ResponseEntity<byte[]>(content.getBytes("utf-8"), headers, HttpStatus.CREATED);
+//		}
+//		catch (UnsupportedEncodingException e)
+//		{
+//			e.printStackTrace();
+//		}
 		
 		return new ResponseEntity<byte[]>("not supported encoding.".getBytes(), headers, HttpStatus.CREATED);
 	}
@@ -551,160 +567,160 @@ public class PageInfoController
 	 * @param id 页面集id
 	 * @return
 	 */
-	@RequestMapping("/generateDataSource")
-	public String generateDataSource(String id)
-	{
-		final PageInfo pageInfo = pageInfoMapper.getById(id);
-		if(pageInfo != null && StringUtils.isNotBlank(pageInfo.getContent()))
-		{
-			final String projectId = pageInfo.getProjectId();
-			
-			File outputDir = PathUtil.getRootDir();
-			try
-			{
-				ByteArrayInputStream input = new ByteArrayInputStream(pageInfo.getContent().getBytes("utf-8"));
-				
-				dataSourceGenerator.generate(input, outputDir.toString(), new Callback<File>()
-				{
-					
-					@Override
-					public void callback(File data)
-					{
-						String name = data.getName();
-						
-						DataSourceInfo dataSourceInfo = new DataSourceInfo();
-						dataSourceInfo.setName(name.replace(".xml", ""));
-						dataSourceInfo.setProjectId(projectId);
-						
-						try(InputStream input = new FileInputStream(data))
-						{
-							StringBuffer contentBuf = new StringBuffer();
-							
-							byte[] buf = new byte[1024];
-							int len = -1;
-							
-							while((len = input.read(buf)) != -1)
-							{
-								contentBuf.append(new String(buf, 0, len));
-							}
-							
-							dataSourceInfo.setContent(contentBuf.toString());
-						}
-						catch (IOException e)
-						{
-							e.printStackTrace();
-						}
-						
-						dataSourceInfoMapper.save(dataSourceInfo);
-					}
-				});
-			}
-			catch (DocumentException | SAXException e)
-			{
-				e.printStackTrace();
-			}
-			catch (UnsupportedEncodingException e1)
-			{
-				e1.printStackTrace();
-			}
-			
-			return "redirect:/data_source_info/list?projectId=" + projectId;
-		}
-		else
-		{
-			return "redirect:/project/list";
-		}
-	}
+//	@RequestMapping("/generateDataSource")
+//	public String generateDataSource(String id)
+//	{
+//		final PageInfo pageInfo = pageInfoMapper.getById(id);
+//		if(pageInfo != null && StringUtils.isNotBlank(pageInfo.getContent()))
+//		{
+//			final String projectId = pageInfo.getProjectId();
+//			
+//			File outputDir = PathUtil.getRootDir();
+//			try
+//			{
+//				ByteArrayInputStream input = new ByteArrayInputStream(pageInfo.getContent().getBytes("utf-8"));
+//				
+//				dataSourceGenerator.generate(input, outputDir.toString(), new Callback<File>()
+//				{
+//					
+//					@Override
+//					public void callback(File data)
+//					{
+//						String name = data.getName();
+//						
+//						DataSourceInfo dataSourceInfo = new DataSourceInfo();
+//						dataSourceInfo.setName(name.replace(".xml", ""));
+//						dataSourceInfo.setProjectId(projectId);
+//						
+//						try(InputStream input = new FileInputStream(data))
+//						{
+//							StringBuffer contentBuf = new StringBuffer();
+//							
+//							byte[] buf = new byte[1024];
+//							int len = -1;
+//							
+//							while((len = input.read(buf)) != -1)
+//							{
+//								contentBuf.append(new String(buf, 0, len));
+//							}
+//							
+//							dataSourceInfo.setContent(contentBuf.toString());
+//						}
+//						catch (IOException e)
+//						{
+//							e.printStackTrace();
+//						}
+//						
+//						dataSourceInfoMapper.save(dataSourceInfo);
+//					}
+//				});
+//			}
+//			catch (DocumentException | SAXException e)
+//			{
+//				e.printStackTrace();
+//			}
+//			catch (UnsupportedEncodingException e1)
+//			{
+//				e1.printStackTrace();
+//			}
+//			
+//			return "redirect:/data_source_info/list?projectId=" + projectId;
+//		}
+//		else
+//		{
+//			return "redirect:/project/list";
+//		}
+//	}
 
-	@RequestMapping("/generateSuiteRunner")
-	public String generateSuiteRunner(String id)
-	{
-		PageInfo pageInfo = pageInfoMapper.getById(id);
-		if(pageInfo != null && StringUtils.isNotBlank(pageInfo.getContent()))
-		{
-			final String projectId = pageInfo.getProjectId();
-
-			File outputDir = PathUtil.getRootDir();
-			try
-			{
-				final String pageInfoName = pageInfo.getName();
-				
-				ByteArrayInputStream input = new ByteArrayInputStream(pageInfo.getContent().getBytes("utf-8"));
-				suiteRunnerGenerator.generate(input, outputDir.toString(), new Callback<File>()
-				{
-
-					@Override
-					public void callback(File data)
-					{
-						SuiteRunnerInfo suiteRunnerInfo = new SuiteRunnerInfo();
-						suiteRunnerInfo.setProjectId(projectId);
-						suiteRunnerInfo.setName(pageInfoName + "测试");
-						suiteRunnerInfo.setCreateTime(new Date());
-						suiteRunnerInfo.setRemark("Generate from " + pageInfoName);
-						
-						StringBuffer contentBuf = new StringBuffer();
-						try(InputStream input = new FileInputStream(data))
-						{
-							byte[] buf = new byte[1024];
-							int len = -1;
-							
-							while((len = input.read(buf)) != -1)
-							{
-								contentBuf.append(new String(buf, 0, len));
-							}
-						}
-						catch (IOException e)
-						{
-							e.printStackTrace();
-						}
-						
-						suiteRunnerInfo.setContent(contentBuf.toString());
-
-						try
-						{
-							JAXBContext context = JAXBContext.newInstance(Suite.class);
-							Unmarshaller unmarshaller = context.createUnmarshaller();
-							
-							Suite suite = (Suite) unmarshaller.unmarshal(
-									new ByteArrayInputStream(contentBuf.toString().getBytes()));
-							suite.setPageConfig(pageInfoName + ".xml");
-							
-							Marshaller marshaller = context.createMarshaller();
-							
-							ByteArrayOutputStream out = new ByteArrayOutputStream();
-							marshaller.marshal(suite, out);
-							
-							suiteRunnerInfo.setContent(out.toString("UTF-8"));
-						}
-						catch (JAXBException e)
-						{
-							e.printStackTrace();
-						}
-						catch (UnsupportedEncodingException e)
-						{
-							e.printStackTrace();
-						}
-						
-						suiteRunnerInfoMapper.save(suiteRunnerInfo);
-					}
-				});
-			}
-			catch (DocumentException | SAXException e)
-			{
-				e.printStackTrace();
-			}
-			catch (UnsupportedEncodingException e1)
-			{
-				e1.printStackTrace();
-			}
-			
-			return "redirect:/suite_runner_info/list?projectId=" + projectId;
-		}
-		else
-		{
-			return "redirect:/project/list";
-		}
-	}
+//	@RequestMapping("/generateSuiteRunner")
+//	public String generateSuiteRunner(String id)
+//	{
+//		PageInfo pageInfo = pageInfoMapper.getById(id);
+//		if(pageInfo != null && StringUtils.isNotBlank(pageInfo.getContent()))
+//		{
+//			final String projectId = pageInfo.getProjectId();
+//
+//			File outputDir = PathUtil.getRootDir();
+//			try
+//			{
+//				final String pageInfoName = pageInfo.getName();
+//				
+//				ByteArrayInputStream input = new ByteArrayInputStream(pageInfo.getContent().getBytes("utf-8"));
+//				suiteRunnerGenerator.generate(input, outputDir.toString(), new Callback<File>()
+//				{
+//
+//					@Override
+//					public void callback(File data)
+//					{
+//						SuiteRunnerInfo suiteRunnerInfo = new SuiteRunnerInfo();
+//						suiteRunnerInfo.setProjectId(projectId);
+//						suiteRunnerInfo.setName(pageInfoName + "测试");
+//						suiteRunnerInfo.setCreateTime(new Date());
+//						suiteRunnerInfo.setRemark("Generate from " + pageInfoName);
+//						
+//						StringBuffer contentBuf = new StringBuffer();
+//						try(InputStream input = new FileInputStream(data))
+//						{
+//							byte[] buf = new byte[1024];
+//							int len = -1;
+//							
+//							while((len = input.read(buf)) != -1)
+//							{
+//								contentBuf.append(new String(buf, 0, len));
+//							}
+//						}
+//						catch (IOException e)
+//						{
+//							e.printStackTrace();
+//						}
+//						
+//						suiteRunnerInfo.setContent(contentBuf.toString());
+//
+//						try
+//						{
+//							JAXBContext context = JAXBContext.newInstance(Suite.class);
+//							Unmarshaller unmarshaller = context.createUnmarshaller();
+//							
+//							Suite suite = (Suite) unmarshaller.unmarshal(
+//									new ByteArrayInputStream(contentBuf.toString().getBytes()));
+//							suite.setPageConfig(pageInfoName + ".xml");
+//							
+//							Marshaller marshaller = context.createMarshaller();
+//							
+//							ByteArrayOutputStream out = new ByteArrayOutputStream();
+//							marshaller.marshal(suite, out);
+//							
+//							suiteRunnerInfo.setContent(out.toString("UTF-8"));
+//						}
+//						catch (JAXBException e)
+//						{
+//							e.printStackTrace();
+//						}
+//						catch (UnsupportedEncodingException e)
+//						{
+//							e.printStackTrace();
+//						}
+//						
+//						suiteRunnerInfoMapper.save(suiteRunnerInfo);
+//					}
+//				});
+//			}
+//			catch (DocumentException | SAXException e)
+//			{
+//				e.printStackTrace();
+//			}
+//			catch (UnsupportedEncodingException e1)
+//			{
+//				e1.printStackTrace();
+//			}
+//			
+//			return "redirect:/suite_runner_info/list?projectId=" + projectId;
+//		}
+//		else
+//		{
+//			return "redirect:/project/list";
+//		}
+//	}
 	
 	@ResponseBody
 	@RequestMapping("count")

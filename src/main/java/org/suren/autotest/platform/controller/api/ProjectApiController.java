@@ -51,6 +51,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.suren.autotest.platform.AutoTestClassloader;
+import org.suren.autotest.platform.entity.PageInfo;
 import org.suren.autotest.platform.mapping.AttachmentMapper;
 import org.suren.autotest.platform.mapping.DataSourceInfoMapper;
 import org.suren.autotest.platform.mapping.PageInfoMapper;
@@ -58,7 +59,6 @@ import org.suren.autotest.platform.mapping.ProjectMapper;
 import org.suren.autotest.platform.mapping.SuiteRunnerInfoMapper;
 import org.suren.autotest.platform.model.Attachment;
 import org.suren.autotest.platform.model.DataSourceInfo;
-import org.suren.autotest.platform.model.PageInfo;
 import org.suren.autotest.platform.model.Project;
 import org.suren.autotest.platform.model.SuiteRunnerInfo;
 import org.suren.autotest.platform.schemas.autotest.Autotest;
@@ -133,6 +133,11 @@ public class ProjectApiController implements ApplicationContextAware
 	{
 		if(StringUtils.isBlank(project.getId()))
 		{
+			UserDetail userDetail = (UserDetail)
+					SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			String ownerId = userDetail.getId();
+			
+			project.setOwnerId(ownerId);
 			project.setCreateTime(new Date());
 			projectMapper.save(project);
 		}
@@ -151,164 +156,164 @@ public class ProjectApiController implements ApplicationContextAware
 		projectMapper.delById(id);
 	}
 
-	@ApiOperation("项目部署")
-	@RequestMapping(value = "/deploy/{id}", method = RequestMethod.GET)
-	public String projectDeploy(@PathVariable String id)
-	{
-		UserDetail userDetail = (UserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		String ownerId = userDetail.getId();
-		
-		String projectId = id;
-		File rootDir = new File(servletContext.getRealPath("/deploy"), id + "/" + ownerId);
-		rootDir.mkdirs();
-		File srcOutputDir = new File(rootDir, "src");
-		JDTUtils jdtUtils = new JDTUtils(srcOutputDir);
-		
-		//附件拷贝
-		List<Attachment> attachList = attachmentMapper.getByBelongId(projectId);
-		if(CollectionUtils.isNotEmpty(attachList))
-		{
-			for(Attachment attach : attachList)
-			{
-				String name = attach.getFileName();
-				if(name.endsWith(".java"))
-				{
-					String pkgPath = attach.getRemark();
-					pkgPath = StringUtils.isBlank(pkgPath) ? "" : pkgPath.trim();
-					pkgPath = pkgPath.replace(".", "/");
-					
-					try
-					{
-						FileUtils.copyFile(new File(attach.getRelativePath(), name),
-								new File(srcOutputDir, pkgPath + "/" + name));
-					}
-					catch (IOException e)
-					{
-						e.printStackTrace();
-					}
-				}
-			}
-		}
-
-		//元素定位文件部署
-		List<PageInfo> pageInfoList = pageInfoMapper.getAllWithContentByProjectId(projectId);
-		if(CollectionUtils.isNotEmpty(pageInfoList))
-		{
-			for(PageInfo pageInfo : pageInfoList)
-			{
-				String content = pageInfo.getContent();
-				File autotestFile = new File(rootDir, pageInfo.getName() + ".xml");
-				
-				try
-				{
-					FileUtils.writeStringToFile(autotestFile, content, "UTF-8");
-					
-					//生成Java源码
-					codeGenerator.generate(autotestFile.toString(), srcOutputDir.toString());
-				}
-				catch (IOException e)
-				{
-					e.printStackTrace();
-				}
-			}
-			
-			//编译Java源码
-			List<File> result = jdtUtils.compileAllFile();
-			try
-			{
-				AutoTestClassloader cla = new AutoTestClassloader(new URL[]{srcOutputDir.toURI().toURL()},
-						Thread.currentThread().getContextClassLoader());
-				
-				Thread.currentThread().setContextClassLoader(cla);
-				
-				String rootPath = srcOutputDir.getAbsolutePath();
-				for(File javaSrcFile : result)
-				{
-					String absPath = javaSrcFile.getAbsolutePath();
-					String clsName = absPath.replace(rootPath, "").replace("/", "\\").replace("\\", ".").replace(".java", "");
-					clsName = clsName.substring(1);
-					
-					Class<?> target = cla.loadClass(clsName);
-					
-					BeanDefinitionRegistry reg = (BeanDefinitionRegistry) ((ConfigurableApplicationContext)applicationContext.getParent()).getBeanFactory();
-					
-					BeanDefinitionBuilder beanDef = BeanDefinitionBuilder.genericBeanDefinition(target);
-					
-					AbstractBeanDefinition bean = beanDef.getBeanDefinition();
-					reg.registerBeanDefinition(target.getName(), bean);
-					
-					Object targetObj = applicationContext.getBean(target.getName());
-					for(Field field : target.getDeclaredFields())
-					{
-						try
-						{
-							Object fieldObj = applicationContext.getBean(field.getType());
-							
-							field.setAccessible(true);
-							field.set(targetObj, fieldObj);;
-						}
-						catch (IllegalAccessException | IllegalArgumentException e)
-						{
-							e.printStackTrace();
-						}
-						catch(NoSuchBeanDefinitionException e)
-						{
-						}
-						
-						if(field.getAnnotation(Autowired.class) != null)
-						{
-						}
-					}
-				}
-			}
-			catch (MalformedURLException | ClassNotFoundException e)
-			{
-				e.printStackTrace();
-			}
-		}
-		
-		//数据源文件部署
-		List<DataSourceInfo> dataSourceInfoList = dataSourceInfoMapper.getAllWithContentByProjectId(projectId);
-		if(CollectionUtils.isNotEmpty(dataSourceInfoList))
-		{
-			for(DataSourceInfo dataSourceInfo : dataSourceInfoList)
-			{
-				String content = dataSourceInfo.getContent();
-				File dataSourceFile = new File(rootDir, dataSourceInfo.getName() + ".xml");
-				
-				try
-				{
-					FileUtils.writeStringToFile(dataSourceFile, content, "utf-8");
-				}
-				catch (IOException e)
-				{
-					e.printStackTrace();
-				}
-			}
-		}
-		
-		//测试套件文件部署
-		List<SuiteRunnerInfo> suiteRunnerInfoList = suiteRunnerInfoMapper.getAllWithContentByProjectId(projectId);
-		if(CollectionUtils.isNotEmpty(suiteRunnerInfoList))
-		{
-			for(SuiteRunnerInfo suiteRunnerInfo : suiteRunnerInfoList)
-			{
-				String content = suiteRunnerInfo.getContent();
-				File suiteFile = new File(rootDir, suiteRunnerInfo.getName() + ".xml");
-				
-				try
-				{
-					FileUtils.writeStringToFile(suiteFile, content, "utf-8");
-				}
-				catch (IOException e)
-				{
-					e.printStackTrace();
-				}
-			}
-		}
-		
-		return "redirect:/project/list.su";
-	}
+//	@ApiOperation("项目部署")
+//	@RequestMapping(value = "/deploy/{id}", method = RequestMethod.GET)
+//	public String projectDeploy(@PathVariable String id)
+//	{
+//		UserDetail userDetail = (UserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//		String ownerId = userDetail.getId();
+//		
+//		String projectId = id;
+//		File rootDir = new File(servletContext.getRealPath("/deploy"), id + "/" + ownerId);
+//		rootDir.mkdirs();
+//		File srcOutputDir = new File(rootDir, "src");
+//		JDTUtils jdtUtils = new JDTUtils(srcOutputDir);
+//		
+//		//附件拷贝
+//		List<Attachment> attachList = attachmentMapper.getByBelongId(projectId);
+//		if(CollectionUtils.isNotEmpty(attachList))
+//		{
+//			for(Attachment attach : attachList)
+//			{
+//				String name = attach.getFileName();
+//				if(name.endsWith(".java"))
+//				{
+//					String pkgPath = attach.getRemark();
+//					pkgPath = StringUtils.isBlank(pkgPath) ? "" : pkgPath.trim();
+//					pkgPath = pkgPath.replace(".", "/");
+//					
+//					try
+//					{
+//						FileUtils.copyFile(new File(attach.getRelativePath(), name),
+//								new File(srcOutputDir, pkgPath + "/" + name));
+//					}
+//					catch (IOException e)
+//					{
+//						e.printStackTrace();
+//					}
+//				}
+//			}
+//		}
+//
+//		//元素定位文件部署
+//		List<PageInfo> pageInfoList = pageInfoMapper.getAllWithContentByProjectId(projectId);
+//		if(CollectionUtils.isNotEmpty(pageInfoList))
+//		{
+//			for(PageInfo pageInfo : pageInfoList)
+//			{
+//				String content = pageInfo.getContent();
+//				File autotestFile = new File(rootDir, pageInfo.getName() + ".xml");
+//				
+//				try
+//				{
+//					FileUtils.writeStringToFile(autotestFile, content, "UTF-8");
+//					
+//					//生成Java源码
+//					codeGenerator.generate(autotestFile.toString(), srcOutputDir.toString());
+//				}
+//				catch (IOException e)
+//				{
+//					e.printStackTrace();
+//				}
+//			}
+//			
+//			//编译Java源码
+//			List<File> result = jdtUtils.compileAllFile();
+//			try
+//			{
+//				AutoTestClassloader cla = new AutoTestClassloader(new URL[]{srcOutputDir.toURI().toURL()},
+//						Thread.currentThread().getContextClassLoader());
+//				
+//				Thread.currentThread().setContextClassLoader(cla);
+//				
+//				String rootPath = srcOutputDir.getAbsolutePath();
+//				for(File javaSrcFile : result)
+//				{
+//					String absPath = javaSrcFile.getAbsolutePath();
+//					String clsName = absPath.replace(rootPath, "").replace("/", "\\").replace("\\", ".").replace(".java", "");
+//					clsName = clsName.substring(1);
+//					
+//					Class<?> target = cla.loadClass(clsName);
+//					
+//					BeanDefinitionRegistry reg = (BeanDefinitionRegistry) ((ConfigurableApplicationContext)applicationContext.getParent()).getBeanFactory();
+//					
+//					BeanDefinitionBuilder beanDef = BeanDefinitionBuilder.genericBeanDefinition(target);
+//					
+//					AbstractBeanDefinition bean = beanDef.getBeanDefinition();
+//					reg.registerBeanDefinition(target.getName(), bean);
+//					
+//					Object targetObj = applicationContext.getBean(target.getName());
+//					for(Field field : target.getDeclaredFields())
+//					{
+//						try
+//						{
+//							Object fieldObj = applicationContext.getBean(field.getType());
+//							
+//							field.setAccessible(true);
+//							field.set(targetObj, fieldObj);;
+//						}
+//						catch (IllegalAccessException | IllegalArgumentException e)
+//						{
+//							e.printStackTrace();
+//						}
+//						catch(NoSuchBeanDefinitionException e)
+//						{
+//						}
+//						
+//						if(field.getAnnotation(Autowired.class) != null)
+//						{
+//						}
+//					}
+//				}
+//			}
+//			catch (MalformedURLException | ClassNotFoundException e)
+//			{
+//				e.printStackTrace();
+//			}
+//		}
+//		
+//		//数据源文件部署
+//		List<DataSourceInfo> dataSourceInfoList = dataSourceInfoMapper.getAllWithContentByProjectId(projectId);
+//		if(CollectionUtils.isNotEmpty(dataSourceInfoList))
+//		{
+//			for(DataSourceInfo dataSourceInfo : dataSourceInfoList)
+//			{
+//				String content = dataSourceInfo.getContent();
+//				File dataSourceFile = new File(rootDir, dataSourceInfo.getName() + ".xml");
+//				
+//				try
+//				{
+//					FileUtils.writeStringToFile(dataSourceFile, content, "utf-8");
+//				}
+//				catch (IOException e)
+//				{
+//					e.printStackTrace();
+//				}
+//			}
+//		}
+//		
+//		//测试套件文件部署
+//		List<SuiteRunnerInfo> suiteRunnerInfoList = suiteRunnerInfoMapper.getAllWithContentByProjectId(projectId);
+//		if(CollectionUtils.isNotEmpty(suiteRunnerInfoList))
+//		{
+//			for(SuiteRunnerInfo suiteRunnerInfo : suiteRunnerInfoList)
+//			{
+//				String content = suiteRunnerInfo.getContent();
+//				File suiteFile = new File(rootDir, suiteRunnerInfo.getName() + ".xml");
+//				
+//				try
+//				{
+//					FileUtils.writeStringToFile(suiteFile, content, "utf-8");
+//				}
+//				catch (IOException e)
+//				{
+//					e.printStackTrace();
+//				}
+//			}
+//		}
+//		
+//		return "redirect:/project/list.su";
+//	}
 	
 	@RequestMapping(value = "/import", method = RequestMethod.POST)
 	public String projectImport(Model model, MultipartFile file, final String id) throws IOException
@@ -357,7 +362,7 @@ public class ProjectApiController implements ApplicationContextAware
 							pageInfo.setProjectId(id);
 							pageInfo.setName(entryName);
 							pageInfo.setCreateTime(new Date());
-							pageInfo.setContent(doc.asXML());
+//							pageInfo.setContent(doc.asXML());
 							
 							try
 							{
@@ -371,7 +376,7 @@ public class ProjectApiController implements ApplicationContextAware
 								ByteArrayOutputStream autoTestByteOut = new ByteArrayOutputStream();
 								context.createMarshaller().marshal(autotest, autoTestByteOut);
 								
-								pageInfo.setContent(autoTestByteOut.toString("UTF-8"));
+//								pageInfo.setContent(autoTestByteOut.toString("UTF-8"));
 							}
 							catch (JAXBException e)
 							{

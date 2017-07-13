@@ -18,6 +18,9 @@
     <mvc:default-servlet-handler />
     <mvc:resources mapping="/bootstrap/**" location="/bootstrap/"/>
     <mvc:annotation-driven conversion-service="conversionService" />
+    <!-- 
+    <mvc:annotation-driven />
+     -->
     
     <context:component-scan base-package="org.suren.autotest.platform.controller,org.suren.autotest.platform.controller.commons" />
     
@@ -67,7 +70,6 @@
 		<property name="parameterName" value="type"></property>
 		<property name="mediaTypes">
 			<map>
-				<entry key="su" value="text/html"></entry>
 				<entry key="html" value="text/html"></entry>
 				<entry key="xml" value="application/xml"></entry>
 				<entry key="json" value="application/json"></entry>

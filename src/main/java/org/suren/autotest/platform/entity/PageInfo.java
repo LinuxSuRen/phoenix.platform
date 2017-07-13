@@ -1,11 +1,9 @@
 /**
  * http://surenpi.com
  */
-package org.suren.autotest.platform.model;
+package org.suren.autotest.platform.entity;
 
 import java.util.Date;
-
-import org.suren.autotest.platform.schemas.autotest.Autotest;
 
 /**
  * @author suren
@@ -16,11 +14,8 @@ public class PageInfo
 	private String id;
 	private String projectId;
 	private String name;
-	private String content;
 	private Date createTime;
 	private String remark;
-	private Autotest autotest;
-	private int tabIndex;
 	/**
 	 * @return the id
 	 */
@@ -64,20 +59,6 @@ public class PageInfo
 		this.name = name;
 	}
 	/**
-	 * @return the content
-	 */
-	public String getContent()
-	{
-		return content;
-	}
-	/**
-	 * @param content the content to set
-	 */
-	public void setContent(String content)
-	{
-		this.content = content;
-	}
-	/**
 	 * @return the createTime
 	 */
 	public Date getCreateTime()
@@ -104,27 +85,5 @@ public class PageInfo
 	public void setRemark(String remark)
 	{
 		this.remark = remark;
-	}
-	/**
-	 * @return the autotest
-	 */
-	public Autotest getAutotest()
-	{
-		return autotest;
-	}
-	/**
-	 * @param autotest the autotest to set
-	 */
-	public void setAutotest(Autotest autotest)
-	{
-		this.autotest = autotest;
-	}
-	public int getTabIndex()
-	{
-		return tabIndex;
-	}
-	public void setTabIndex(int tabIndex)
-	{
-		this.tabIndex = tabIndex;
 	}
 }

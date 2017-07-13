@@ -16,8 +16,19 @@ drop table if exists user_info;
 drop table if exists sys_config;
 drop view if exists project_user_view;
 
+drop table if exists page_field;
+
+create table page_field (
+	id varchar(36) not null,
+	name varchar(100) not null,
+	field_type varchar(36) not null,
+	strategy varchar(36) not null,
+	timeout int
+);
+
 create table user_info (
 	id varchar(36) not null,
+	page_id varchar(36) not null,
 	nick_name varchar(100) not null,
 	login_name varchar(100) not null unique,
 	password varchar(100) not null,
@@ -98,7 +109,7 @@ create table page_info (
 	project_id varchar(36) not null,
 	name varchar(100) unique,
 	content longtext,
-	create_time timestamp not null,
+	create_time DATETIME not null,
 	remark varchar(300),
 	primary key (id),
 	constraint page_info_2_project foreign key (project_id)

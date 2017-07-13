@@ -8,8 +8,8 @@
 <html lang="zh-cn">
 <head>
 <title>项目列表</title>
-<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.1/bootstrap-table.min.css">
-<script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.1/bootstrap-table.min.js"></script>
+<su:link href="/static/bootstrap-table/bootstrap-table.css"></su:link>
+<su:script src="/static/bootstrap-table/bootstrap-table.min.js"></su:script>
 <script type="text/javascript">
 function timeFormatter(data){
 	return new Date(data);	
@@ -22,6 +22,10 @@ function operationEdit(data){
 function operationDel(data){
 	return '<a href="#" data-href="del?id=' + data + '" data-toggle="modal"' + 
 		'data-target="#projectDelDialogId" class="glyphicon glyphicon-trash"></a>';
+}
+
+function queryParams(params) {
+    return {};
 }
 </script>
 </head>
@@ -58,7 +62,11 @@ function operationDel(data){
     </div>
 </nav>
 
-<table data-toggle="table" data-url="<%=basePath %>/api/projects" data-show-refresh="true">
+<table data-toggle="table"
+    data-search="true"
+    data-query-params="queryParams"
+	data-url="<%=basePath %>/api/projects"
+	data-show-refresh="true">
     <thead>
         <tr>
             <th data-field="name">名称</th>

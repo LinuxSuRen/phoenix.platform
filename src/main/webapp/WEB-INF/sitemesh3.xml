@@ -1,8 +1,11 @@
 <sitemesh>
 	<mapping decorator="/decorators/default.jsp"/> 
+	
+	<mapping path="/swagger-ui.html" exclude="true" />
   
 	<excludes>  
 		<pattern>/static/*</pattern>
 		<pattern>/demo/*</pattern>
+		<pattern>/swagger-ui.html</pattern>
 	</excludes> 
 </sitemesh>

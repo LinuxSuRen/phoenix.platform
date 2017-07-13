@@ -11,6 +11,8 @@
 <su:link href="/static/bootstrapValidator/css/bootstrapValidator.css"></su:link>
 <su:script src="/static/bootstrapValidator/js/bootstrapValidator.js"></su:script>
 <su:script src="/static/autotest/msgTip.js"></su:script>
+<su:script src="/static/jquery.serializejson.min.js"></su:script>
+<su:script src="/static/autotest/form.js"></su:script>
 </head>
 <body>
 <nav class="navbar navbar-default" role="navigation">
@@ -79,7 +81,7 @@
 </ul>
 <div class="tab-content">
 	<div class="tab-pane fade in active" id="engine">
-		<form class="form-horizontal" role="form" method="post">
+		<form class="form-horizontal" role="form" method="post" name="page">
 			<div class="form-group">
 				<input name="projectId" value="${pageInfo.projectId }" type="hidden" />
 				<input name="id" value="${pageInfo.id }" type="hidden" />
@@ -160,7 +162,7 @@
 	
 	<c:forEach items="${pageInfo.autotest.pages.page}" varStatus="i" var="page" >
 	<div class="tab-pane fade" id="${page.clazz }">
-		<form class="form-horizontal" role="form" method="post">
+		<form class="form-horizontal" role="form" method="post" name="detail">
 		<div class="form-group">
 			<label class="col-sm-1 control-label">类名</label>
 			<div class="col-sm-1">
@@ -303,19 +305,77 @@ function fortest(){
 			return false;
 		}
 		
+		/**
+		*/
 		var ser = $(this).serialize();
-		if(ser != ""){
+		if(ser != null){
 			content += ("&" + ser);
 		}
+		
+		//content = $(this).serializeJSON();
 	});
+	
+	//content = JSON.stringify(content);
+	//content = $('form').serializeJSON();
+	//content = JSON.stringify($('form').serializeJSON());
+	content = JSON.stringify($('form').serializeObject());
+	content = $('form').serializeObject();
+	
+	if(!content['autotest']['dataSources']){
+		content['autotest']['dataSources'] = {
+				'dataSource': [
+					{
+						"name": "sdf",
+						"resource": "sd",
+						"type": "XML_DATA_SOURCE"
+					}
+				],
+				"pagePackage": "sds"
+		};
+	}
+	/**
+	*/
+	if(!content['autotest']['pages']['page'][0]['field'][0]['locators']){
+		content['autotest']['pages']['page'][0]['field'][0]['locators'] = {
+			"locator": [
+				{
+					"name": "BY_ID",
+					"value": "sdf"
+				}
+			]
+		};
+	}
+	if(!content['autotest']['includePage']){
+		content['autotest']['includePage'] = [
+			{
+				"pageConfig": "sdsf"
+			}
+		];
+	}
+	content['autotest']['engine']['driver'] = "CHROME";
+	console.log(JSON.stringify(content));
+	content = JSON.stringify(content);
 	
 	if(content != ""){
 		//content = window.encodeURI(content);
-		$.post('<%=basePath%>/api/pages_info/${projectId}', content, function(data){
-			if(data.id){
-				tip('保存成功！', function(){
-					window.location = 'test.su?id=' + data.id + '&tabIndex=' + data.tabIndex;
-				});
+		$.ajax({
+			type: 'post',
+			contentType: 'application/json',
+			url: '<%=basePath%>/api/pages_info/${pageInfo.projectId}',
+			data: content,
+			beforeSend: function(xhr){
+				xhr.setRequestHeader('X-Requested-With', {
+					toString: function(){
+						return '';
+					}
+				})
+			},
+			success: function(data){
+				if(data.id){
+					tip('保存成功！', function(){
+						window.location = '<%=basePath%>/page_info/edit?id=' + data.id + '&tabIndex=' + data.tabIndex;
+					});
+				}
 			}
 		});
 	}

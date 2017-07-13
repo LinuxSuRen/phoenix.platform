@@ -3,15 +3,15 @@
 <!--命名空间应该是对应接口的包名+类名 -->
 <mapper namespace="org.suren.autotest.platform.mapping.PageInfoMapper">
 	<!--id应该是接口中的方法，结果类型如没有配置别名则应该使用全名称 -->
-	<select id="getAll" resultType="PageInfo" resultMap="pageInfoMap">
+	<select id="getAll" resultMap="pageInfoMap">
 		select * from page_info
 	</select>
 	
-	<select id="getAllByProjectId" resultType="PageInfo" resultMap="pageInfoMap">
+	<select id="getAllByProjectId" resultMap="pageInfoMap">
 		select id, project_id, name, create_time, remark from page_info where project_id = #{projectId} order by create_time desc
 	</select>
 	
-	<select id="getAllIds" resultType="PageInfo">
+	<select id="getAllIds">
 		select id, name from page_info
 	</select>
 	
@@ -27,8 +27,8 @@
 		<selectKey keyProperty="id" resultType="String" order="BEFORE">
 			SELECT UUID()
 		</selectKey>
-		insert into page_info(id, project_id, name, content, create_time, remark)
-		values (#{id}, #{projectId}, #{name}, #{content}, #{createTime}, #{remark})
+		insert into page_info(id, project_id, name, create_time, remark)
+		values (#{id}, #{projectId}, #{name}, #{createTime}, #{remark})
 	</insert>
 	
 	<update id="update">
@@ -43,11 +43,11 @@
 		select count(*) from page_info
 	</select>
 	
-	<select id="getById" resultType="PageInfo" resultMap="pageInfoMap">
+	<select id="getById" resultMap="pageInfoMap">
 		select * from page_info where id = #{id}
 	</select>
 	
-	<resultMap type="org.suren.autotest.platform.model.PageInfo" id="pageInfoMap">
+	<resultMap type="org.suren.autotest.platform.entity.PageInfo" id="pageInfoMap">
 		<result property="projectId" column="project_id"/>
 		<result property="createTime" column="create_time"/>
 	</resultMap>

@@ -23,11 +23,11 @@ public class EnumConverterFactory implements ConverterFactory<String, Enum>
 		return new StringToEnum(targetType);
 	}
 	
-	private class StringToEnum<T extends Enum> implements Converter<String, T> {  
+	private class StringToEnum<T extends Enum> implements Converter<String, T> {
     	  
         private final Class<T> enumType;  
   
-        public StringToEnum(Class<T> enumType) {  
+        public StringToEnum(Class<T> enumType) {
             this.enumType = enumType;  
         }  
   
@@ -51,7 +51,4 @@ public class EnumConverterFactory implements ConverterFactory<String, Enum>
             return (T) Enum.valueOf(this.enumType, source.trim());  
         }  
     }
-
-
-	
 }
