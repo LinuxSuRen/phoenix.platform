@@ -2,10 +2,11 @@ drop table if exists attachment;
 drop table if exists attach_config;
 drop table if exists options;
 drop table if exists suite_runner_log;
-drop table if exists suite_runner_info;
 drop table if exists test_plan;
+drop table if exists suite_runner_info;
 drop table if exists project_foucs;
 drop table if exists data_source_info;
+drop table if exists page_field;
 drop table if exists page_info;
 drop table if exists project;
 drop table if exists user_role_info;
@@ -15,16 +16,6 @@ drop table if exists group_info;
 drop table if exists user_info;
 drop table if exists sys_config;
 drop view if exists project_user_view;
-
-drop table if exists page_field;
-
-create table page_field (
-	id varchar(36) not null,
-	name varchar(100) not null,
-	field_type varchar(36) not null,
-	strategy varchar(36) not null,
-	timeout int
-);
 
 create table user_info (
 	id varchar(36) not null,
@@ -107,13 +98,26 @@ create table project_foucs (
 create table page_info (
 	id varchar(36) not null,
 	project_id varchar(36) not null,
-	name varchar(100) unique,
-	content longtext,
+	name varchar(100),
 	create_time DATETIME not null,
 	remark varchar(300),
 	primary key (id),
 	constraint page_info_2_project foreign key (project_id)
-	references project (id) on delete restrict
+	references project (id) on delete restrict,
+	constraint project_id_page_name_unique unique(project_id, name)
+);
+
+create table page_field (
+	id varchar(36) not null,
+	page_id varchar(36) not null,
+	name varchar(100) not null,
+	field_type varchar(36) not null,
+	strategy varchar(36) not null,
+	timeout int,
+	primary key (id),
+	constraint page_field_2_page foreign key (page_id)
+	references page_info (id) on delete restrict,
+	constraint page_id_name_unique unique (page_id, name)
 );
 
 create table data_source_info (
@@ -125,19 +129,21 @@ create table data_source_info (
 	remark varchar(300),
 	primary key(id),
 	constraint data_source_info_2_project foreign key (project_id)
-	references project (id) on delete restrict
+	references project (id) on delete restrict,
+	constraint project_id_name_unique unique (project_id, name)
 );
 
 create table suite_runner_info (
 	id varchar(36) not null,
 	project_id varchar(36) not null,
-	name varchar(100) unique,
+	name varchar(100),
 	content longtext,
 	create_time timestamp not null,
 	remark varchar(300),
 	primary key(id),
 	constraint suite_runner_info_2_project foreign key (project_id)
-	references project (id) on delete restrict
+	references project (id) on delete restrict,
+	constraint project_id_name_unique unique (project_id, name)
 );
 
 create table test_plan (
