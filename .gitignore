@@ -1,7 +1,6 @@
-.idea
-*.log
 /target/
 
 .classpath
-.project
 .settings
+.project
+.bin
