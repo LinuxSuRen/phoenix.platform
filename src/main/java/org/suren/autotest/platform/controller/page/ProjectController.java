@@ -37,4 +37,10 @@ public class ProjectController
 		
 		return "project_edit";
 	}
+	
+	@RequestMapping("/del")
+	public void del(@RequestParam String id)
+	{
+		projectMapper.delById(id);
+	}
 }

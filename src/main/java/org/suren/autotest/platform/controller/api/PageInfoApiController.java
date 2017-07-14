@@ -34,9 +34,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import org.suren.autotest.platform.entity.DataSourceInfo;
 import org.suren.autotest.platform.entity.PageInfo;
 import org.suren.autotest.platform.mapping.PageInfoMapper;
-import org.suren.autotest.platform.model.DataSourceInfo;
 import org.suren.autotest.platform.model.SuiteRunnerInfo;
 import org.suren.autotest.platform.schemas.autotest.Autotest;
 import org.suren.autotest.platform.schemas.autotest.Autotest.DataSources;
@@ -71,43 +71,6 @@ public class PageInfoApiController
 	@Resource(name = "xml_to_suite_runner")
 	private Generator suiteRunnerGenerator;
 	
-	@ApiOperation("导入")
-	@RequestMapping(value = "/transfer", method = RequestMethod.POST)
-	public PageInfo autotestTransfer(MultipartFile file, @PathVariable String projectId)
-	{
-		String originalFileName = file.getOriginalFilename();
-		if(originalFileName.endsWith(".xml"))
-		{
-			originalFileName = originalFileName.substring(0, originalFileName.length() - ".xml".length());
-		}
-
-		PageInfo pageInfo = new PageInfo();
-		pageInfo.setProjectId(projectId);
-		pageInfo.setName(originalFileName);
-		pageInfo.setCreateTime(new Date());
-		
-		try
-		{
-			JAXBContext context = JAXBContext.newInstance(Autotest.class);
-			Unmarshaller unmarshaller = context.createUnmarshaller();
-
-			Autotest autotest = (Autotest) unmarshaller.unmarshal(file.getInputStream());
-			JAXBUtils.autotestTransfer(autotest);
-			
-//			pageInfo.setAutotest(autotest);
-		}
-		catch (JAXBException e)
-		{
-			e.printStackTrace();
-		}
-		catch (IOException e)
-		{
-			e.printStackTrace();
-		}
-
-		return pageInfo;
-	}
-	
 	@RequestMapping(method = RequestMethod.GET)
 	public List<PageInfo> list(@PathVariable String projectId)
 	{
@@ -128,10 +91,11 @@ public class PageInfoApiController
 		return pageInfoMapper.getById(id);
 	}
 
-	@ApiOperation("更新Page信息")
+	@ApiOperation("新增Page信息")
 	@RequestMapping(method = RequestMethod.POST)
 	public void updatePage(@RequestBody PageInfo pageInfo,  @PathVariable String projectId)
 	{
+		pageInfo.setCreateTime(new Date());
 		pageInfo.setProjectId(projectId);
 		pageInfoMapper.save(pageInfo);
 	}
@@ -454,6 +418,43 @@ public class PageInfoApiController
 //		}
 
 		return null;
+	}
+	
+	@ApiOperation("导入")
+	@RequestMapping(value = "/transfer", method = RequestMethod.POST)
+	public PageInfo autotestTransfer(MultipartFile file, @PathVariable String projectId)
+	{
+		String originalFileName = file.getOriginalFilename();
+		if(originalFileName.endsWith(".xml"))
+		{
+			originalFileName = originalFileName.substring(0, originalFileName.length() - ".xml".length());
+		}
+
+		PageInfo pageInfo = new PageInfo();
+		pageInfo.setProjectId(projectId);
+		pageInfo.setName(originalFileName);
+		pageInfo.setCreateTime(new Date());
+		
+		try
+		{
+			JAXBContext context = JAXBContext.newInstance(Autotest.class);
+			Unmarshaller unmarshaller = context.createUnmarshaller();
+
+			Autotest autotest = (Autotest) unmarshaller.unmarshal(file.getInputStream());
+			JAXBUtils.autotestTransfer(autotest);
+			
+//			pageInfo.setAutotest(autotest);
+		}
+		catch (JAXBException e)
+		{
+			e.printStackTrace();
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+
+		return pageInfo;
 	}
 
 	@RequestMapping(value = "/count", method = RequestMethod.GET)

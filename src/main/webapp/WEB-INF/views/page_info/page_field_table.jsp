@@ -70,6 +70,7 @@
 <div class="container">
     <h1>字段列表</h1>
     <p class="toolbar">
+        <a class="page_list btn btn-default" href="javascript:">Page列表</a>
         <a class="create btn btn-default" href="javascript:">新增字段</a>
         <span class="alert"></span>
     </p>
@@ -145,7 +146,7 @@
 
 <script type="text/javascript">
 var API_URL = '<%=basePath %>/api/page_fields/';
-var $table = $('#table').bootstrapTable({url: API_URL}),
+var $table = $('#table').bootstrapTable({url: API_URL + '${pageId}/list'}),
     $modal = $('#modal').modal({show: false}),
     $alert = $('.alert').hide();
     
@@ -153,6 +154,9 @@ $(function () {
     // create event
     $('.create').click(function () {
         showModal($(this).text());
+    });
+    $('.page_list').click(function(){
+    	window.location = '<%=basePath%>/page_info/table?id=${pageId}';
     });
     $modal.find('.submit').click(function () {
         var row = {};

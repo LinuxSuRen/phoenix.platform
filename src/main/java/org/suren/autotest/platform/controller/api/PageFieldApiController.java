@@ -41,11 +41,11 @@ public class PageFieldApiController
 	@Autowired
 	private PageFieldMapper pageFieldMapper;
 	
-	@ApiOperation("list")
-	@RequestMapping(method = RequestMethod.GET)
-	public List<PageField> list()
+	@ApiOperation("/{pageId}/list")
+	@RequestMapping(value = "/{pageId}/list", method = RequestMethod.GET)
+	public List<PageField> list(@PathVariable String pageId)
 	{
-		return pageFieldMapper.getAll();
+		return pageFieldMapper.getByPageId(pageId);
 	}
 	
 	@RequestMapping(method = RequestMethod.POST)

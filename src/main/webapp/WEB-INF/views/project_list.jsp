@@ -20,7 +20,7 @@ function operationEdit(data){
 }
 
 function operationDel(data){
-	return '<a href="#" data-href="del?id=' + data + '" data-toggle="modal"' + 
+	return '<a href="#" data-href="<%=basePath%>/project/del?id=' + data + '" data-toggle="modal"' + 
 		'data-target="#projectDelDialogId" class="glyphicon glyphicon-trash"></a>';
 }
 

@@ -102,21 +102,17 @@
             </div>
             <div class="modal-body">
                 <div class="form-group">
-                    <label>Name</label>
-                    <input type="text" class="form-control" name="name" placeholder="Name">
+                    <label>页面名称</label>
+                    <input type="text" class="form-control" name="name" placeholder="Name" required>
                 </div>
                 <div class="form-group">
-                    <label>createTime</label>
-                    <input type="number" class="form-control" name="createTime" placeholder="createTime">
-                </div>
-                <div class="form-group">
-                    <label>remark</label>
-                    <input type="number" class="form-control" name="remark" placeholder="remark">
+                    <label>备注</label>
+                    <input type="text" class="form-control" name="remark" placeholder="remark">
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary submit">Submit</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary submit">保存</button>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
@@ -129,6 +125,8 @@ var $table = $('#table').bootstrapTable({url: API_URL}),
     $alert = $('.alert').hide();
     
 $(function () {
+    $('form').bootstrapValidator();
+    
     // create event
     $('.create').click(function () {
         showModal($(this).text());

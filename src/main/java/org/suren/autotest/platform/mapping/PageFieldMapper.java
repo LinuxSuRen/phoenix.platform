@@ -16,6 +16,8 @@
 
 package org.suren.autotest.platform.mapping;
 
+import java.util.List;
+
 import org.suren.autotest.platform.entity.PageField;
 
 /**
@@ -24,4 +26,5 @@ import org.suren.autotest.platform.entity.PageField;
  */
 public interface PageFieldMapper extends BaseMapper<PageField>
 {
+	List<PageField> getByPageId(String pageId);
 }

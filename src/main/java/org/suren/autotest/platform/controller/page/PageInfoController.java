@@ -34,13 +34,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.suren.autotest.platform.entity.DataSourceInfo;
 import org.suren.autotest.platform.entity.PageInfo;
 import org.suren.autotest.platform.mapping.DataSourceInfoMapper;
 import org.suren.autotest.platform.mapping.PageInfoMapper;
 import org.suren.autotest.platform.mapping.ProjectMapper;
 import org.suren.autotest.platform.mapping.SuiteRunnerInfoMapper;
 import org.suren.autotest.platform.mapping.UserInfoMapper;
-import org.suren.autotest.platform.model.DataSourceInfo;
 import org.suren.autotest.platform.model.Project;
 import org.suren.autotest.platform.model.SuiteRunnerInfo;
 import org.suren.autotest.platform.schemas.autotest.Autotest;
@@ -105,8 +105,22 @@ public class PageInfoController
 	}
 	
 	@RequestMapping(value = "/table")
-	public String table(@RequestParam String projectId, Model model)
+	public String table(@RequestParam(required = false) String projectId,
+			@RequestParam(required = false) String id, Model model)
 	{
+		if(StringUtils.isBlank(projectId))
+		{
+			PageInfo pageInfo = pageInfoMapper.getById(id);
+			if(pageInfo != null)
+			{
+				projectId = pageInfo.getProjectId();
+			}
+			else
+			{
+				return "project/list";
+			}
+		}
+		
 		model.addAttribute("projectId", projectId);
 		return "page_info/page_info_table";
 	}

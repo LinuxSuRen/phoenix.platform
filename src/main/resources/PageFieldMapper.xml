@@ -10,6 +10,10 @@
 		select * from page_field where id = #{id}
 	</select>
 	
+	<select id="getByPageId" resultMap="pageField">
+		select * from page_field where page_id = #{pageId}
+	</select>
+	
 	<delete id="delById">
 		delete from page_field where id = #{id}
 	</delete>

@@ -6,6 +6,7 @@ drop table if exists test_plan;
 drop table if exists suite_runner_info;
 drop table if exists project_foucs;
 drop table if exists data_source_info;
+drop table if exists field_locator;
 drop table if exists page_field;
 drop table if exists page_info;
 drop table if exists project;
@@ -98,6 +99,7 @@ create table page_info (
 	id varchar(36) not null,
 	project_id varchar(36) not null,
 	name varchar(100),
+	url varchar(1024),
 	create_time DATETIME not null,
 	remark varchar(300),
 	primary key (id),
@@ -119,11 +121,25 @@ create table page_field (
 	constraint page_id_name_unique unique (page_id, name)
 );
 
+create table field_locator (
+	id varchar(36) not null,
+	field_id varchar(36) not null,
+	name varchar(100),
+	value varchar(100),
+	locator_order int default 0,
+	timeout bigint default 0,
+	primary key (id),
+	constraint field_locator_2_field foreign key (field_id)
+	references page_field (id) on delete restrict,
+	constraint name_value_unique unique (name, value)
+);
+
 create table data_source_info (
 	id varchar(36) not null,
 	project_id varchar(36) not null,
 	name varchar(100),
-	content longtext,
+	type varchar(100),
+	resource varchar(1024),
 	create_time timestamp not null,
 	remark varchar(300),
 	primary key(id),

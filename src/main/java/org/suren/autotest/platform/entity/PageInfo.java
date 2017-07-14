@@ -14,6 +14,7 @@ public class PageInfo
 	private String id;
 	private String projectId;
 	private String name;
+	private String url;
 	private Date createTime;
 	private String remark;
 	/**
@@ -57,6 +58,20 @@ public class PageInfo
 	public void setName(String name)
 	{
 		this.name = name;
+	}
+	/**
+	 * @return the url
+	 */
+	public String getUrl()
+	{
+		return url;
+	}
+	/**
+	 * @param url the url to set
+	 */
+	public void setUrl(String url)
+	{
+		this.url = url;
 	}
 	/**
 	 * @return the createTime

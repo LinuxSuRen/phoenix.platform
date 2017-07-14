@@ -12,9 +12,19 @@
 <script type="text/javascript">
 function projectSave(){
 	var data = $('#projectForm').serialize();
-	$.post('<%=basePath%>/api/projects', data, function(){
-		window.location = 'list';
+	$.ajax({
+		url: '<%=basePath%>/api/projects',
+		type: 'POST',
+		data: data,
+		success: function(){
+			window.location = '<%=basePath%>/project/list';
+		},
+		error: function(){
+			tip('保存失败！');
+		}
 	});
+	
+	return false;
 }
 </script>
 </head>
@@ -112,7 +122,7 @@ function projectSave(){
 			
 			<div class="form-group">
 				<span class="col-sm-12" style="text-align: center;">
-					<button type="submit" class="btn btn-primary" onclick="projectSave()">保存</button>
+					<button type="submit" class="btn btn-primary" onclick="projectSave();return false;">保存</button>
 				</span>
 			</div>
 		</form>
