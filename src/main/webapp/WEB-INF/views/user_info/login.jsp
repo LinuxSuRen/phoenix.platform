@@ -115,7 +115,7 @@ html,body {
 		</c:if>
 		<div class="login-content ">
 			<div class="form">
-			<form action="<%=basePath %>/user_info/login_process.su" method="post">
+			<form action="<%=basePath %>/user_info/login_process" method="post">
 				<div class="form-group">
 					<div class="col-xs-12  ">
 						<div class="input-group">
@@ -146,7 +146,7 @@ html,body {
 					</div>
 					<div class="col-xs-6 link">
 						<p class="text-center remove-margin"><small>还没注册?</small>
-						<su:anchor href="/user_info/regist.su" innerHtml="<small>注册</small>"></su:anchor>
+						<su:anchor href="/user_info/regist" innerHtml="<small>注册</small>"></su:anchor>
 						</p>
 					</div>
 				</div>

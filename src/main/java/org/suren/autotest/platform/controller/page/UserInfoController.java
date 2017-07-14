@@ -31,7 +31,7 @@ import org.suren.autotest.platform.model.UserInfo;
  * @date 2017年1月29日 下午1:45:38
  */
 @Controller
-@RequestMapping("user_info")
+@RequestMapping("/user_info")
 public class UserInfoController
 {
 	@Autowired
@@ -41,7 +41,7 @@ public class UserInfoController
 	 * 跳转到登录页面
 	 * @return
 	 */
-	@RequestMapping("login")
+	@RequestMapping("/login")
 	public String login(HttpServletRequest request)
 	{
 		Object context = request.getSession().getAttribute("SPRING_SECURITY_CONTEXT");
@@ -57,7 +57,7 @@ public class UserInfoController
 	 * 跳转到注册页面
 	 * @return
 	 */
-	@RequestMapping("regist")
+	@RequestMapping("/regist")
 	public String regist()
 	{
 		return "/user_info/regist";
@@ -68,7 +68,7 @@ public class UserInfoController
 	 * @param userInfo
 	 * @return
 	 */
-	@RequestMapping("registProcess")
+	@RequestMapping("/registProcess")
 	public String registProcess(UserInfo userInfo,
 			Model model)
 	{
@@ -78,13 +78,13 @@ public class UserInfoController
 		{
 			userInfoMapper.save(userInfo);
 			
-			return "redirect:/user_info/login.su";
+			return "redirect:/user_info/login";
 		}
 		else
 		{
 			model.addAttribute("userInfo", existsUserInfo);
 			
-			return "redirect:/user_info/regist.su";
+			return "redirect:/user_info/regist";
 		}
 	}
 	

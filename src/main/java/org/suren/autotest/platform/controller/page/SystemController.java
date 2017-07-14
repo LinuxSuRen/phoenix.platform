@@ -46,7 +46,7 @@ import org.suren.autotest.web.framework.util.StringUtils;
  * @date 2017年2月3日 上午10:42:53
  */
 @Controller
-@RequestMapping("sys")
+@RequestMapping("/sys")
 public class SystemController
 {
 	@Autowired
@@ -56,7 +56,7 @@ public class SystemController
 	@Autowired
 	private SeleniumEngine seleniumEngine;
 
-	@RequestMapping("edit")
+	@RequestMapping("/edit")
 	public String edit(Model model, HttpServletRequest request)
 	{
 		File file = image4SearchLog.getOutputFile();

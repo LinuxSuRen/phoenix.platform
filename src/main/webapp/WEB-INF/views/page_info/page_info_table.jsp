@@ -81,9 +81,10 @@
            data-toolbar=".toolbar">
         <thead>
         <tr>
-            <th data-field="name">Name</th>
-            <th data-field="createTime">createTime</th>
-            <th data-field="remark">remark</th>
+            <th data-field="name">名称</th>
+            <th data-field="url">地址</th>
+            <th data-field="createTime">创建时间</th>
+            <th data-field="remark">备注</th>
             <th data-field="id"
                 data-align="center"
                 data-formatter="actionFormatter"
@@ -104,6 +105,10 @@
                 <div class="form-group">
                     <label>页面名称</label>
                     <input type="text" class="form-control" name="name" placeholder="Name" required>
+                </div>
+                <div class="form-group">
+                    <label>地址</label>
+                    <input type="text" class="form-control" name="url" placeholder="url" required>
                 </div>
                 <div class="form-group">
                     <label>备注</label>

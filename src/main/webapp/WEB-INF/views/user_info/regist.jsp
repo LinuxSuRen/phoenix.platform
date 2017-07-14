@@ -17,7 +17,7 @@
 </head>
 
 <body>
-<form class="form-horizontal" action="registProcess.su" role="form" method="post">
+<form class="form-horizontal" action="registProcess" role="form" method="post">
 	<div class="form-group">
 		<label class="col-sm-4 control-label">登录名</label>
 		<div class="col-sm-2">

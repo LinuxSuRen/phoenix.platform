@@ -18,7 +18,7 @@
 	
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
-		<param-value>/WEB-INF/application*.xml,classpath:autoTestContext.xml</param-value>
+		<param-value>/WEB-INF/application*.xml</param-value>
 	</context-param>
 	<context-param>
 		<param-name>defaultHtmlEscape</param-name>

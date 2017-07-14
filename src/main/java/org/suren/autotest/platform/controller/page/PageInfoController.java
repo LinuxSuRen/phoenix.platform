@@ -3,25 +3,16 @@
  */
 package org.suren.autotest.platform.controller.page;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import javax.annotation.Resource;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
-import org.dom4j.DocumentException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -34,7 +25,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import org.suren.autotest.platform.entity.DataSourceInfo;
 import org.suren.autotest.platform.entity.PageInfo;
 import org.suren.autotest.platform.mapping.DataSourceInfoMapper;
 import org.suren.autotest.platform.mapping.PageInfoMapper;
@@ -42,11 +32,7 @@ import org.suren.autotest.platform.mapping.ProjectMapper;
 import org.suren.autotest.platform.mapping.SuiteRunnerInfoMapper;
 import org.suren.autotest.platform.mapping.UserInfoMapper;
 import org.suren.autotest.platform.model.Project;
-import org.suren.autotest.platform.model.SuiteRunnerInfo;
 import org.suren.autotest.platform.schemas.autotest.Autotest;
-import org.suren.autotest.platform.schemas.autotest.Autotest.DataSources;
-import org.suren.autotest.platform.schemas.autotest.Autotest.Pages;
-import org.suren.autotest.platform.schemas.autotest.DataSourceType;
 import org.suren.autotest.platform.schemas.autotest.DataSourceTypeEnum;
 import org.suren.autotest.platform.schemas.autotest.EngineTypeDriverEnum;
 import org.suren.autotest.platform.schemas.autotest.FieldTypeEnum;
@@ -54,14 +40,10 @@ import org.suren.autotest.platform.schemas.autotest.PageFieldLocatorTypeEnum;
 import org.suren.autotest.platform.schemas.autotest.PageFieldType;
 import org.suren.autotest.platform.schemas.autotest.PageType;
 import org.suren.autotest.platform.schemas.autotest.StrategyEnum;
-import org.suren.autotest.platform.schemas.suite.Suite;
-import org.suren.autotest.platform.util.DomUtils;
 import org.suren.autotest.platform.util.JAXBUtils;
-import org.suren.autotest.web.framework.code.Generator;
-import org.suren.autotest.web.framework.core.Callback;
 import org.suren.autotest.web.framework.util.StringUtils;
-import org.suren.autotest.webdriver.downloader.PathUtil;
-import org.xml.sax.SAXException;
+
+import com.surenpi.autotest.code.Generator;
 
 /**
  * 项目集

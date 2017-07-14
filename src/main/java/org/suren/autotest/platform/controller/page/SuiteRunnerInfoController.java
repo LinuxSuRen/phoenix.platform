@@ -58,10 +58,10 @@ import org.suren.autotest.platform.schemas.suite.SuitePageType;
 import org.suren.autotest.platform.security.UserDetail;
 import org.suren.autotest.platform.util.DomUtils;
 import org.suren.autotest.platform.util.JAXBUtils;
-import org.suren.autotest.web.framework.core.SuiteProgressInfo;
 import org.suren.autotest.web.framework.util.StringUtils;
 
 import com.surenpi.autotest.suite.runner.SuiteRunner;
+import com.surenpi.autotest.webui.core.SuiteProgressInfo;
 
 /**
  * 测试套件管理
@@ -321,7 +321,7 @@ public class SuiteRunnerInfoController
 			suiteRunnerLogMapper.save(suiteRunnerLog);
 			suiteProgressInfo.setIdentify(suiteRunnerLog.getId());
 			
-			new SuiteRunner(suiteProgressInfo).runFromFile(runnerFile);
+//			new SuiteRunner(suiteProgressInfo).runFromFile(runnerFile);
 		}
 		catch(Exception e)
 		{

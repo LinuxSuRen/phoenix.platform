@@ -36,7 +36,7 @@
     <div class="collapse navbar-collapse" id="example-navbar-collapse">
 		<ul class="nav navbar-nav navbar-right">
 			<li><a href="#">在线用户 <span class="badge"></span></a></li>
-			<li data-step="2" data-intro="全局的系统配置" data-position="left"><su:anchor href="/sys/edit.su" innerHtml="系统配置"></su:anchor></li>
+			<li data-step="2" data-intro="全局的系统配置" data-position="left"><su:anchor href="/sys/edit" innerHtml="系统配置"></su:anchor></li>
 			<li data-step="3" data-intro="每个页面都会有帮助按钮，方便对系统不熟悉的童鞋可以尽快上手！" data-position="left">
 				<a href="#" onclick="sysHelp();">帮助</a>
 			</li>

@@ -62,7 +62,7 @@
 			login-processing-url="/user_info/login_process"
 			default-target-url="/"
 			authentication-success-handler-ref="authSuccessHandler"
-			authentication-failure-url="/user_info/login.su?error=true"
+			authentication-failure-url="/user_info/login?error=true"
 			username-parameter="username"
 			password-parameter="password"/>
 			

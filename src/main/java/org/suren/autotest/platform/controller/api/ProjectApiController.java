@@ -52,8 +52,9 @@ import org.suren.autotest.platform.schemas.datasource.DataSources;
 import org.suren.autotest.platform.schemas.suite.Suite;
 import org.suren.autotest.platform.security.UserDetail;
 import org.suren.autotest.platform.util.JAXBUtils;
-import org.suren.autotest.web.framework.code.Generator;
 import org.suren.autotest.web.framework.util.StringUtils;
+
+import com.surenpi.autotest.code.Generator;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
