@@ -1,4 +1,5 @@
 var msgTipId = 'msg_tip_id';
+var alert = $('.alert').hide();
 
 function tip(msg, callback){
 	var eleStr = '<div style="position: absolute; left: 0px; top: 0px; width: 100%;" class="alert alert-success alert-dismissable hide fade" id="' + msgTipId + '">';
@@ -17,4 +18,20 @@ function tip(msg, callback){
 			callback();
 		}
 	}, 1000);
+}
+
+function showAlert(title, type) {
+	alert.attr('class', 'alert alert-' + type || 'success')
+          .html('<i class="glyphicon glyphicon-check"></i> ' + title).show();
+    setTimeout(function () {
+    	alert.hide();
+    }, 3000);
+}
+
+function showSuccessAlert(title){
+	showAlert(title, 'success');
+}
+
+function showDangerAlert(title){
+	showAlert(title, 'danger');
 }

@@ -12,37 +12,26 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.lang.reflect.Field;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.Date;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 import javax.annotation.Resource;
-import javax.servlet.ServletContext;
 import javax.validation.Valid;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.io.FileUtils;
 import org.apache.poi.util.IOUtils;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.support.AbstractBeanDefinition;
-import org.springframework.beans.factory.support.BeanDefinitionBuilder;
-import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
-import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -50,15 +39,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-import org.suren.autotest.platform.AutoTestClassloader;
 import org.suren.autotest.platform.entity.DataSourceInfo;
 import org.suren.autotest.platform.entity.PageInfo;
-import org.suren.autotest.platform.mapping.AttachmentMapper;
 import org.suren.autotest.platform.mapping.DataSourceInfoMapper;
 import org.suren.autotest.platform.mapping.PageInfoMapper;
 import org.suren.autotest.platform.mapping.ProjectMapper;
 import org.suren.autotest.platform.mapping.SuiteRunnerInfoMapper;
-import org.suren.autotest.platform.model.Attachment;
 import org.suren.autotest.platform.model.Project;
 import org.suren.autotest.platform.model.SuiteRunnerInfo;
 import org.suren.autotest.platform.schemas.autotest.Autotest;
@@ -67,7 +53,6 @@ import org.suren.autotest.platform.schemas.suite.Suite;
 import org.suren.autotest.platform.security.UserDetail;
 import org.suren.autotest.platform.util.JAXBUtils;
 import org.suren.autotest.web.framework.code.Generator;
-import org.suren.autotest.web.framework.jdt.JDTUtils;
 import org.suren.autotest.web.framework.util.StringUtils;
 
 import io.swagger.annotations.Api;
@@ -93,10 +78,6 @@ public class ProjectApiController implements ApplicationContextAware
 	@Autowired
 	private SuiteRunnerInfoMapper suiteRunnerInfoMapper;
 	@Autowired
-	private AttachmentMapper attachmentMapper;
-	
-	@Autowired
-	private ServletContext servletContext;
 	
 	@Resource(name = "xml_to_java")
 	private Generator codeGenerator;

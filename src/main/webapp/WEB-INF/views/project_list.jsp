@@ -10,6 +10,7 @@
 <title>项目列表</title>
 <su:link href="/static/bootstrap-table/bootstrap-table.css"></su:link>
 <su:script src="/static/bootstrap-table/bootstrap-table.min.js"></su:script>
+<su:script src="/static/autotest/msgTip.js"></su:script>
 <script type="text/javascript">
 function timeFormatter(data){
 	return new Date(data);	
@@ -20,7 +21,7 @@ function operationEdit(data){
 }
 
 function operationDel(data){
-	return '<a href="#" data-href="<%=basePath%>/project/del?id=' + data + '" data-toggle="modal"' + 
+	return '<a href="#" data-href="<%=basePath%>/api/projects/' + data + '" data-toggle="modal"' + 
 		'data-target="#projectDelDialogId" class="glyphicon glyphicon-trash"></a>';
 }
 
@@ -77,7 +78,7 @@ function queryParams(params) {
     </thead>
 </table>
 
-<su:dialog dialogId="projectDelDialogId"></su:dialog>
+<su:dialog dialogId="projectDelDialogId" ajaxDel="true" callback="window.location.reload();"></su:dialog>
 
 <script type="text/javascript">
 function sysHelp(){

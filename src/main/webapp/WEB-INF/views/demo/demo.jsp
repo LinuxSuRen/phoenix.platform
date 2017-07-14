@@ -7,5 +7,18 @@
 <% response.addHeader("x-frame-options","SAMEORIGIN"); %>
 </head>
 <body>
-demoInput: <input type="text" id="for_test"/>
+			
+<div class="form-group">
+	<label class="col-sm-2 control-label">Select Demo</label>
+	<div class="col-sm-3">
+		<select id="demoSelect">
+			<option value="one">one</option>
+			<option value="three">three</option>
+			<option value="demo">demo</option>
+		</select>
+	</div>
+</div>
+
+<iframe src="demo/demo_for_iframe"></iframe>
+
 </body>

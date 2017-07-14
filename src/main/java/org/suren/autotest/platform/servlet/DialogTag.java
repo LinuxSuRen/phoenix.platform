@@ -47,6 +47,7 @@ public class DialogTag extends TagSupport
 	
 	private String dialogId;
 	private boolean ajaxDel;
+	private String callback;
 
 	@Override
 	public int doStartTag() throws JspException
@@ -66,6 +67,7 @@ public class DialogTag extends TagSupport
 			Map<String, Object> paramMap = new HashMap<String, Object>();
 			paramMap.put("dialogId", dialogId);
 			paramMap.put("ajaxDel", ajaxDel);
+			paramMap.put("callback", callback);
 
 			Writer writer = new OutputStreamWriter(byteOut, "UTF-8"); 
 			template.process(paramMap, writer);
@@ -105,6 +107,22 @@ public class DialogTag extends TagSupport
 	public void setAjaxDel(boolean ajaxDel)
 	{
 		this.ajaxDel = ajaxDel;
+	}
+
+	/**
+	 * @return the callback
+	 */
+	public String getCallback()
+	{
+		return callback;
+	}
+
+	/**
+	 * @param callback the callback to set
+	 */
+	public void setCallback(String callback)
+	{
+		this.callback = callback;
 	}
 
 }

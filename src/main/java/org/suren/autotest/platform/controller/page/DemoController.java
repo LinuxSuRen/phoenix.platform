@@ -29,10 +29,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/demo")
 public class DemoController
 {
+	@RequestMapping("/demo_for_iframe")
+	public String forIframe(HttpServletResponse resp)
+	{
+		resp.setHeader("X-Frame-Options", "SAMEORIGIN");
+		return "demo/demo_for_iframe";
+	}
+	
 	@RequestMapping("/demo")
 	public String demo(HttpServletResponse resp)
 	{
-		resp.setHeader("X-Frame-Options", "SAMEORIGIN");
 		return "demo/demo";
 	}
 }

@@ -22,11 +22,22 @@
 </div>
 
 <script type="text/javascript">
+var empty = function(){};
+var callback = '${callback?default('empty()')}';
 $('#${dialogId}').on('show.bs.modal', function(e) {
 	if('${ajaxDel?c}' == 'true'){
 		$(this).find('.btn-ok').click(function(){
-			$.get($(e.relatedTarget).data('href'), function(){
-				window.location.reload();
+			var url = $(e.relatedTarget).data('href');
+			$.ajax({
+				url: url,
+				type: 'delete',
+				success: function(){
+					showSuccessAlert('删除成功');
+					eval(callback);
+				},
+				error: function(){
+					showDangerAlert('删除失败');
+				}
 			});
 		});
 	}else{

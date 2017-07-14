@@ -13,11 +13,11 @@
 	<!-- 
 	<debug />
 	 -->
-	<http security="none" pattern="/user_info/login.su" />
-	<http security="none" pattern="/user_info/regist.su" />
-	<http security="none" pattern="/user_info/registProcess.su" />
-	<http security="none" pattern="/data_base/init_schema.su" />
-	<http security="none" pattern="/data_base/create_schema.su" />
+	<http security="none" pattern="/user_info/login" />
+	<http security="none" pattern="/user_info/regist" />
+	<http security="none" pattern="/user_info/registProcess" />
+	<http security="none" pattern="/data_base/init_schema" />
+	<http security="none" pattern="/data_base/create_schema" />
 	<http security="none" pattern="/static/**" />
 	
 	<http pattern="/suite_runner_info/*.json" create-session="never"
@@ -30,10 +30,10 @@
 		<access-denied-handler ref="oauth2AccessDeniedHandler"/>
 	</http>
 	
-    <http pattern="/oauth/token.su" create-session="stateless"
+    <http pattern="/oauth/token" create-session="stateless"
     	authentication-manager-ref="oauth2AuthenticationManager"
         entry-point-ref="oauth2AuthenticationEntryPoint" use-expressions="false">
-        <intercept-url pattern="/oauth/token.su" access="IS_AUTHENTICATED_FULLY"/>
+        <intercept-url pattern="/oauth/token" access="IS_AUTHENTICATED_FULLY"/>
         <anonymous enabled="false"/>
         <http-basic entry-point-ref="oauth2AuthenticationEntryPoint"/>
 
@@ -58,16 +58,16 @@
 		
 		<csrf disabled="true" />
 		
-		<form-login login-page="/user_info/login.su"
-			login-processing-url="/user_info/login_process.su"
+		<form-login login-page="/user_info/login"
+			login-processing-url="/user_info/login_process"
 			default-target-url="/"
 			authentication-success-handler-ref="authSuccessHandler"
 			authentication-failure-url="/user_info/login.su?error=true"
 			username-parameter="username"
 			password-parameter="password"/>
 			
-		<logout logout-url="/user_info/logout.su"
-			logout-success-url="/user_info/login.su"
+		<logout logout-url="/user_info/logout"
+			logout-success-url="/user_info/login"
 			invalidate-session="true"
 			delete-cookies="JSESSIONID" />
 	</http>

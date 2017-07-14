@@ -110,17 +110,6 @@ function projectSave(){
 			</div>
 			
 			<div class="form-group">
-				<label class="col-sm-2 control-label">Select Demo</label>
-				<div class="col-sm-3">
-					<select id="demoSelect">
-						<option value="one">one</option>
-						<option value="three">three</option>
-						<option value="demo">demo</option>
-					</select>
-				</div>
-			</div>
-			
-			<div class="form-group">
 				<span class="col-sm-12" style="text-align: center;">
 					<button type="submit" class="btn btn-primary" onclick="projectSave();return false;">保存</button>
 				</span>

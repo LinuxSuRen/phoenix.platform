@@ -148,5 +148,9 @@
 			<name>ajaxDel</name>
 			<required>false</required>
 		</attribute>
+		<attribute>
+			<name>callback</name>
+			<required>false</required>
+		</attribute>
 	</tag>
 </taglib>

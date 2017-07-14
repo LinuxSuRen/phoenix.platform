@@ -31,11 +31,9 @@
             <span class="icon-bar"></span>
         </button>
         <a class="navbar-brand" href="project/list" data-step="1" data-intro="查看项目列表，这里是平台的入口！当您第一次访问页面时，会自动弹出帮助信息，之后可以通过右上角的帮助按钮来触发。" data-position="right">查看项目列表</a>
+        <a class="navbar-brand" href="demo/demo">练习场地</a>
     </div>
     <div class="collapse navbar-collapse" id="example-navbar-collapse">
-        <ul class="nav navbar-nav">
-            <li><a href="#">留白</a></li>
-        </ul>
 		<ul class="nav navbar-nav navbar-right">
 			<li><a href="#">在线用户 <span class="badge"></span></a></li>
 			<li data-step="2" data-intro="全局的系统配置" data-position="left"><su:anchor href="/sys/edit.su" innerHtml="系统配置"></su:anchor></li>
@@ -46,8 +44,6 @@
     </div>
     </div>
 </nav>
-
-<iframe src="demo/demo"></iframe>
     
 <script src='http://git.oschina.net/arch2surenpi/autotest.platform/widget_preview'></script>
 
