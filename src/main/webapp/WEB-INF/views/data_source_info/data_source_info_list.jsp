@@ -84,7 +84,6 @@
 	</div><!-- /.modal -->
 </div>
 
-
 <div id="modal" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content">

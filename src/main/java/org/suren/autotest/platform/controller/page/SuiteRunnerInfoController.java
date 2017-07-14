@@ -69,7 +69,7 @@ import com.surenpi.autotest.suite.runner.SuiteRunner;
  * @date 2017年1月23日 上午7:38:33
  */
 @Controller
-@RequestMapping("suite_runner_info")
+@RequestMapping("/suite_runner_info")
 public class SuiteRunnerInfoController
 {
 	@Autowired
@@ -80,17 +80,15 @@ public class SuiteRunnerInfoController
 	@Autowired
 	private ServletContext servletContext;
 	
-	@RequestMapping("list.su")
+	@RequestMapping("/list")
 	public String suiteRunnerInfoList(Model model, String projectId)
 	{
-		List<SuiteRunnerInfo> suiteRunnerInfoList = suiteRunnerInfoMapper.getAllByProjectId(projectId);
-		addAttr(model, suiteRunnerInfoList);
 		model.addAttribute("projectId", projectId);
 		
-		return "suite_runner_info/list";
+		return "suite_runner_info/suite_runner_info_list";
 	}
 	
-	@RequestMapping("edit.su")
+	@RequestMapping("edit")
 	public String suiteRunnerInfoEdit(Model model, SuiteRunnerInfo suiteRunnerInfo)
 	{
 		String id = suiteRunnerInfo.getId();
@@ -136,7 +134,7 @@ public class SuiteRunnerInfoController
 		return "suite_runner_info/edit";
 	}
 
-	@RequestMapping("add.su")
+	@RequestMapping("add")
 	public String suiteRunnerInfoAdd(Model model, String projectId)
 	{
 		SuiteRunnerInfo suiteRunnerInfo = new SuiteRunnerInfo();
@@ -147,7 +145,7 @@ public class SuiteRunnerInfoController
 		return "suite_runner_info/edit";
 	}
 
-	@RequestMapping("addPage.su")
+	@RequestMapping("addPage")
 	public String suiteRunnerInfoPageAdd(Model model, SuiteRunnerInfo suiteRunnerInfo)
 	{
 		String resultPath = "suite_runner_info/edit";
@@ -196,7 +194,7 @@ public class SuiteRunnerInfoController
 	}
 	
 	@ResponseBody
-	@RequestMapping("save.su")
+	@RequestMapping("save")
 	public SuiteRunnerInfo suiteRunnerInfoSave(Model model, SuiteRunnerInfo suiteRunnerInfo)
 	{
 		int tabIndex = suiteRunnerInfo.getTabIndex();
@@ -236,7 +234,7 @@ public class SuiteRunnerInfoController
 		return suiteRunnerInfo;
 	}
 	
-	@RequestMapping("import.su")
+	@RequestMapping("import")
 	public String suiteRunnerInfoImport(Model model, MultipartFile file,
 			String projectId)
 	{
@@ -273,7 +271,7 @@ public class SuiteRunnerInfoController
 		return "suite_runner_info/edit";
 	}
 	
-	@RequestMapping("del.su")
+	@RequestMapping("del")
 	public String suiteRunnerInfoDel(Model model, String id)
 	{
 		SuiteRunnerInfo suiteRunnerInfo = suiteRunnerInfoMapper.getById(id);
@@ -283,7 +281,7 @@ public class SuiteRunnerInfoController
 	}
 	
 	@ResponseBody
-	@RequestMapping("run.su")
+	@RequestMapping("run")
 	public SuiteRunnerLog suiteRunnerToRun(HttpServletRequest request, Model model, DebugRunInfo debugRunInfo)
 	{
 		String id = debugRunInfo.getId();
@@ -344,7 +342,7 @@ public class SuiteRunnerInfoController
 		return suiteRunnerLog;
 	}
 	
-	@RequestMapping(value = "/download.su")
+	@RequestMapping(value = "/download")
 	public ResponseEntity<byte[]> download(String id)
 	{
 		SuiteRunnerInfo suiteRunnerInfo = suiteRunnerInfoMapper.getById(id);

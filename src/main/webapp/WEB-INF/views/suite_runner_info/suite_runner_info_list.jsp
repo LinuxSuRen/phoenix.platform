@@ -9,6 +9,8 @@
 <head>
 <title>测试套件列表</title>
 <su:script src="/static/autotest/suiteDebug.js"></su:script>
+<su:link href="/static/bootstrap-table/bootstrap-table.css"></su:link>
+<su:script src="/static/bootstrap-table/bootstrap-table.min.js"></su:script>
 </head>
 <body>
 
@@ -22,18 +24,18 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="<%=basePath %>/suite_runner_info/list.su?projectId=${projectId }">测试套件列表</a>
+        <a class="navbar-brand" href="<%=basePath %>/suite_runner_info/list?projectId=${projectId }">测试套件列表</a>
     </div>
     <div class="collapse navbar-collapse" id="example-navbar-collapse">
         <ul class="nav navbar-nav">
-            <li><a href="add.su?projectId=${projectId }">新增</a></li>
+            <li><a href="add?projectId=${projectId }">新增</a></li>
 			<li>
 				<a data-toggle="modal" data-target="#suiteRunnerUploadDialogId" href="#" data-step="1" data-intro="把.xml格式的测试套件导入"
             	data-position="right">导入</a>
 			</li>
         </ul>
 		<ul class="nav navbar-nav navbar-right">
-			<li><a href="<%=basePath%>/project/edit.su?id=${projectId}">当前项目</a></li>
+			<li><a href="<%=basePath%>/project/edit?id=${projectId}">当前项目</a></li>
 			<li><a href="<%=basePath%>/project/list.su">项目列表</a></li>
 			<li><a href="#" onclick="sysHelp();">帮助</a></li>
 		</ul>
@@ -41,43 +43,34 @@
     </div>
 </nav>
 
-<table class="table">
-	<thead>
-		<tr>
-			<th>序号</th>
-			<th>名称</th>
-			<th>项目</th>
-			<th>创建时间</th>
-			<th>备注</th>
-			<th>操作</th>
-		</tr>
-	</thead>
-	<tbody>
-		<c:forEach items="${suiteRunnerInfoList }" var="item" varStatus="status">
-		<tr>
-			<td>${status.index+1 }</td>
-			<td><a href="edit.su?id=${item.id }">${item.name }</a></td>
-			<td>${item.projectId }</td>
-			<td>${item.createTime }</td>
-			<td>${item.remark }</td>
-			<td>
-				<a href="run.su?id=${item.id }">运行</a>
-				<a href="#" data-href="${item.id }" data-toggle="modal" data-target="#debugRunDialogId">调试</a>
-				<a href="<%=basePath %>/suite_runner_log/list.su?runnerId=${item.id }">日志</a>
-				<a href="#" data-href="del.su?id=${item.id }" data-toggle="modal"
-					data-target="#suiteRunnerInfoDelDialogId" class="glyphicon glyphicon-trash"></a>
-			</td>
-		</tr>
-		</c:forEach>
-	</tbody>
-</table>
+<div class="container">
+    <h1>测试套件列表</h1>
+    <p class="toolbar">
+        <span class="alert"></span>
+    </p>
+	<table id="table"
+		data-toggle="table"
+	    data-search="true"
+	    data-query-params="queryParams"
+		data-show-refresh="true"
+        data-toolbar=".toolbar">
+	    <thead>
+	        <tr>
+	            <th data-field="name">名称</th>
+	            <th data-field="createTime" data-formatter="timeFormatter">创建时间</th>
+	            <th data-field="id" data-formatter="operationEdit">编辑</th>
+	            <th data-field="id" data-formatter="operationDel">删除</th>
+	        </tr>
+	    </thead>
+	</table>
+</div>
 
 <su:dialog dialogId="suiteRunnerInfoDelDialogId"></su:dialog>
 	
 <div class="modal fade" id="suiteRunnerUploadDialogId" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
-			<form action="import.su?projectId=${projectId }" method="post" enctype="multipart/form-data">
+			<form action="import?projectId=${projectId }" method="post" enctype="multipart/form-data">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
 					&times;
@@ -133,7 +126,7 @@
 			</div>
 			<form class="form-horizontal" role="form" method="post" action="<%=basePath%>/suite_runner_info/run.su">
 				<input name="id" type="hidden" />
-				<input name="deployUrl" type="hidden" value="<%=basePath %>/project/deploy.su?id=${projectId }" />
+				<input name="deployUrl" type="hidden" value="<%=basePath %>/project/deploy?id=${projectId }" />
 				<input name="progressUrl" type="hidden" value="<%=basePath %>/progress/info.su" />
 				<input name="progress_key" type="hidden" />
 				<div class="modal-body">
@@ -202,6 +195,91 @@
 </div>
 
 <script type="text/javascript">
+var API_URL = '<%=basePath %>/api/suite_runner_infos';
+var $table = $('#table').bootstrapTable({url: API_URL + '/${projectId}'}),
+    $modal = $('#modal').modal({show: false}),
+    $alert = $('.alert').hide();
+    
+$(function () {
+    // create event
+    $('.create').click(function () {
+        showModal($(this).text());
+    });
+    $modal.find('.submit').click(function () {
+        var row = {};
+        $modal.find('input[name]').each(function () {
+            row[$(this).attr('name')] = $(this).val();
+        });
+        $.ajax({
+            url: API_URL + ($modal.data('id') || ''),
+            type: $modal.data('id') ? 'put' : 'post',
+            contentType: 'application/json',
+            data: JSON.stringify(row),
+            success: function () {
+                $modal.modal('hide');
+                $table.bootstrapTable('refresh');
+                showAlert(($modal.data('id') ? 'Update' : 'Create') + ' item successful!', 'success');
+            },
+            error: function () {
+                $modal.modal('hide');
+                showAlert(($modal.data('id') ? 'Update' : 'Create') + ' item error!', 'danger');
+            }
+        });
+    });
+});
+
+function queryParams(params) {
+    return {};
+}
+function actionFormatter(value) {
+    return [
+        '<a class="update" href="javascript:" title="Update Item"><i class="glyphicon glyphicon-edit"></i></a>',
+        '<a class="remove" href="javascript:" title="Delete Item"><i class="glyphicon glyphicon-remove-circle"></i></a>',
+    ].join('');
+}
+// update and delete events
+window.actionEvents = {
+    'click .update': function (e, value, row) {
+        showModal($(this).attr('title'), row);
+    },
+    'click .remove': function (e, value, row) {
+        if (confirm('Are you sure to delete this item?')) {
+            $.ajax({
+                url: API_URL + '/' + row.id,
+                type: 'delete',
+                success: function () {
+                    $table.bootstrapTable('refresh');
+                    showAlert('Delete item successful!', 'success');
+                },
+                error: function () {
+                    showAlert('Delete item error!', 'danger');
+                }
+            })
+        }
+    }
+};
+function showModal(title, row) {
+    row = row || {
+        id: '',
+        name: '',
+        stargazers_count: 0,
+        forks_count: 0,
+        description: ''
+    }; // default row value
+    $modal.data('id', row.id);
+    $modal.find('.modal-title').text(title);
+    for (var name in row) {
+        $modal.find('input[name="' + name + '"]').val(row[name]);
+    }
+    $modal.modal('show');
+}
+function showAlert(title, type) {
+    $alert.attr('class', 'alert alert-' + type || 'success')
+          .html('<i class="glyphicon glyphicon-check"></i> ' + title).show();
+    setTimeout(function () {
+        $alert.hide();
+    }, 3000);
+}
 function sysHelp(){
 	introJs().setOption('done', 'next').start().oncomplete(function(){
 	});

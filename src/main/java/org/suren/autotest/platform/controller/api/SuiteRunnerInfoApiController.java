@@ -21,7 +21,6 @@ import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import java.util.List;
 
-import javax.servlet.ServletContext;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
@@ -34,7 +33,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.suren.autotest.platform.mapping.SuiteRunnerInfoMapper;
-import org.suren.autotest.platform.mapping.SuiteRunnerLogMapper;
 import org.suren.autotest.platform.model.SuiteRunnerInfo;
 import org.suren.autotest.platform.schemas.suite.Suite;
 import org.suren.autotest.web.framework.util.StringUtils;
@@ -45,16 +43,11 @@ import org.suren.autotest.web.framework.util.StringUtils;
  * @date 2017年1月23日 上午7:38:33
  */
 @RestController
-@RequestMapping("/api/suite_runner_info")
+@RequestMapping("/api/suite_runner_infos")
 public class SuiteRunnerInfoApiController
 {
 	@Autowired
 	private SuiteRunnerInfoMapper suiteRunnerInfoMapper;
-	@Autowired
-	private SuiteRunnerLogMapper suiteRunnerLogMapper;
-
-	@Autowired
-	private ServletContext servletContext;
 	
 	@RequestMapping(value = "/{projectId}", method = RequestMethod.GET)
 	public List<SuiteRunnerInfo> suiteRunnerInfoList(@PathVariable String projectId)
@@ -66,6 +59,12 @@ public class SuiteRunnerInfoApiController
 	public SuiteRunnerInfo suiteRunnerInfoEdit(@RequestParam String id)
 	{
 		return suiteRunnerInfoMapper.getById(id);
+	}
+	
+	@RequestMapping(method = RequestMethod.DELETE)
+	public void suiteRunnerInfoDel(@RequestParam String id)
+	{
+		suiteRunnerInfoMapper.delById(id);
 	}
 	
 	@RequestMapping(method = RequestMethod.POST)
@@ -100,11 +99,5 @@ public class SuiteRunnerInfoApiController
 		{
 			e.printStackTrace();
 		}
-	}
-	
-	@RequestMapping(method = RequestMethod.DELETE)
-	public void suiteRunnerInfoDel(@RequestParam String id)
-	{
-		suiteRunnerInfoMapper.delById(id);
 	}
 }
