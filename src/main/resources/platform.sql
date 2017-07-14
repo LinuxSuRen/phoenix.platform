@@ -19,7 +19,6 @@ drop view if exists project_user_view;
 
 create table user_info (
 	id varchar(36) not null,
-	page_id varchar(36) not null,
 	nick_name varchar(100) not null,
 	login_name varchar(100) not null unique,
 	password varchar(100) not null,
