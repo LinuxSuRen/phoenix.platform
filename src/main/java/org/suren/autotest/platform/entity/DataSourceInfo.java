@@ -1,7 +1,7 @@
 /**
  * http://surenpi.com
  */
-package org.suren.autotest.platform.model;
+package org.suren.autotest.platform.entity;
 
 import java.util.Date;
 
@@ -17,6 +17,8 @@ public class DataSourceInfo
 	private String id;
 	private String projectId;
 	private String name;
+	private String type;
+	private String resource;
 	private String content;
 	private Date createTime;
 	private String remark;
@@ -63,6 +65,34 @@ public class DataSourceInfo
 	public void setName(String name)
 	{
 		this.name = name;
+	}
+	/**
+	 * @return the type
+	 */
+	public String getType()
+	{
+		return type;
+	}
+	/**
+	 * @param type the type to set
+	 */
+	public void setType(String type)
+	{
+		this.type = type;
+	}
+	/**
+	 * @return the resource
+	 */
+	public String getResource()
+	{
+		return resource;
+	}
+	/**
+	 * @param resource the resource to set
+	 */
+	public void setResource(String resource)
+	{
+		this.resource = resource;
 	}
 	/**
 	 * @return the content

@@ -2,19 +2,19 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!--命名空间应该是对应接口的包名+类名 -->
 <mapper namespace="org.suren.autotest.platform.mapping.DataSourceInfoMapper">
-	<select id="getAll" resultType="DataSourceInfo" resultMap="dataSourceInfoMap">
+	<select id="getAll" resultMap="dataSourceInfoMap">
 		select * from data_source_info
 	</select>
 	
-	<select id="getAllIds" resultType="DataSourceInfo">
+	<select id="getAllIds" resultMap="dataSourceInfoMap">
 		select id, name from data_source_info
 	</select>
 	
-	<select id="getAllWithContentByProjectId" resultType="DataSourceInfo" resultMap="dataSourceInfoMap">
+	<select id="getAllWithContentByProjectId" resultMap="dataSourceInfoMap">
 		select * from data_source_info where project_id = #{projectId}
 	</select>
 	
-	<select id="getAllByProjectId" resultType="DataSourceInfo" resultMap="dataSourceInfoMap">
+	<select id="getAllByProjectId" resultMap="dataSourceInfoMap">
 		select id, name, create_time, remark from data_source_info where project_id = #{projectId} order by create_time desc
 	</select>
 	
@@ -27,19 +27,19 @@
 			SELECT UUID()
 		</selectKey>
 		
-		insert into data_source_info(id, project_id, name, content, create_time, remark)
-		values (#{id}, #{projectId}, #{name}, #{content}, #{createTime}, #{remark})
+		insert into data_source_info(id, project_id, name, type, resource, create_time, remark)
+		values (#{id}, #{projectId}, #{name}, #{type}, #{resource}, #{createTime}, #{remark})
 	</insert>
 	
 	<update id="update">
-		update data_source_info set name = #{name}, content = #{content} where id = #{id}
+		update data_source_info set name = #{name} where id = #{id}
 	</update>
 	
 	<select id="getTotalNum" resultType="int">
 		select count(*) from data_source_info
 	</select>
 	
-	<select id="getById" resultType="DataSourceInfo" resultMap="dataSourceInfoMap">
+	<select id="getById" resultMap="dataSourceInfoMap">
 		select * from data_source_info where id = #{id}
 	</select>
 	
@@ -47,7 +47,7 @@
 		delete from data_source_info where id = #{id}
 	</delete>
 	
-	<resultMap type="org.suren.autotest.platform.model.DataSourceInfo" id="dataSourceInfoMap">
+	<resultMap type="org.suren.autotest.platform.entity.DataSourceInfo" id="dataSourceInfoMap">
 		<result property="projectId" column="project_id"/>
 		<result property="createTime" column="create_time"/>
 	</resultMap>

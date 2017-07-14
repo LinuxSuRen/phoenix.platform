@@ -5,7 +5,7 @@ package org.suren.autotest.platform.mapping;
 
 import java.util.List;
 
-import org.suren.autotest.platform.model.DataSourceInfo;
+import org.suren.autotest.platform.entity.DataSourceInfo;
 
 /**
  * @author suren

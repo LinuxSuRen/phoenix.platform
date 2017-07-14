@@ -16,7 +16,6 @@
 
 package org.suren.autotest.platform.controller.api;
 
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -34,21 +33,15 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import org.suren.autotest.platform.entity.DataSourceInfo;
 import org.suren.autotest.platform.mapping.DataSourceInfoMapper;
-import org.suren.autotest.platform.model.DataSourceInfo;
-import org.suren.autotest.platform.schemas.datasource.DataSourceFieldTypeEnum;
-import org.suren.autotest.platform.schemas.datasource.DataSourcePageFieldType;
-import org.suren.autotest.platform.schemas.datasource.DataSourcePageType;
 import org.suren.autotest.platform.schemas.datasource.DataSources;
-import org.suren.autotest.platform.schemas.datasource.DataSources.DataSource;
-import org.suren.autotest.platform.schemas.datasource.DataTypeEnum;
 import org.suren.autotest.platform.util.DomUtils;
 import org.suren.autotest.platform.util.JAXBUtils;
 import org.suren.autotest.web.framework.util.StringUtils;
@@ -59,7 +52,7 @@ import org.suren.autotest.web.framework.util.StringUtils;
  * @date 2017年1月22日 下午6:31:17
  */
 @RestController
-@RequestMapping("/api/data_source_info")
+@RequestMapping("/api/data_source_infos")
 public class DataSourceInfoApiController
 {
 	@Autowired
@@ -70,42 +63,24 @@ public class DataSourceInfoApiController
 	{
 		return dataSourceInfoMapper.getAllByProjectId(projectId);
 	}
-	
-	@RequestMapping( method = RequestMethod.POST)
-	public void dataSourceInfoSave(DataSourceInfo dataSourceInfo)
+
+	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+	public void dataSourceInfoDel(@PathVariable String id)
 	{
-		DataSources dataSources = dataSourceInfo.getDataSources();
-		
-		try
+		dataSourceInfoMapper.delById(id);
+	}
+	
+	@RequestMapping(method = RequestMethod.POST)
+	public void dataSourceInfoSave(@RequestBody DataSourceInfo dataSourceInfo)
+	{
+		if(StringUtils.isNotBlank(dataSourceInfo.getId()))
 		{
-			JAXBContext context = JAXBContext.newInstance(DataSources.class);
-			Marshaller marshaller = context.createMarshaller();
-			
-			ByteArrayOutputStream out = new ByteArrayOutputStream();
-			marshaller.marshal(dataSources, out);
-			
-			try
-			{
-				dataSourceInfo.setContent(out.toString("UTF-8"));
-			}
-			catch (UnsupportedEncodingException e)
-			{
-				e.printStackTrace();
-			}
-			
-			if(StringUtils.isNotBlank(dataSourceInfo.getId()))
-			{
-				dataSourceInfoMapper.update(dataSourceInfo);
-			}
-			else
-			{
-				dataSourceInfo.setCreateTime(new Date());
-				dataSourceInfoMapper.save(dataSourceInfo);
-			}
+			dataSourceInfoMapper.update(dataSourceInfo);
 		}
-		catch (JAXBException e)
+		else
 		{
-			e.printStackTrace();
+			dataSourceInfo.setCreateTime(new Date());
+			dataSourceInfoMapper.save(dataSourceInfo);
 		}
 	}
 	
@@ -143,12 +118,6 @@ public class DataSourceInfoApiController
 		}
 		
 		return dataSourceInfo;
-	}
-
-	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-	public void dataSourceInfoDel(@PathVariable String id)
-	{
-		dataSourceInfoMapper.delById(id);
 	}
 	
 	@RequestMapping(value = "/{id}/download", method = RequestMethod.GET)

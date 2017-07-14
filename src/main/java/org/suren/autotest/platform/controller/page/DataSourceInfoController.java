@@ -22,7 +22,6 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.Date;
-import java.util.List;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -37,10 +36,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.suren.autotest.platform.entity.DataSourceInfo;
 import org.suren.autotest.platform.mapping.DataSourceInfoMapper;
-import org.suren.autotest.platform.model.DataSourceInfo;
 import org.suren.autotest.platform.schemas.datasource.DataSourceFieldTypeEnum;
 import org.suren.autotest.platform.schemas.datasource.DataSourcePageFieldType;
 import org.suren.autotest.platform.schemas.datasource.DataSourcePageType;
@@ -57,23 +57,21 @@ import org.suren.autotest.web.framework.util.StringUtils;
  * @date 2017年1月22日 下午6:31:17
  */
 @Controller
-@RequestMapping("data_source_info")
+@RequestMapping("/data_source_info")
 public class DataSourceInfoController
 {
 	@Autowired
 	private DataSourceInfoMapper dataSourceInfoMapper;
 	
-	@RequestMapping("list.su")
-	public String dataSourceInfoList(Model model, String projectId)
+	@RequestMapping("/list")
+	public String dataSourceInfoList(Model model, @RequestParam String projectId)
 	{
-		List<DataSourceInfo> dataSourceInfoList = dataSourceInfoMapper.getAllByProjectId(projectId);
-		model.addAttribute("dataSourceInfoList", dataSourceInfoList);
 		model.addAttribute("projectId", projectId);
 		
 		return "data_source_info/data_source_info_list";
 	}
 	
-	@RequestMapping("add.su")
+	@RequestMapping("add")
 	public String dataSourceInfoAdd(String projectId, Model model)
 	{
 		DataSourceInfo dataSourceInfo = new DataSourceInfo();
@@ -146,7 +144,7 @@ public class DataSourceInfoController
 	}
 	
 	@ResponseBody
-	@RequestMapping("save.su")
+	@RequestMapping("save")
 	public DataSourceInfo dataSourceInfoSave(Model model, DataSourceInfo dataSourceInfo)
 	{
 		DataSources dataSources = dataSourceInfo.getDataSources();
@@ -186,7 +184,7 @@ public class DataSourceInfoController
 		return dataSourceInfo;
 	}
 	
-	@RequestMapping("import.su")
+	@RequestMapping("import")
 	public String dataSourceInfoImport(Model model, MultipartFile file, String projectId)
 	{
 		String originalFileName = file.getOriginalFilename();
@@ -225,16 +223,16 @@ public class DataSourceInfoController
 		return "/data_source_info/data_source_info_edit";
 	}
 
-	@RequestMapping("del.su")
+	@RequestMapping("del")
 	public String dataSourceInfoDel(String id)
 	{
 		DataSourceInfo dataSourceInfo = dataSourceInfoMapper.getById(id);
 		
 		dataSourceInfoMapper.delById(id);
-		return "redirect:/data_source_info/list.su?projectId=" + dataSourceInfo.getProjectId();
+		return "redirect:/data_source_info/list?projectId=" + dataSourceInfo.getProjectId();
 	}
 	
-	@RequestMapping(value = "/download.su")
+	@RequestMapping(value = "/download")
 	public ResponseEntity<byte[]> download(String id)
 	{
 		DataSourceInfo sataSourceInfo = dataSourceInfoMapper.getById(id);

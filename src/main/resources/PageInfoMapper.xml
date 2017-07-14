@@ -15,7 +15,7 @@
 		select id, name from page_info
 	</select>
 	
-	<select id="getAllWithContentByProjectId" resultType="DataSourceInfo" resultMap="pageInfoMap">
+	<select id="getAllWithContentByProjectId" resultMap="pageInfoMap">
 		select * from page_info where project_id = #{projectId}
 	</select>
 	
