@@ -104,7 +104,7 @@
             </div>
             <div class="modal-body">
                 <input type="hidden" name="id">
-                <input type="hidden" name="pageId" value="${pageId }">
+                <input type="hidden" name="pageId">
                 <div class="form-group">
                     <label>名称</label>
                     <input type="text" class="form-control" name="name" placeholder="字段名称">
@@ -139,8 +139,8 @@
 </div><!-- /.modal -->
 
 <script type="text/javascript">
-var API_URL = '<%=basePath %>/api/page_fields/';
-var $table = $('#table').bootstrapTable({url: API_URL + '${pageId}/list'}),
+var API_URL = '<%=basePath %>/api/page_fields/${pageId}/';
+var $table = $('#table').bootstrapTable({url: API_URL + 'list'}),
     $modal = $('#modal').modal({show: false}),
     $alert = $('.alert').hide();
     

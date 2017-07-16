@@ -34,34 +34,35 @@ import org.suren.autotest.platform.mapping.PageFieldMapper;
  * @date 2017年7月13日 上午10:30:54
  */
 @RestController
-@RequestMapping("/api/page_fields/")
+@RequestMapping("/api/page_fields/{pageId}")
 public class PageFieldApiController
 {
 	@Autowired
 	private PageFieldMapper pageFieldMapper;
 	
-	@ApiOperation("/{pageId}/list")
-	@RequestMapping(value = "/{pageId}/list", method = RequestMethod.GET)
+	@ApiOperation("/list")
+	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public List<PageField> list(@PathVariable String pageId)
 	{
 		return pageFieldMapper.getByPageId(pageId);
 	}
 	
 	@RequestMapping(method = RequestMethod.POST)
-	public String save(@RequestBody PageField pageField)
+	public String save(@PathVariable String pageId, @RequestBody PageField pageField)
 	{
+		pageField.setPageId(pageId);
 		pageFieldMapper.save(pageField);
 		return pageField.getId();
 	}
 
 	@RequestMapping(method = RequestMethod.PUT)
-	public void update(@RequestBody PageField pageField)
+	public void update(@PathVariable String pageId, @RequestBody PageField pageField)
 	{
 		pageFieldMapper.update(pageField);
 	}
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-	public void del(@PathVariable String id)
+	public void del(@PathVariable String pageId, @PathVariable String id)
 	{
 		pageFieldMapper.delById(id);
 	}
