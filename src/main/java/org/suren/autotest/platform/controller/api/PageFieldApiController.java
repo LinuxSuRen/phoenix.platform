@@ -16,6 +16,8 @@
 
 package org.suren.autotest.platform.controller.api;
 
+import io.swagger.annotations.ApiOperation;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,12 +25,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.suren.autotest.platform.entity.PageField;
 import org.suren.autotest.platform.mapping.PageFieldMapper;
-
-import io.swagger.annotations.ApiOperation;
 
 /**
  * @author suren
@@ -52,7 +51,13 @@ public class PageFieldApiController
 	public String save(@RequestBody PageField pageField)
 	{
 		pageFieldMapper.save(pageField);
-		return "";
+		return pageField.getId();
+	}
+
+	@RequestMapping(method = RequestMethod.PUT)
+	public void update(@RequestBody PageField pageField)
+	{
+		pageFieldMapper.update(pageField);
 	}
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)

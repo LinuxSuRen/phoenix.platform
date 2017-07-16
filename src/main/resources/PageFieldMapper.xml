@@ -22,6 +22,11 @@
 		select * from page_field
 	</select>
 	
+	<update id="update">
+		update page_field set name = #{name}, strategy = #{strategy}, timeout = #{timeout}
+		where id = #{id}
+	</update>
+	
 	<insert id="save">
 		<selectKey keyProperty="id" resultType="String" order="BEFORE">
 			SELECT UUID()

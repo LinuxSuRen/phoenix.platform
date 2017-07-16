@@ -14,6 +14,7 @@
 <title><sitemesh:write property='title'/></title>
 <su:link href="/static/bootstrap/css/bootstrap.min.css"></su:link>
 <su:link href="/static/intro/introjs.css"></su:link>
+
 <su:script src="/static/jquery/jquery.min.js"></su:script>
 <su:script src="/static/bootstrap/js/bootstrap.min.js"></su:script>
 <su:script src="/static/intro/intro.js"></su:script>

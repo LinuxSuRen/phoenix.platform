@@ -1,4 +1,4 @@
-drop table if exists attachment;
+	drop table if exists attachment;
 drop table if exists attach_config;
 drop table if exists options;
 drop table if exists suite_runner_log;
@@ -73,8 +73,8 @@ create table group_info (
 
 create table project (
 	id varchar(36) not null,
-	owner_id varchar(36),
-	name varchar(100) unique,
+	owner_id varchar(36) not null,
+	name varchar(100) unique not null,
 	pkg_name varchar(300),
 	remark longtext,
 	create_time timestamp,

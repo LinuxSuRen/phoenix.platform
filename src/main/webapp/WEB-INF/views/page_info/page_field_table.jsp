@@ -103,12 +103,14 @@
                 <h4 class="modal-title"></h4>
             </div>
             <div class="modal-body">
+                <input type="hidden" name="id">
+                <input type="hidden" name="pageId" value="${pageId }">
                 <div class="form-group">
-                    <label>Name</label>
-                    <input type="text" class="form-control" name="name" placeholder="Name">
+                    <label>名称</label>
+                    <input type="text" class="form-control" name="name" placeholder="字段名称">
                 </div>
                 <div class="form-group">
-                    <label>type</label>
+                    <label>类型</label>
 					<select name="type" class="form-control">
 						<c:forEach items="${fieldType }" var="type">
 						<option value="${type }">${type }</option>
@@ -116,7 +118,7 @@
 					</select>
                 </div>
                 <div class="form-group">
-                    <label>strategy</label>
+                    <label>搜索策略</label>
 					<select name="strategy" class="form-control">
 						<c:forEach items="${strategyType }" var="type">
 						<option value="${type }">${type }</option>
@@ -124,21 +126,13 @@
 					</select>
                 </div>
                 <div class="form-group">
-                    <label>timeout</label>
-                    <input type="text" class="form-control" name="timeout" placeholder="timeout">
-                </div>
-                <div class="form-group">
-                    <label>id</label>
-                    <input type="text" class="form-control" name="id" placeholder="id">
-                </div>
-                <div class="form-group">
-                    <label>pageId</label>
-                    <input type="text" class="form-control" name="pageId" placeholder="pageId" value="${pageId }">
+                    <label>查找超时时间</label>
+                    <input type="text" class="form-control" name="timeout" placeholder="超时时间（毫秒）">
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary submit">Submit</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary submit">保存	</button>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
@@ -167,7 +161,7 @@ $(function () {
             row[$(this).attr('name')] = $(this).val();
         });
         $.ajax({
-            url: API_URL + ($modal.data('id') || ''),
+            url: API_URL,
             type: $modal.data('id') ? 'put' : 'post',
             contentType: 'application/json',
             data: JSON.stringify(row),

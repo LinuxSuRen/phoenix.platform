@@ -9,24 +9,6 @@
 <head>
 <title>项目编辑</title>
 <su:script src="/static/autotest/msgTip.js"></su:script>
-<script type="text/javascript">
-function projectSave(){
-	var data = $('#projectForm').serialize();
-	$.ajax({
-		url: '<%=basePath%>/api/projects',
-		type: 'POST',
-		data: data,
-		success: function(){
-			window.location = '<%=basePath%>/project/list';
-		},
-		error: function(){
-			tip('保存失败！');
-		}
-	});
-	
-	return false;
-}
-</script>
 </head>
 <body>
 
@@ -226,6 +208,23 @@ function updateBadge(url, text){
 			$('a:contains("' + text + '")').find('.badge').html(count);
 		}
 	});
+}
+
+function projectSave(){
+	var data = $('#projectForm').serialize();
+	$.ajax({
+		url: '<%=basePath%>/api/projects',
+		type: 'POST',
+		data: data,
+		success: function(){
+			window.location = '<%=basePath%>/project/list';
+		},
+		error: function(){
+			tip('保存失败！');
+		}
+	});
+	
+	return false;
 }
 
 $(function(){
