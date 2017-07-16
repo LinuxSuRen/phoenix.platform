@@ -111,12 +111,12 @@
 		<dependency>
 			<groupId>com.surenpi.autotest</groupId>
 			<artifactId>autotest.code.generator</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>1.0.0-20170714</version>
 		</dependency>
 		<dependency>
 			<groupId>com.surenpi.autotest</groupId>
 			<artifactId>autotest.code.compiler</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>1.0.0-20170714</version>
 		</dependency>
 
 		<dependency>
@@ -215,10 +215,12 @@
 		<dependency>
 			<groupId>org.xerial</groupId>
 			<artifactId>sqlite-jdbc</artifactId>
+			<version>3.16.1</version>
 		</dependency>
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
+			<version>5.1.38</version>	
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
