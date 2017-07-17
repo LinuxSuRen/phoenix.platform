@@ -124,7 +124,7 @@
 </div><!-- /.modal -->
 
 <script type="text/javascript">
-var API_URL = '<%=basePath %>/api/pages_info/${projectId}';
+var API_URL = '<%=basePath %>/api/pages_info/${projectId}/';
 var $table = $('#table').bootstrapTable({url: API_URL}),
     $modal = $('#modal').modal({show: false}),
     $alert = $('.alert').hide();
