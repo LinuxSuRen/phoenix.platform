@@ -29,6 +29,9 @@ Windows_XP_32
 
 Windows7_64
 
+# Docker
+平台的Docker镜像信息请访问https://hub.docker.com/r/surenpi/autotest.platform/
+
 # 交流
 QQ群：52492046
 群里不定期会有公开课，两周至少会有一次，每期都有录屏。敬请关注！
