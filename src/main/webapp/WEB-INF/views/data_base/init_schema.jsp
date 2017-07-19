@@ -91,7 +91,7 @@
 <script type="text/javascript">
 function createSchema(obj){
 	$.ajax({
-		url: '<%=basePath%>/data_base/create_schema.su',
+		url: '<%=basePath%>/data_base/create_schema',
 		data: $('form').serialize(),
 		success: function(msg){
 			if(msg == ''){

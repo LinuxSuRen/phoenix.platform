@@ -33,7 +33,6 @@ import java.util.Properties;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.IOUtils;
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -85,6 +84,7 @@ public class DataBaseController
 		String connUrl = getJdbcUrl(dataBase.getDefaultSchema(), url, port);
 		URL jdbcProUrl = DataBase.class.getClassLoader().getResource("jdbc.properties");
 		try(InputStream input = DataBase.class.getClassLoader().getResourceAsStream("platform.sql");
+				InputStream demo = DataBase.class.getClassLoader().getResourceAsStream("platform_demo.sql");
 				OutputStream output = new FileOutputStream(URLDecoder.decode(jdbcProUrl.getFile(), "utf-8"));
 				Connection conn = DriverManager.getConnection(connUrl, username, password);
 				Statement statement = conn.createStatement())
@@ -104,6 +104,12 @@ public class DataBaseController
 			if(input != null)
 			{
 				List<String> lines = IOUtils.readLines(input);
+				for(String line : lines)
+				{
+					buf.append(line).append("\n");
+				}
+				
+				lines = IOUtils.readLines(demo);
 				for(String line : lines)
 				{
 					buf.append(line).append("\n");
