@@ -110,43 +110,43 @@ create table page_info (
 
 create table page_field (
 	id varchar(36) not null,
-	page_id varchar(36) not null comment '',
-	name varchar(100) not null comment '',
-	field_type varchar(36) not null comment '',
-	strategy varchar(36) not null comment '',
-	timeout int comment '',
+	page_id varchar(36) not null comment '页面主键',
+	name varchar(100) not null comment '字段名称',
+	field_type varchar(36) not null comment '字段类型',
+	strategy varchar(36) not null comment '搜索策略',
+	timeout int comment '元素查找超时时间',
 	primary key (id),
 	constraint page_field_2_page foreign key (page_id)
 	references page_info (id) on delete restrict,
 	constraint page_id_name_unique unique (page_id, name)
-) default character set utf8 comment '';
+) default character set utf8 comment '页面元素信息';
 
 create table field_locator (
 	id varchar(36) not null,
-	field_id varchar(36) not null comment '',
-	name varchar(100) comment '',
-	value varchar(100) comment '',
-	locator_order int default 0 comment '',
-	timeout bigint default 0 comment '',
+	field_id varchar(36) not null comment '字段主键',
+	name varchar(100) comment '定位方法',
+	value varchar(100) comment '定位值',
+	locator_order int default 0 comment '顺序',
+	timeout bigint default 0 comment '超时时间',
 	primary key (id),
 	constraint field_locator_2_field foreign key (field_id)
 	references page_field (id) on delete restrict,
 	constraint name_value_unique unique (name, value)
-) default character set utf8 comment '';
+) default character set utf8 comment '元素超找信息';
 
 create table data_source_info (
 	id varchar(36) not null,
 	project_id varchar(36) not null comment '项目主键',
-	name varchar(100) comment '',
-	type varchar(100) comment '',
-	resource varchar(1024) comment '',
-	create_time timestamp not null comment '',
-	remark varchar(300) comment '',
+	name varchar(100) comment '数据源名称',
+	type varchar(100) comment '数据源类型',
+	resource varchar(1024) comment '资源',
+	create_time timestamp not null comment '创建时间',
+	remark varchar(300) comment '备注',
 	primary key(id),
 	constraint data_source_info_2_project foreign key (project_id)
 	references project (id) on delete restrict,
 	constraint project_id_name_unique unique (project_id, name)
-) default character set utf8 comment '';
+) default character set utf8 comment '数据源信息';
 
 create table suite_runner_info (
 	id varchar(36) not null,
@@ -200,7 +200,7 @@ create table attachment (
 	owner_id varchar(36) not null comment '用户主键',
 	belong_id varchar(36) not null comment '',
 	config_id varchar(36) not null comment '',
-	file_name varchar(200) not null comment '',
+	file_name varchar(200) not null comment '文件名称',
 	relative_path varchar(512) not null comment '',
 	remark varchar(200) comment '备注',
 	create_time timestamp not null comment '',
@@ -209,7 +209,7 @@ create table attachment (
 	constraint attach_2_config foreign key (config_id)
 	references attach_config (id) on delete restrict,
 	primary key(id)
-) default character set utf8 comment '';
+) default character set utf8 comment '附件信息';
 
 create table options (
 	id varchar(36) not null,
