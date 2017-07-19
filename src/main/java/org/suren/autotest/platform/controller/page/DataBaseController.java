@@ -30,7 +30,10 @@ import java.sql.Statement;
 import java.util.List;
 import java.util.Properties;
 
+import javax.servlet.http.HttpSession;
+
 import org.apache.commons.io.IOUtils;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -44,10 +47,10 @@ import org.suren.autotest.web.framework.util.StringUtils;
  * @date 2017年2月16日 下午7:40:37
  */
 @Controller
-@RequestMapping("data_base")
+@RequestMapping("/data_base")
 public class DataBaseController
 {
-	@RequestMapping("init_schema")
+	@RequestMapping("/init_schema")
 	public String initSchema(Model model)
 	{
 		DataBase dataBase = new DataBase();
@@ -55,15 +58,15 @@ public class DataBaseController
 		dataBase.setUrl("127.0.0.1");
 		dataBase.setUsername("root");
 		dataBase.setSchema("phoenix");
-		dataBase.setDefaultSchema("mysql");
+		dataBase.setDefaultSchema("test");
 		model.addAttribute("dataBase", dataBase);
 		
 		return "data_base/init_schema";
 	}
 	
-	@RequestMapping("create_schema")
+	@RequestMapping("/create_schema")
 	@ResponseBody
-	public String createSchema(DataBase dataBase)
+	public String createSchema(DataBase dataBase, HttpSession session)
 	{
 		String url = dataBase.getUrl();
 		int port = dataBase.getPort();
@@ -135,6 +138,8 @@ public class DataBaseController
 		{
 			return e.getMessage();
 		}
+		
+		session.setAttribute("data_init", true);
 		
 		return "";
 	}

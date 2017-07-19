@@ -23,11 +23,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.suren.autotest.platform.entity.DataSourceInfo;
+import org.suren.autotest.platform.entity.PageField;
 import org.suren.autotest.platform.entity.PageInfo;
+import org.suren.autotest.platform.mapping.PageFieldMapper;
 import org.suren.autotest.platform.mapping.PageInfoMapper;
 import org.suren.autotest.platform.model.SuiteRunnerInfo;
 import org.suren.autotest.platform.schemas.autotest.Autotest;
@@ -48,6 +49,8 @@ public class PageInfoApiController
 {
 	@Autowired
 	private PageInfoMapper pageInfoMapper;
+	@Autowired
+	private PageFieldMapper pageFieldMapper;
 	
 	@Resource(name = "xml_to_datasource")
 	private Generator dataSourceGenerator;
@@ -83,148 +86,12 @@ public class PageInfoApiController
 		pageInfoMapper.save(pageInfo);
 	}
 
-//	@ApiOperation("更新Page信息")
-//	@RequestMapping(method = RequestMethod.POST)
-//	public void updatePage(@RequestBody PageInfo pageInfo,  @PathVariable String projectId)
-//	{
-//		try
-//		{
-//			Autotest autotest = pageInfo.getAutotest();
-//			
-//			List<DataSourceType> dataSourceList;
-//			if(autotest.getDataSources() == null)
-//			{
-//				dataSourceList = new ArrayList<DataSourceType>();
-//				
-//				DataSources dataSources = new DataSources();
-//				autotest.setDataSources(dataSources);
-//				dataSources.setDataSource(dataSourceList);
-//			}
-//			else
-//			{
-//				dataSourceList = autotest.getDataSources().getDataSource();
-//				for(int i = 0; i < dataSourceList.size();)
-//				{
-//					DataSourceType dataSourceType = dataSourceList.get(i);
-//					
-//					if(StringUtils.isBlank(dataSourceType.getName()))
-//					{
-//						dataSourceList.remove(i);
-//					}
-//					else
-//					{
-//						 i++;
-//					}
-//				}
-//			}
-//			
-//			for(PageType pageType : autotest.getPages().getPage())
-//			{
-//				boolean notFound = true;
-//				String dataSourceName = pageType.getDataSource();
-//				for(DataSourceType dataSourceType : dataSourceList)
-//				{
-//					if(dataSourceName.equals(dataSourceType.getName()))
-//					{
-//						notFound = false;
-//						break;
-//					}
-//				}
-//				
-//				if(notFound && StringUtils.isNotBlank(dataSourceName))
-//				{
-//					DataSourceType dataSourceType = new DataSourceType();
-//					dataSourceType.setName(dataSourceName);
-//					dataSourceType.setType(DataSourceTypeEnum.XML_DATA_SOURCE);
-//					dataSourceType.setResource(dataSourceName + ".xml");
-//					
-//					dataSourceList.add(dataSourceType);
-//				}
-//			}
-//			
-//			JAXBContext context = JAXBContext.newInstance(Autotest.class);
-//			Marshaller marshaller = context.createMarshaller();
-//			
-//			ByteArrayOutputStream out = new ByteArrayOutputStream();
-//			marshaller.marshal(autotest, out);
-//
-////			try
-////			{
-////				pageInfo.setContent(out.toString("UTF-8"));
-////			}
-////			catch (UnsupportedEncodingException e)
-////			{
-////				e.printStackTrace();
-////			}
-//			
-//			if(StringUtils.isNotBlank(pageInfo.getId()))
-//			{
-//				pageInfoMapper.update(pageInfo);
-//			}
-//			else
-//			{
-//				pageInfo.setCreateTime(new Date());
-//				pageInfoMapper.save(pageInfo);
-//			}
-//			
-////			pageInfo.setContent(null);
-//		}
-//		catch (JAXBException e)
-//		{
-//			e.printStackTrace();
-//		}
-//	}
-
-	@ApiOperation("根据页面名称删除页面")
-	@RequestMapping(value = "/page/{id}", method = RequestMethod.DELETE)
-	public void delPage(@PathVariable String id, @RequestParam String pageName,  @PathVariable String projectId)
-	{
-		PageInfo pageInfo = pageInfoMapper.getById(id);
-
-		try
-		{
-			JAXBContext context = JAXBContext.newInstance(Autotest.class);
-			Unmarshaller unmarshaller = context.createUnmarshaller();
-	        
-//			String content = pageInfo.getContent();
-//			if(content == null)
-//			{
-//				content = "";
-//			}
-			
-//			ByteArrayInputStream input = new ByteArrayInputStream(content.getBytes("utf-8"));
-//			Autotest autotest = (Autotest) unmarshaller.unmarshal(input);
-//			
-//			List<PageType> pages = autotest.getPages().getPage();
-//			for(PageType page : pages)
-//			{
-//				if(page.getClazz().equals(pageName))
-//				{
-//					pages.remove(page);
-//					break;
-//				}
-//			}
-//			
-//			Marshaller marshaller = context.createMarshaller();
-//			
-//			ByteArrayOutputStream out = new ByteArrayOutputStream();
-//			marshaller.marshal(autotest, out);
-//			
-//			pageInfo.setContent(out.toString("UTF-8"));
-			
-			pageInfoMapper.update(pageInfo);
-		}
-		catch(Exception e)
-		{
-			e.printStackTrace();
-		}
-	}
-
 	@ApiOperation("下载页面")
 	@RequestMapping(value = "/{id}/download", method = RequestMethod.GET)
 	public ResponseEntity<byte[]> download(@PathVariable String id,  @PathVariable String projectId)
 	{
 		PageInfo pageInfo = pageInfoMapper.getById(id);
+		List<PageField> pageFieldList = pageFieldMapper.getByPageId(id);
 		
 //		String content = pageInfo.getContent();
 //		content = (StringUtils.isBlank(content) ? "" : DomUtils.format(content));

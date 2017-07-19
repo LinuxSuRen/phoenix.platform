@@ -71,6 +71,7 @@
     <h1>Page列表</h1>
     <p class="toolbar">
         <a class="create btn btn-default" href="javascript:">新增页面</a>
+        <a class="generate btn btn-default" href="javascript:">生成代码</a>
         <span class="alert"></span>
     </p>
     <table id="table"
@@ -81,6 +82,7 @@
            data-toolbar=".toolbar">
         <thead>
         <tr>
+            <th data-checkbox="true">名称</th>
             <th data-field="name">名称</th>
             <th data-field="url">地址</th>
             <th data-field="createTime">创建时间</th>
@@ -136,6 +138,14 @@ $(function () {
     $('.create').click(function () {
         showModal($(this).text());
     });
+    $('.generate').click(function(){
+    	var ids = getIdSelections();
+    	if(ids.length == 0){
+    		showAlert('至少要选择一个！', 'danger');
+    		return;
+    	}
+    });
+    
     $modal.find('.submit').click(function () {
         var row = {};
         $modal.find('input[name]').each(function () {
@@ -214,6 +224,11 @@ function showAlert(title, type) {
     setTimeout(function () {
         $alert.hide();
     }, 3000);
+}
+function getIdSelections() {
+    return $.map($table.bootstrapTable('getSelections'), function (row) {
+        return row.id
+    });
 }
 function sysHelp(){
 	introJs().setOption('done', 'next').start().oncomplete(function(){

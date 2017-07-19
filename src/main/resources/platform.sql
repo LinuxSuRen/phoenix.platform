@@ -1,4 +1,4 @@
-	drop table if exists attachment;
+drop table if exists attachment;
 drop table if exists attach_config;
 drop table if exists options;
 drop table if exists suite_runner_log;
