@@ -32,4 +32,4 @@ RUN rm -rfv apache-tomcat-8.5.16.zip
 
 ADD phoenix.war apache-tomcat-8.5.16/webapps/phoenix.war
 
-ENTRYPOINT [ "sh", "-c", "apache-tomcat-8.5.16/bin/catalina.sh run" ]
+CMD [ "sh", "-c", "apache-tomcat-8.5.16/bin/catalina.sh run" ]
