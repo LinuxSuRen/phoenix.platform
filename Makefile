@@ -1,0 +1,1 @@
+cd src/main/docker && docker build -t surenpi/phoenix.platform
