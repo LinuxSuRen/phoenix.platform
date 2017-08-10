@@ -124,7 +124,7 @@
 		<dependency>
 			<groupId>com.surenpi.autotest</groupId>
 			<artifactId>autotest.web.framework</artifactId>
-			<version>2.0.0-20170706</version>
+			<version>2.0.0-20170722</version>
 			<exclusions>
 				<exclusion>
 					<groupId>commons-lang</groupId>
