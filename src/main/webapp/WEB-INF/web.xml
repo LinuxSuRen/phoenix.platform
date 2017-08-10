@@ -1,8 +1,11 @@
-<!DOCTYPE web-app PUBLIC
- "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
- "http://java.sun.com/dtd/web-app_2_3.dtd" >
-<web-app>
+<?xml version="1.0" encoding="UTF-8"?> 
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
+    xmlns="http://xmlns.jcp.org/xml/ns/javaee"  
+    xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
+        http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+    version="3.1">
 	<display-name>Phoenix Platform</display-name>
+	<description>Phoenix Platform</description>
 	
 	<error-page>
 		<error-code>404</error-code>
@@ -118,8 +121,10 @@
 		<url-pattern>/v2/api-docs</url-pattern>
 	</servlet-mapping>
 	
+	<!-- 
 	<taglib>
 		<taglib-uri>/META-INF/suren.tld</taglib-uri>
 		<taglib-location>/META-INF/suren.tld</taglib-location>
 	</taglib>
+	 -->
 </web-app>

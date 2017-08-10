@@ -27,6 +27,7 @@
 		<description>12</description>
 		<name>script</name>
 		<tag-class>org.suren.autotest.platform.servlet.ScriptTag</tag-class>
+		<body-content>JSP</body-content>
 		<attribute>
 			<name>src</name>
 			<required>true</required>
@@ -138,8 +139,9 @@
 	
 	<tag>
 		<description>确认对话框</description>
-		<tag-class>org.suren.autotest.platform.servlet.DialogTag</tag-class>
 		<name>dialog</name>
+		<tag-class>org.suren.autotest.platform.servlet.DialogTag</tag-class>
+		<body-content>JSP</body-content>
 		<attribute>
 			<name>dialogId</name>
 			<required>true</required>
