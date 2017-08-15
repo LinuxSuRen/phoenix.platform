@@ -2,15 +2,14 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.surenpi.autotest</groupId>
-	<artifactId>autotest.platform</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-
 	<parent>
 		<groupId>com.surenpi.autotest</groupId>
 		<artifactId>autotest.parent</artifactId>
 		<version>1.0.1-20170618</version>
 	</parent>
+
+	<artifactId>autotest.platform</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
 
 	<packaging>war</packaging>
 
@@ -367,4 +366,21 @@
 			<version>1.1.0.Final</version>
 		</dependency>
 	</dependencies>
+
+	<repositories>
+		<repository>
+			<id>nexus-snapshots</id>
+			<url>https://oss.sonatype.org/content/repositories/releases/</url>
+			<snapshots>
+				<enabled>true</enabled>
+				<updatePolicy>always</updatePolicy>
+			</snapshots>
+			<releases>
+				<enabled>true</enabled>
+				<updatePolicy>always</updatePolicy>
+				<checksumPolicy>warn</checksumPolicy>
+			</releases>
+			<layout>default</layout>
+		</repository>
+	</repositories>
 </project>
