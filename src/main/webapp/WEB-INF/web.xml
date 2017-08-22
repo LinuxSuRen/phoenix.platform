@@ -121,10 +121,10 @@
 		<url-pattern>/v2/api-docs</url-pattern>
 	</servlet-mapping>
 	
-	<!-- 
-	<taglib>
-		<taglib-uri>/META-INF/suren.tld</taglib-uri>
-		<taglib-location>/META-INF/suren.tld</taglib-location>
-	</taglib>
-	 -->
+	<jsp-config>
+		<taglib>
+			<taglib-uri>/META-INF/suren.tld</taglib-uri>
+			<taglib-location>/META-INF/suren.tld</taglib-location>
+		</taglib>
+	</jsp-config>
 </web-app>
