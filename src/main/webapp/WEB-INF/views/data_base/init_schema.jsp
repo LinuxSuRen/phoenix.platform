@@ -63,6 +63,9 @@
 		<div class="col-sm-2">
 			<button type="button" class="btn btn-primary btn-block" onclick="createSchema(this)">导入</button>
 		</div>
+		<div class="col-sm-2">
+			<button type="button" class="btn btn-primary btn-block" onclick="skipSchema(this)">跳过</button>
+		</div>
 	</div>
 </form>
 
@@ -103,6 +106,10 @@ function createSchema(obj){
 			$('#createSchemaDialogId').modal();
 		}
 	});
+}
+
+function skipSchema(){
+	window.location = "<%=basePath%>/data_base/skip_schema";
 }
 
 function sysHelp(){

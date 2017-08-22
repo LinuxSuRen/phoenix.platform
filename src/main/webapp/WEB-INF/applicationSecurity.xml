@@ -18,6 +18,7 @@
 	<http security="none" pattern="/user_info/registProcess" />
 	<http security="none" pattern="/data_base/init_schema" />
 	<http security="none" pattern="/data_base/create_schema" />
+	<http security="none" pattern="/data_base/skip_schema" />
 	<http security="none" pattern="/static/**" />
 	
 	<http pattern="/suite_runner_info/*.json" create-session="never"

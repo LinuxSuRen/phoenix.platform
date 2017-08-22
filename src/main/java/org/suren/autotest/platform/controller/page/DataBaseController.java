@@ -38,6 +38,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.suren.autotest.platform.model.DataBase;
+import org.suren.autotest.web.framework.util.PathUtil;
 import org.suren.autotest.web.framework.util.StringUtils;
 
 /**
@@ -148,6 +149,14 @@ public class DataBaseController
 		session.setAttribute("data_init", true);
 		
 		return "";
+	}
+	
+	@RequestMapping("/skip_schema")
+	public String skipSchema(HttpSession session)
+	{
+        session.setAttribute("data_init", true);
+        
+        return "user_info/login";
 	}
 	
 	private String getJdbcUrl(String schema, String url, int port)
