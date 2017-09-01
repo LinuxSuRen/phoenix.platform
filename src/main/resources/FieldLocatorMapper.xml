@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.suren.autotest.platform.mapping.FieldLocatorMapper">
+    <resultMap type="org.suren.autotest.platform.entity.FieldLocator"
+               id="fieldLocator">
+        <result property="fieldId" column="field_id"/>
+        <result property="locatorOrder" column="locator_order"/>
+    </resultMap>
+
+    <select id="getById" resultMap="fieldLocator">
+        select * from field_locator where id = #{id}
+    </select>
+
+    <select id="getAllByFieldId" resultMap="fieldLocator">
+        select * from field_locator where field_id = #{fieldId}
+    </select>
+
+    <delete id="delById">
+        delete from field_locator where id = #{id}
+    </delete>
+
+    <select id="getAll" resultMap="fieldLocator">
+        select * from field_locator
+    </select>
+
+    <update id="update">
+        update field_locator set name = #{name}, value = #{value}, locator_order = #{locatorOrder}, timeout = #{timeout}
+        where id = #{id}
+    </update>
+
+    <insert id="save">
+        <selectKey keyProperty="id" resultType="String" order="BEFORE">
+            SELECT UUID()
+        </selectKey>
+
+        insert into field_locator (id, field_id, name, value, locator_order, timeout) values (
+        #{id}, #{fieldId}, #{name}, #{value}, #{locatorOrder}, #{timeout}
+        )
+    </insert>
+</mapper>
