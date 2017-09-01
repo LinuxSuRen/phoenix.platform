@@ -7,7 +7,7 @@
 <!DOCTYPE html>
 <html lang="zh-cn">
 <head>
-<title>页面集</title>
+<title>元素定位</title>
 <su:link href="/static/bootstrapValidator/css/bootstrapValidator.css"></su:link>
 <su:script src="/static/bootstrapValidator/js/bootstrapValidator.js"></su:script>
 <su:script src="/static/autotest/msgTip.js"></su:script>
@@ -68,10 +68,10 @@
 </nav>
 
 <div class="container">
-    <h1>字段列表</h1>
+    <h1>定位信息</h1>
     <p class="toolbar">
-        <a class="page_list btn btn-default" href="javascript:">Page列表</a>
-        <a class="create btn btn-default" href="javascript:">新增字段</a>
+        <a class="field_list btn btn-default" href="javascript:">元素列表</a>
+        <a class="create btn btn-default" href="javascript:">新增定位信息</a>
         <span class="alert"></span>
     </p>
     <table id="table"
@@ -83,8 +83,8 @@
         <thead>
         <tr>
             <th data-field="name">Name</th>
-            <th data-field="type">type</th>
-            <th data-field="strategy">strategy</th>
+            <th data-field="value">Value</th>
+            <th data-field="locatorOrder">Order</th>
             <th data-field="timeout">timeout</th>
             <th data-field="action"
                 data-align="center"
@@ -110,20 +110,12 @@
                     <input type="text" class="form-control" name="name" placeholder="字段名称">
                 </div>
                 <div class="form-group">
-                    <label>类型</label>
-					<select name="type" class="form-control">
-						<c:forEach items="${fieldType }" var="type">
-						<option value="${type }">${type }</option>
-						</c:forEach>
-					</select>
+					<label>value</label>
+					<input type="text" class="form-control" name="value" placeholder="value">
                 </div>
                 <div class="form-group">
-                    <label>搜索策略</label>
-					<select name="strategy" class="form-control">
-						<c:forEach items="${strategyType }" var="type">
-						<option value="${type }">${type }</option>
-						</c:forEach>
-					</select>
+					<label>order</label>
+					<input type="text" class="form-control" name="locatorOrder" placeholder="locatorOrder">
                 </div>
                 <div class="form-group">
                     <label>查找超时时间</label>
@@ -139,8 +131,8 @@
 </div><!-- /.modal -->
 
 <script type="text/javascript">
-var API_URL = '<%=basePath %>/api/page_fields/${pageId}/';
-var $table = $('#table').bootstrapTable({url: API_URL + 'list'}),
+var API_URL = '<%=basePath %>/api/field_locator/${fieldId}/';
+var $table = $('#table').bootstrapTable({url: API_URL}),
     $modal = $('#modal').modal({show: false}),
     $alert = $('.alert').hide();
     
@@ -148,9 +140,6 @@ $(function () {
     // create event
     $('.create').click(function () {
         showModal($(this).text());
-    });
-    $('.page_list').click(function(){
-    	window.location = '<%=basePath%>/page_info/table?id=${pageId}';
     });
     $modal.find('.submit').click(function () {
         var row = {};
@@ -183,16 +172,12 @@ function queryParams(params) {
 }
 function actionFormatter(value) {
     return [
-        '<a class="locator" href="javascript:" title="Edit Locators"><i class="glyphicon glyphicon-edit"></i></a>',
         '<a class="update" href="javascript:" title="Update Item"><i class="glyphicon glyphicon-edit"></i></a>',
         '<a class="remove" href="javascript:" title="Delete Item"><i class="glyphicon glyphicon-remove-circle"></i></a>',
     ].join('');
 }
 // update and delete events
 window.actionEvents = {
-    'click .locator': function (e, value, row) {
-		window.location = '<%=basePath %>/field_locator/list?fieldId=' + row.id;
-    },
     'click .update': function (e, value, row) {
         showModal($(this).attr('title'), row);
     },
