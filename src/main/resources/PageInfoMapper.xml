@@ -8,7 +8,7 @@
 	</select>
 	
 	<select id="getAllByProjectId" resultMap="pageInfoMap">
-		select id, project_id, name, create_time, remark from page_info where project_id = #{projectId} order by create_time desc
+		select id, project_id, name, url, create_time, remark from page_info where project_id = #{projectId} order by create_time desc
 	</select>
 	
 	<select id="getAllIds">
@@ -27,12 +27,12 @@
 		<selectKey keyProperty="id" resultType="String" order="BEFORE">
 			SELECT UUID()
 		</selectKey>
-		insert into page_info(id, project_id, name, create_time, remark)
-		values (#{id}, #{projectId}, #{name}, #{createTime}, #{remark})
+		insert into page_info(id, project_id, name, url, create_time, remark)
+		values (#{id}, #{projectId}, #{name}, #{url}, #{createTime}, #{remark})
 	</insert>
 	
 	<update id="update">
-		update page_info set name = #{name}, content = #{content} where id = #{id}
+		update page_info set name = #{name}, url = #{url}, remark = #{remark} where id = #{id}
 	</update>
 	
 	<delete id="delById">
