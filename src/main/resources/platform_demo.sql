@@ -12,3 +12,4 @@ insert into role_info values (
 insert into user_role_info values (
 	'1', '1', '1'
 );
+
