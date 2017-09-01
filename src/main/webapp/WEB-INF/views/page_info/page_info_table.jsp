@@ -106,15 +106,15 @@
             <div class="modal-body">
                 <div class="form-group">
                     <label>页面名称</label>
-                    <input type="text" class="form-control" name="name" placeholder="Name" required>
+                    <input type="text" class="form-control" name="name" placeholder="页面名称" required>
                 </div>
                 <div class="form-group">
                     <label>地址</label>
-                    <input type="text" class="form-control" name="url" placeholder="url" required>
+                    <input type="text" class="form-control" name="url" placeholder="http://surenpi.com" required>
                 </div>
                 <div class="form-group">
                     <label>备注</label>
-                    <input type="text" class="form-control" name="remark" placeholder="remark">
+                    <input type="text" class="form-control" name="remark" placeholder="备注">
                 </div>
             </div>
             <div class="modal-footer">
