@@ -79,11 +79,20 @@ public class PageInfoApiController
 
 	@ApiOperation("新增Page信息")
 	@RequestMapping(method = RequestMethod.POST)
-	public void updatePage(@RequestBody PageInfo pageInfo,  @PathVariable String projectId)
+	public void createPage(@RequestBody PageInfo pageInfo,  @PathVariable String projectId)
 	{
 		pageInfo.setCreateTime(new Date());
 		pageInfo.setProjectId(projectId);
 		pageInfoMapper.save(pageInfo);
+	}
+
+	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+	public void updatePage(@RequestBody PageInfo pageInfo,
+						   @PathVariable String projectId,
+						   @PathVariable String id)
+	{
+		pageInfo.setId(id);
+		pageInfoMapper.update(pageInfo);
 	}
 
 	@ApiOperation("下载页面")
