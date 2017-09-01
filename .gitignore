@@ -6,3 +6,6 @@
 bin
 
 .log
+
+.idea
+*.iml
