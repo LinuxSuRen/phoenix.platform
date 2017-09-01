@@ -226,6 +226,6 @@ create table sys_config (
 ) default character set utf8 comment '';
 
 create view project_user_view as
-	select project.id, project.name, project.owner_id, user_info.nick_name as userName
-	from project left join user_info
-	on project.owner_id = user_info.id;
+select project.id, project.name, project.owner_id, user_info.nick_name as userName
+from project left join user_info
+on project.owner_id = user_info.id;
