@@ -104,18 +104,22 @@
             </div>
             <div class="modal-body">
                 <input type="hidden" name="id">
-                <input type="hidden" name="pageId">
+                <input type="hidden" name="fieldId">
                 <div class="form-group">
-                    <label>名称</label>
-                    <input type="text" class="form-control" name="name" placeholder="字段名称">
+                    <label>定位方法</label>
+					<select name="name" class="form-control">
+						<c:forEach items="${locatorType }" var="type">
+							<option value="${type }">${type }</option>
+						</c:forEach>
+					</select>
                 </div>
                 <div class="form-group">
-					<label>value</label>
-					<input type="text" class="form-control" name="value" placeholder="value">
+					<label>值</label>
+					<input type="text" class="form-control" name="value" placeholder="值">
                 </div>
                 <div class="form-group">
-					<label>order</label>
-					<input type="text" class="form-control" name="locatorOrder" placeholder="locatorOrder">
+					<label>优先级</label>
+					<input type="text" class="form-control" name="locatorOrder" placeholder="优先级">
                 </div>
                 <div class="form-group">
                     <label>查找超时时间</label>
@@ -140,6 +144,9 @@ $(function () {
     // create event
     $('.create').click(function () {
         showModal($(this).text());
+    });
+    $('.field_list').click(function(){
+        window.location = '<%=basePath%>/page_field/list_by_field_id?id=${fieldId}';
     });
     $modal.find('.submit').click(function () {
         var row = {};

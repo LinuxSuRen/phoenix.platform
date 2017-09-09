@@ -16,10 +16,13 @@
 
 package org.suren.autotest.platform.controller.page;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.suren.autotest.platform.entity.PageField;
+import org.suren.autotest.platform.mapping.PageFieldMapper;
 import org.suren.autotest.platform.schemas.autotest.FieldTypeEnum;
 import org.suren.autotest.platform.schemas.autotest.StrategyEnum;
 
@@ -31,12 +34,31 @@ import org.suren.autotest.platform.schemas.autotest.StrategyEnum;
 @RequestMapping("/page_field")
 public class PageFieldController
 {
+	@Autowired
+	private PageFieldMapper fieldMapper;
+
 	@RequestMapping(value = "/list")
 	public String fieldTable(@RequestParam String pageId, Model model)
 	{
 		model.addAttribute("fieldType", FieldTypeEnum.values());
 		model.addAttribute("strategyType", StrategyEnum.values());
 		model.addAttribute("pageId", pageId);
+		return "page_info/page_field_table";
+	}
+
+	@RequestMapping(value = "/list_by_field_id")
+	public String fieldTableById(@RequestParam String id, Model model)
+	{
+		PageField field = fieldMapper.getById(id);
+
+		model.addAttribute("fieldType", FieldTypeEnum.values());
+		model.addAttribute("strategyType", StrategyEnum.values());
+
+		if(field != null)
+		{
+			model.addAttribute("pageId", field.getPageId());
+		}
+
 		return "page_info/page_field_table";
 	}
 }
