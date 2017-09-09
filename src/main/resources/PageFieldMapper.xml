@@ -4,6 +4,7 @@
 	<resultMap type="org.suren.autotest.platform.entity.PageField"
 		id="pageField">
 		<result property="type" column="field_type"/>
+		<result property="pageId" column="page_id"/>
 	</resultMap>
 	
 	<select id="getById" resultMap="pageField">
