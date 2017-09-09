@@ -1,10 +1,12 @@
 drop table if exists attachment;
 drop table if exists attach_config;
 drop table if exists options;
+drop table if exists suite_runner_detail;
 drop table if exists suite_runner_log;
 drop table if exists test_plan;
 drop table if exists suite_runner_info;
 drop table if exists project_foucs;
+drop table if exists data_source_detail;
 drop table if exists data_source_info;
 drop table if exists field_locator;
 drop table if exists page_field;
@@ -14,7 +16,9 @@ drop table if exists user_role_info;
 drop table if exists role_info;
 drop table if exists user_behavior;
 drop table if exists group_info;
+drop table if exists charge_info;
 drop table if exists user_info;
+drop table if exists charge_type;
 drop table if exists sys_config;
 drop view if exists project_user_view;
 
@@ -137,6 +141,7 @@ create table field_locator (
 create table data_source_info (
 	id varchar(36) not null,
 	project_id varchar(36) not null comment '项目主键',
+	page_id varchar(36) not null,
 	name varchar(100) comment '数据源名称',
 	type varchar(100) comment '数据源类型',
 	resource varchar(1024) comment '资源',
@@ -147,6 +152,18 @@ create table data_source_info (
 	references project (id) on delete restrict,
 	constraint project_id_name_unique unique (project_id, name)
 ) default character set utf8 comment '数据源信息';
+
+create table data_source_detail (
+	id varchar(36) not null,
+	source_id varchar(36) not null,
+	field_id varchar(36) not null,
+	field_name varchar(100) not null,
+	field_value varchar(200),
+	type varchar(30),
+	primary key(id),
+	constraint source_2_detail foreign key (source_id)
+	references data_source_info (id) on delete restrict
+) default character set utf8 comment '数据源项明细';
 
 create table suite_runner_info (
 	id varchar(36) not null,
@@ -159,6 +176,20 @@ create table suite_runner_info (
 	constraint suite_runner_info_2_project foreign key (project_id)
 	references project (id) on delete restrict,
 	constraint project_id_name_unique unique (project_id, name)
+) default character set utf8 comment '';
+
+create table suite_runner_detail (
+	id varchar(36) not null,
+	runner_id varchar(36) not null,
+	field_id varchar(36) not null,
+	field_name varchar(36) not null,
+	action varchar(36) not null,
+	action_order int,
+	primary key(id),
+	constraint runner_2_detail foreign key (runner_id)
+	references suite_runner_info (id) on delete restrict,
+	constraint detail_2_field foreign key (field_id)
+	references page_field (id) on delete restrict
 ) default character set utf8 comment '';
 
 create table test_plan (
@@ -218,6 +249,22 @@ create table options (
 	remark varchar(300) comment '',
 	primary key (id)
 ) default character set utf8 comment '';
+
+create table charge_type (
+	id varchar(36) not null,
+	name varchar(36) not null comment '',
+	remark varchar(36) not null comment '',
+	primary key (id)
+) default character set utf8 comment '负责人类型';
+
+create table charge_info (
+	id varchar(36) not null,
+	type_id varchar(36) not null,
+	user_id varchar(36) not null,
+	ref_id varchar(36) not null,
+	ref_type varchar(36) not null,
+	primary key (id)
+) default character set utf8 comment '负责人关联';
 
 create table sys_config (
 	id varchar(36) not null,
