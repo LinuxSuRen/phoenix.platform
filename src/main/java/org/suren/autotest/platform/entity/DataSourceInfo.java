@@ -16,6 +16,7 @@ public class DataSourceInfo
 {
 	private String id;
 	private String projectId;
+	private String pageId;
 	private String name;
 	private String type;
 	private String resource;
@@ -52,6 +53,17 @@ public class DataSourceInfo
 	{
 		this.projectId = projectId;
 	}
+
+	public String getPageId()
+	{
+		return pageId;
+	}
+
+	public void setPageId(String pageId)
+	{
+		this.pageId = pageId;
+	}
+
 	/**
 	 * @return the name
 	 */
