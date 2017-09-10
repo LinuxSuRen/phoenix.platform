@@ -58,10 +58,10 @@ public class DataSourceInfoApiController
 	@Autowired
 	private DataSourceInfoMapper dataSourceInfoMapper;
 	
-	@RequestMapping(value = "/{projectId}", method = RequestMethod.GET)
-	public List<DataSourceInfo> dataSourceInfoList(@PathVariable String projectId)
+	@RequestMapping(value = "/{pageId}", method = RequestMethod.GET)
+	public List<DataSourceInfo> dataSourceInfoList(@PathVariable String pageId)
 	{
-		return dataSourceInfoMapper.getAllByProjectId(projectId);
+		return dataSourceInfoMapper.getAllByPageId(pageId);
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)

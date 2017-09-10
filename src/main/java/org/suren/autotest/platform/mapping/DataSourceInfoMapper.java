@@ -15,6 +15,7 @@ public interface DataSourceInfoMapper
 {
 	List<DataSourceInfo> getAll();
 	List<DataSourceInfo> getAllByProjectId(String projectId);
+	List<DataSourceInfo> getAllByPageId(String pageId);
 	List<DataSourceInfo> getAllWithContentByProjectId(String projectId);
 	List<DataSourceInfo> getAllIds();
 	

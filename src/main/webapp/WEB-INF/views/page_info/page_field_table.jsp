@@ -72,6 +72,7 @@
     <p class="toolbar">
         <a class="page_list btn btn-default" href="javascript:">Page列表</a>
         <a class="create btn btn-default" href="javascript:">新增字段</a>
+		<a class="datasource btn btn-default" href="javascript:">数据源</a>
         <span class="alert"></span>
     </p>
     <table id="table"
@@ -151,6 +152,9 @@ $(function () {
     });
     $('.page_list').click(function(){
     	window.location = '<%=basePath%>/page_info/table?id=${pageId}';
+    });
+    $('.datasource').click(function(){
+        window.location = '<%=basePath%>/data_source_info/list?pageId=${pageId}';
     });
     $modal.find('.submit').click(function () {
         var row = {};

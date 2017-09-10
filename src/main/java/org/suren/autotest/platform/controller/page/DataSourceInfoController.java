@@ -62,11 +62,17 @@ public class DataSourceInfoController
 {
 	@Autowired
 	private DataSourceInfoMapper dataSourceInfoMapper;
-	
+
+	/**
+	 * 数据源列表
+	 * @param model
+	 * @param pageId 页面ID
+	 * @return
+	 */
 	@RequestMapping("/list")
-	public String dataSourceInfoList(Model model, @RequestParam String projectId)
+	public String dataSourceInfoList(Model model, @RequestParam String pageId)
 	{
-		model.addAttribute("projectId", projectId);
+		model.addAttribute("pageId", pageId);
 		
 		return "data_source_info/data_source_info_list";
 	}
