@@ -155,4 +155,27 @@
 			<required>false</required>
 		</attribute>
 	</tag>
+
+	<tag>
+		<description>表格</description>
+		<name>table</name>
+		<tag-class>org.suren.autotest.platform.servlet.TableTag</tag-class>
+		<body-content>JSP</body-content>
+		<attribute>
+			<name>title</name>
+			<required>true</required>
+		</attribute>
+		<attribute>
+			<name>columns</name>
+			<required>true</required>
+		</attribute>
+		<attribute>
+			<name>buttons</name>
+			<required>true</required>
+		</attribute>
+		<attribute>
+			<name>api</name>
+			<required>true</required>
+		</attribute>
+	</tag>
 </taglib>
