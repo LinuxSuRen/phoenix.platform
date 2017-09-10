@@ -177,5 +177,9 @@
 			<name>api</name>
 			<required>true</required>
 		</attribute>
+		<attribute>
+			<name>listUri</name>
+			<required>false</required>
+		</attribute>
 	</tag>
 </taglib>

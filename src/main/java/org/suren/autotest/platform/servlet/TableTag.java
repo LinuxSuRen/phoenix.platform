@@ -9,14 +9,23 @@ public class TableTag extends DefaultFMTagSupport
     private String title;
     private String columns;
     private String buttons;
+
     private String api;
+    private String listUri;
 
     @Override
     protected Map<String, Object> paramMap()
     {
+        String contextPath = pageContext.getRequest().getServletContext().getContextPath();
+        if(!api.startsWith(contextPath))
+        {
+            api = contextPath + api;
+        }
+
         Map<String, Object> paramMap = new HashMap<String, Object>();
         paramMap.put("title", title);
         paramMap.put("api", api);
+        paramMap.put("listUri", listUri);
         paramMap.put("columns", StringUtils.toMap(columns));
         paramMap.put("buttons", StringUtils.toMap(buttons));
 
@@ -67,5 +76,15 @@ public class TableTag extends DefaultFMTagSupport
     public void setApi(String api)
     {
         this.api = api;
+    }
+
+    public String getListUri()
+    {
+        return listUri;
+    }
+
+    public void setListUri(String listUri)
+    {
+        this.listUri = listUri;
     }
 }

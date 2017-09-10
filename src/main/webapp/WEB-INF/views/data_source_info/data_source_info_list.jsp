@@ -13,7 +13,7 @@
 </head>
 <body>
 
-<su:table title="数据源" columns="name:name;type:type"
-          buttons="create:添加;return:返回" api="/api/page_fields"></su:table>
+<su:table title="数据源" columns="name:name;type:type" listUri=""
+          buttons="create:添加;return:返回" api="/api/projects"></su:table>
 
 </body>

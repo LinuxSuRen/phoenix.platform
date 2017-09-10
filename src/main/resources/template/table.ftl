@@ -27,8 +27,8 @@
 </div>
 
 <script type="text/javascript">
-    var API_URL = '${api}/';
-    var $table = $('#table').bootstrapTable({url: API_URL + 'list'}),
+    var API_URL = '${api}';
+    var $table = $('#table').bootstrapTable({url: API_URL + '${listUri}'}),
             $modal = $('#modal').modal({show: false}),
             $alert = $('.alert').hide();
 
