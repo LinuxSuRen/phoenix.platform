@@ -17,6 +17,10 @@
 	<select id="getAllByProjectId" resultMap="dataSourceInfoMap">
 		select id, name, create_time, remark from data_source_info where project_id = #{projectId} order by create_time desc
 	</select>
+
+	<select id="getAllByPageId" resultMap="dataSourceInfoMap">
+		select * from data_source_info where page_id = #{pageId};
+	</select>
 	
 	<select id="getCountByProjectId" resultType="int">
 		select count(*) from data_source_info where project_id = #{projectId}
@@ -27,8 +31,12 @@
 			SELECT UUID()
 		</selectKey>
 		
-		insert into data_source_info(id, project_id, name, type, resource, create_time, remark)
-		values (#{id}, #{projectId}, #{name}, #{type}, #{resource}, #{createTime}, #{remark})
+		insert into data_source_info(id, project_id, name, type, resource,
+			create_time, remark, page_id)
+		values (
+			#{id}, #{projectId}, #{name}, #{type}, #{resource},
+			#{createTime}, #{remark}, #{pageId}
+		)
 	</insert>
 	
 	<update id="update">
@@ -49,6 +57,7 @@
 	
 	<resultMap type="org.suren.autotest.platform.entity.DataSourceInfo" id="dataSourceInfoMap">
 		<result property="projectId" column="project_id"/>
+		<result property="pageId" column="page_id"/>
 		<result property="createTime" column="create_time"/>
 	</resultMap>
 </mapper>
