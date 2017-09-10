@@ -39,7 +39,7 @@ import freemarker.template.TemplateException;
  * @author suren
  * @date 2017年2月2日 下午2:39:31
  */
-public class DialogTag extends TagSupport
+public class DialogTag extends DefaultFMTagSupport
 {
 
 	/**  */
@@ -50,37 +50,19 @@ public class DialogTag extends TagSupport
 	private String callback;
 
 	@Override
-	public int doStartTag() throws JspException
+	protected Map<String, Object> paramMap()
 	{
-		TemplateLoader templateLoader =
-				new ClassTemplateLoader(this.getClass(), "/template");
-		Configuration configuration = new Configuration();
-		configuration.setTemplateLoader(templateLoader);
-		configuration.setObjectWrapper(new DefaultObjectWrapper()); 
-		configuration.setDefaultEncoding("UTF-8");
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("dialogId", dialogId);
+		paramMap.put("ajaxDel", ajaxDel);
+		paramMap.put("callback", callback);
+		return paramMap;
+	}
 
-		try
-		{
-			ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
-			Template template = configuration.getTemplate("dialog.ftl");
-			
-			Map<String, Object> paramMap = new HashMap<String, Object>();
-			paramMap.put("dialogId", dialogId);
-			paramMap.put("ajaxDel", ajaxDel);
-			paramMap.put("callback", callback);
-
-			Writer writer = new OutputStreamWriter(byteOut, "UTF-8"); 
-			template.process(paramMap, writer);
-			
-			JspWriter out = this.pageContext.getOut();
-			out.write(new String(byteOut.toByteArray(), "UTF-8"));
-		}
-		catch (IOException | TemplateException e)
-		{
-			e.printStackTrace();
-		}
-		
-		return super.doStartTag();
+	@Override
+	protected String templateName()
+	{
+		return "dialog.ftl";
 	}
 
 	public String getDialogId()
