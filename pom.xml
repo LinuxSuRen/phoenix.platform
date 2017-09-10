@@ -145,12 +145,14 @@
 		<dependency>
 			<groupId>com.surenpi.autotest</groupId>
 			<artifactId>autotest.code.generator</artifactId>
-			<version>1.0.0-20170714</version>
 		</dependency>
 		<dependency>
 			<groupId>com.surenpi.autotest</groupId>
 			<artifactId>autotest.code.compiler</artifactId>
-			<version>1.0.0-20170714</version>
+		</dependency>
+		<dependency>
+			<groupId>com.surenpi.autotest</groupId>
+			<artifactId>autotest.utils</artifactId>
 		</dependency>
 
 		<dependency>
