@@ -245,9 +245,6 @@ function sysHelp(){
 
 $(document).ready(function() {
     $('form').bootstrapValidator();
-
-	$('#engine_tabs li:eq(${pageInfo.tabIndex}) a').tab('show');
-	//$('#collapse-搜索框').collapse('toggle')
   });
 </script>
 </body>

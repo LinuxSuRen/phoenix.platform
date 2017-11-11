@@ -33,14 +33,12 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.suren.autotest.platform.entity.DataSourceInfo;
+import org.suren.autotest.platform.entity.PageInfo;
 import org.suren.autotest.platform.mapping.DataSourceInfoMapper;
+import org.suren.autotest.platform.mapping.PageInfoMapper;
 import org.suren.autotest.platform.schemas.datasource.DataSources;
 import org.suren.autotest.platform.util.DomUtils;
 import org.suren.autotest.platform.util.JAXBUtils;
@@ -57,106 +55,28 @@ public class DataSourceInfoApiController
 {
 	@Autowired
 	private DataSourceInfoMapper dataSourceInfoMapper;
-	
-	@RequestMapping(value = "/{pageId}", method = RequestMethod.GET)
-	public List<DataSourceInfo> dataSourceInfoList(@PathVariable String pageId)
-	{
-		return dataSourceInfoMapper.getAllByPageId(pageId);
-	}
+	@Autowired
+	private PageInfoMapper pageInfoMapper;
 
-	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-	public void dataSourceInfoDel(@PathVariable String id)
+	@RequestMapping(value = "/create", method = RequestMethod.POST)
+	public String createDataSourceInfo(@RequestParam String pageId)
 	{
-		dataSourceInfoMapper.delById(id);
-	}
-	
-	@RequestMapping(method = RequestMethod.POST)
-	public void dataSourceInfoSave(@RequestBody DataSourceInfo dataSourceInfo)
-	{
-		if(StringUtils.isNotBlank(dataSourceInfo.getId()))
+		PageInfo pageInfo = pageInfoMapper.getById(pageId);
+		if(pageInfo != null)
 		{
-			dataSourceInfoMapper.update(dataSourceInfo);
-		}
-		else
-		{
+			String pageName = pageInfo.getName();
+
+			DataSourceInfo dataSourceInfo = new DataSourceInfo();
+			dataSourceInfo.setPageId(pageId);
+			dataSourceInfo.setProjectId(pageInfo.getProjectId());
 			dataSourceInfo.setCreateTime(new Date());
+			dataSourceInfo.setName(pageName); //TODO 这里要考虑不能重复的问题
+
 			dataSourceInfoMapper.save(dataSourceInfo);
-		}
-	}
-	
-	@RequestMapping(value = "/{projectId}/import", method = RequestMethod.POST)
-	public DataSourceInfo dataSourceInfoImport(MultipartFile file, @PathVariable String projectId)
-	{
-		String originalFileName = file.getOriginalFilename();
-		if(originalFileName.endsWith(".xml"))
-		{
-			originalFileName = originalFileName.substring(0, originalFileName.length() - ".xml".length());
+
+			return dataSourceInfo.getId();
 		}
 
-		DataSourceInfo dataSourceInfo = new DataSourceInfo();
-		dataSourceInfo.setProjectId(projectId);
-		dataSourceInfo.setName(originalFileName);
-		dataSourceInfo.setCreateTime(new Date());
-		
-		try
-		{
-			JAXBContext context = JAXBContext.newInstance(DataSources.class);
-			Unmarshaller unmarshaller = context.createUnmarshaller();
-
-			DataSources dataSources = (DataSources) unmarshaller.unmarshal(file.getInputStream());
-			JAXBUtils.dataSourcesTransfer(dataSources);
-			
-			dataSourceInfo.setDataSources(dataSources);
-		}
-		catch (JAXBException e)
-		{
-			e.printStackTrace();
-		}
-		catch (IOException e)
-		{
-			e.printStackTrace();
-		}
-		
-		return dataSourceInfo;
-	}
-	
-	@RequestMapping(value = "/{id}/download", method = RequestMethod.GET)
-	public ResponseEntity<byte[]> download(@PathVariable String id)
-	{
-		DataSourceInfo sataSourceInfo = dataSourceInfoMapper.getById(id);
-		
-		String content = sataSourceInfo.getContent();
-		content = (StringUtils.isBlank(content) ? "" : DomUtils.format(content));
-
-		String fileName = sataSourceInfo.getName();
-		try
-		{
-			fileName = URLEncoder.encode(fileName, "utf-8");
-		}
-		catch (UnsupportedEncodingException e)
-		{
-			e.printStackTrace();
-		}
-		
-		HttpHeaders headers = new HttpHeaders();
-		headers.setContentType(MediaType.TEXT_XML);
-		headers.setContentDispositionFormData("filename", fileName + ".xml");
-		
-		try
-		{
-			return new ResponseEntity<byte[]>(content.getBytes("utf-8"), headers, HttpStatus.CREATED);
-		}
-		catch (UnsupportedEncodingException e)
-		{
-			e.printStackTrace();
-		}
-		
-		return new ResponseEntity<byte[]>("not supported encoding.".getBytes(), headers, HttpStatus.CREATED);
-	}
-	
-	@RequestMapping(value = "/{projectId}/count", method = RequestMethod.GET)
-	public int getCountByProjectId(@PathVariable String projectId)
-	{
-		return dataSourceInfoMapper.getCountByProjectId(projectId);
+		return null;
 	}
 }

@@ -21,7 +21,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -40,7 +42,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.suren.autotest.platform.entity.DataSourceInfo;
+import org.suren.autotest.platform.entity.PageField;
+import org.suren.autotest.platform.mapping.DataSourceDetailMapper;
 import org.suren.autotest.platform.mapping.DataSourceInfoMapper;
+import org.suren.autotest.platform.mapping.PageFieldMapper;
+import org.suren.autotest.platform.model.DataSourceDetail;
+import org.suren.autotest.platform.schemas.autotest.FieldTypeEnum;
 import org.suren.autotest.platform.schemas.datasource.DataSourceFieldTypeEnum;
 import org.suren.autotest.platform.schemas.datasource.DataSourcePageFieldType;
 import org.suren.autotest.platform.schemas.datasource.DataSourcePageType;
@@ -62,6 +69,10 @@ public class DataSourceInfoController
 {
 	@Autowired
 	private DataSourceInfoMapper dataSourceInfoMapper;
+	@Autowired
+	private DataSourceDetailMapper dataSourceDetailMapper;
+	@Autowired
+	private PageFieldMapper pageFieldMapper;
 
 	/**
 	 * 数据源列表
@@ -76,7 +87,41 @@ public class DataSourceInfoController
 		
 		return "data_source_info/data_source_info_list";
 	}
-	
+
+	@RequestMapping("/detail")
+	public String fromPage(@RequestParam String pageId, @RequestParam String dataSourceId, Model model)
+	{
+		List<PageField> pageFieldList = pageFieldMapper.getByPageId(pageId);
+		if(pageFieldList != null)
+		{
+			List<DataSourceDetail> detaiList = new ArrayList<DataSourceDetail>();
+
+			for(PageField field : pageFieldList)
+			{
+				if(field.getType() == FieldTypeEnum.BUTTON)
+				{
+					continue;
+				}
+
+				DataSourceDetail dataSourceDetail = new DataSourceDetail();
+				dataSourceDetail.setFieldId(field.getId());
+				dataSourceDetail.setFieldName(field.getName());
+				dataSourceDetail.setType("simple");
+				detaiList.add(dataSourceDetail);
+			}
+
+			model.addAttribute("detaiList", detaiList);
+		}
+
+		return null;
+	}
+
+	@RequestMapping("/test/detail")
+	public String testDetail()
+	{
+		return "data_source_info/data_source_detail";
+	}
+
 	@RequestMapping("add")
 	public String dataSourceInfoAdd(String projectId, Model model)
 	{
