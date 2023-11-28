@@ -1,5 +1,7 @@
 [![Build Status](https://travis-ci.org/LinuxSuRen/phoenix.platform.svg?branch=master)](https://travis-ci.org/LinuxSuRen/phoenix.platform)
 
+> 该项目不再维护，如果您对接口开发、调试、测试工具感兴趣的话，请关注我的另外一个开源项目 [api-testing](https://github.com/LinuxSuRen/api-testing)
+
 # autotest.platform
 这是一款无需编码即可实现WebUI自动化测试的平台。为了方便新手尽快熟悉平台，每一页都有帮助向导！
 
